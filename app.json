@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "Quan_Li_Kho",
+    "slug": "Quan_Li_Kho",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "Quan_Li_Kho"
+}
