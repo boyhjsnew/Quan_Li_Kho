@@ -1,19 +1,20 @@
-import { useNavigation } from "@react-navigation/native";
-import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import Header from "../../componets/Header";
+import { View } from "react-native";
+import Header from "../../components/Header";
 import color from "../Home/../../assets/colors/COLORS";
-import ContentHeader from "../../componets/ContentHeader";
+
+import ContentHeader from "../../components/ContentHeader";
+import { useNavigation } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Home() {
+  const navigation = useNavigation();
   return (
-    <View style={{ flex: 1 }}>
-      <View
-        style={{ width: "100%", backgroundColor: color.primary, padding: 10 }}>
-        <Header/>
-        <ContentHeader/>
-      </View>
+    <View>
+      <SafeAreaView style={{ backgroundColor: color.primary, padding: 10 }}>
+        <Header />
+        <ContentHeader navigation={navigation} />
+      </SafeAreaView>
     </View>
   );
 }
