@@ -16,7 +16,6 @@ export default Header=()=>{
              <FontAwesome  name='file-text' size={SPACING*2} color={COLOR.white}></FontAwesome>
              <FontAwesome style={{marginLeft:25}} name='info-circle' size={SPACING*2.1} color={COLOR.white}></FontAwesome>
              </View>
-             
 
             </View>
         </View>
