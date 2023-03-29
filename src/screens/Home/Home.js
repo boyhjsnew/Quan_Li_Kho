@@ -12,14 +12,15 @@ import spacing from '../../assets/dimens/SPACING';
 
 export default function Home() {
    
-    const navigation = useNavigation()
+  
   return (
+    <View style={{flex:1}}>
     <View style={{width:'100%',height:'29%',backgroundColor:color.primary,padding:10}}>
     <Header />
     <View style={{flexDirection:"row",justifyContent:'space-between',marginTop:10}}>
       <View style={{width:'81%',height:50,backgroundColor:color.secondary,borderRadius:10,justifyContent:'center',padding:8}}>
         <View style={{flexDirection:"row",justifyContent:"space-between"}}>
-            <Text style={{fontSize:17,fontWeight:'bold',color:color.white}}>Kho hang Binh Thanh</Text>
+            <Text style={{fontSize:17,fontWeight:'bold',color:color.white}}>Kho hàng Bình Thạnh</Text>
             <TouchableOpacity><Image source={require=img}></Image></TouchableOpacity>
         </View>
       </View>
@@ -42,10 +43,9 @@ export default function Home() {
           <Text style={{color:color.white,fontSize:spacing*1.5,fontWeight:600,alignSelf:'center',paddingTop:6}}>$0.00</Text>
         </View>
       </View>
-      
     </View>
+   
        {/* <View style={{padding:30}}></View>
-       
       <Text>Home</Text>
       <TouchableOpacity onPress={()=>navigation.navigate('Good')} style={{width:60,height:20,borderWidth:1,margin:10}}><Text>Goods</Text></TouchableOpacity>
       <TouchableOpacity onPress={()=>navigation.navigate('Incoming')} style={{width:60,height:20,borderWidth:1,margin:10}}><Text>incoming</Text></TouchableOpacity>
@@ -55,6 +55,16 @@ export default function Home() {
       <TouchableOpacity onPress={()=>navigation.navigate('Document')} style={{width:60,height:20,borderWidth:1,margin:10}}><Text>document</Text></TouchableOpacity>
     </View> */}
     </View>
+    <View style={{backgroundColor:color.bg,flex:1,padding:15}}>
+      <Text style={{fontSize:spacing*1.7,fontWeight:'700'}}>Bảng điều khiển</Text>
+      <View style={{marginTop:15,flexDirection:"row",justifyContent:'space-between'}}>
+        <View style={{width:110,height:110,backgroundColor:color.white,borderRadius:10}}></View>
+        <View style={{width:110,height:110,backgroundColor:color.white,borderRadius:10}}></View>
+        <View style={{width:110,height:110,backgroundColor:color.white,borderRadius:10}}></View>
+      </View>
+    </View>
+    </View>
+    
    
   )
 };
