@@ -8,6 +8,9 @@ import ScreenOutGoing from "./ScreenOutGoing/ScreenOutGoing";
 import ScreenSuppliers from "./ScreenSuppliers/ScreenSuppliers";
 import Home from "./../Home";
 import ScreenStock from "./ScreenStock/ScreenStock";
+import ScreenSelectStore from "./ScreenSelectStore";
+import ScreenReports from "./ScreenReports/ScreenReports";
+import ScreenExpense from "./ScreenExpense/ScreenExpense";
 export default NavigationHome = () => {
   const Stack = createNativeStackNavigator();
   return (
@@ -21,6 +24,10 @@ export default NavigationHome = () => {
         <Stack.Screen name="Incoming" component={ScreenIncoming}></Stack.Screen>
         <Stack.Screen name="OutGoing" component={ScreenOutGoing}></Stack.Screen>
         <Stack.Screen
+          name="SelectStore"
+          component={ScreenSelectStore}
+        ></Stack.Screen>
+        <Stack.Screen
           name="Suppliers"
           component={ScreenSuppliers}
         ></Stack.Screen>
@@ -32,6 +39,8 @@ export default NavigationHome = () => {
           name="Document"
           component={ScreenDocuments}
         ></Stack.Screen>
+        <Stack.Screen name="Report" component={ScreenReports}></Stack.Screen>
+        <Stack.Screen name="Expense" component={ScreenExpense}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
