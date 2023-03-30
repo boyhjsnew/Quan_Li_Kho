@@ -115,7 +115,7 @@ export default ContentHeader = (props) => {
             alignItems: "center",
           }}
         >
-          <View style={{}}>
+          <View>
             <Text style={{ color: color.white }}>Nguồn Hàng</Text>
             <Text
               style={{
@@ -131,9 +131,10 @@ export default ContentHeader = (props) => {
           </View>
           <View
             style={{
+              height: 37,
               borderColor: color.white,
-              borderWidth: 0.182,
-              opacity: 0,
+              borderWidth: 0.6,
+              opacity: 0.23,
             }}
           ></View>
           <View>
