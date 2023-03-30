@@ -23,7 +23,7 @@ export default function ScreenSelectStore() {
       <FlatList
         data={listStore}
         renderItem={({ item }) => (
-          <ItemSelectStock
+          <ItemSelectedStock
             item={item}
             isCheckNameStore={isCheckNameStore}
             setIsCheckNameStore={setIsCheckNameStore}
@@ -33,7 +33,7 @@ export default function ScreenSelectStore() {
     </View>
   );
 }
-const ItemSelectStock = (props) => {
+const ItemSelectedStock = (props) => {
   const item = props.item;
   return (
     <TouchableOpacity
