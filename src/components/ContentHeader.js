@@ -103,7 +103,7 @@ export default ContentHeader = (props) => {
           }}
         >
           <Image
-            style={{ width: 35, height: 35 }}
+            style={{ width: 30, height: 30 }}
             source={(require = imgbox)}
           ></Image>
         </View>
@@ -116,7 +116,7 @@ export default ContentHeader = (props) => {
           }}
         >
           <View>
-            <Text style={{ color: color.white }}>Nguồn Hàng</Text>
+            <Text style={{ color: color.white }}>Nguồn hàng</Text>
             <Text
               style={{
                 color: color.white,
@@ -126,7 +126,7 @@ export default ContentHeader = (props) => {
                 paddingTop: 6,
               }}
             >
-              627.00
+              627
             </Text>
           </View>
           <View
@@ -148,7 +148,7 @@ export default ContentHeader = (props) => {
                 paddingTop: 6,
               }}
             >
-              $0.00
+              0.00 đ
             </Text>
           </View>
         </View>

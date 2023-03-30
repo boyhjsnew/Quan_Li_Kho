@@ -28,7 +28,7 @@ export default Header = () => {
               marginStart: 15,
             }}
           >
-            Stock Manager
+            Quản Lí Kho
           </Text>
         </View>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
