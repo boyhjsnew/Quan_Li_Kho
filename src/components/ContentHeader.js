@@ -3,8 +3,9 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 import spacing from "../assets/dimens/SPACING";
 import color from "../assets/colors/COLORS";
 import imgbox from "../assets/images/box.png";
-import img from "../assets/images/arrow.png";
 import imgStore from "../assets/images/store.png";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import COLORS from "../assets/colors/COLORS";
 
 export default ContentHeader = (props) => {
   const { navigation } = props;
@@ -25,26 +26,44 @@ export default ContentHeader = (props) => {
             borderRadius: 10,
             justifyContent: "center",
             padding: 8,
+            paddingHorizontal: 10,
           }}
         >
-          <View
+          <TouchableOpacity
+            activeOpacity={1}
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             <Text
-              style={{ fontSize: 20, fontWeight: "500", color: color.white }}
+              style={{
+                fontSize: 20,
+                fontWeight: "500",
+                color: color.white,
+              }}
             >
               Kho hàng Bình Thạnh
             </Text>
-            <TouchableOpacity>
-              <Image source={(require = img)}></Image>
+            <TouchableOpacity
+              style={{
+                width: 28,
+                height: 28,
+                backgroundColor: COLORS.primary,
+                borderRadius: 15,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <FontAwesome
+                name="chevron-right"
+                color="white"
+                size={13}
+              ></FontAwesome>
             </TouchableOpacity>
-          </View>
+          </TouchableOpacity>
         </View>
         <TouchableOpacity
           onPress={() => navigation.navigate("Stock")}
           style={{
             width: "15%",
-            height: 50,
             backgroundColor: color.secondary,
             borderRadius: 10,
             padding: 5,
@@ -60,7 +79,6 @@ export default ContentHeader = (props) => {
       </View>
       <View
         style={{
-          width: "100%",
           height: 61,
           backgroundColor: color.secondary,
           marginTop: 15,
@@ -101,8 +119,7 @@ export default ContentHeader = (props) => {
               style={{
                 color: color.white,
                 fontSize: spacing * 1.5,
-                fontWeight: 600,
-                fontWeight: 600,
+                fontWeight: "600",
                 alignSelf: "center",
                 paddingTop: 6,
               }}
@@ -111,7 +128,11 @@ export default ContentHeader = (props) => {
             </Text>
           </View>
           <View
-            style={{ height: 50, borderColor: color.white, borderWidth: 0.182 }}
+            style={{
+              borderColor: color.white,
+              borderWidth: 0.182,
+              opacity: 0,
+            }}
           ></View>
           <View>
             <Text style={{ color: color.white }}>Current stock</Text>
