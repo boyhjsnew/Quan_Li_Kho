@@ -114,7 +114,7 @@ export default ContentHeader = (props) => {
           }}
         >
           <View style={{}}>
-            <Text style={{ color: color.white }}>Current stock</Text>
+            <Text style={{ color: color.white }}>Nguồn Hàng</Text>
             <Text
               style={{
                 color: color.white,
@@ -135,7 +135,7 @@ export default ContentHeader = (props) => {
             }}
           ></View>
           <View>
-            <Text style={{ color: color.white }}>Current stock</Text>
+            <Text style={{ color: color.white }}>Giá trị nguồn hàng</Text>
             <Text
               style={{
                 color: color.white,
