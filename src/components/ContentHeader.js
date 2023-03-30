@@ -30,6 +30,7 @@ export default ContentHeader = (props) => {
           }}
         >
           <TouchableOpacity
+            onPress={() => navigation.navigate("SelectStore")}
             activeOpacity={1}
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
@@ -43,6 +44,7 @@ export default ContentHeader = (props) => {
               Kho hàng Bình Thạnh
             </Text>
             <TouchableOpacity
+              onPress={() => navigation.navigate("SelectStore")}
               style={{
                 width: 28,
                 height: 28,

@@ -1,14 +1,6 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import COLORS from "../../../../assets/colors/COLORS";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function ListStock() {
@@ -20,7 +12,7 @@ export default function ListStock() {
   );
 }
 const ItemStock = () => (
-  <TouchableOpacity activeOpacity={0.6} style={styles.rowStock}>
+  <TouchableOpacity style={styles.rowStock}>
     <View style={styles.leftRow}>
       <View
         style={{
@@ -43,7 +35,7 @@ const ItemStock = () => (
     </View>
     <View style={styles.rightRow}>
       <Text style={{ paddingHorizontal: 10, fontWeight: "500" }}>627.00</Text>
-      <TouchableOpacity style={{ paddingTop: 2 }}>
+      <TouchableOpacity style={{ paddingTop: 1 }}>
         <Ionicons name="ellipsis-vertical" size={17} color="gray"></Ionicons>
       </TouchableOpacity>
     </View>

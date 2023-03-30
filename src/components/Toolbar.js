@@ -14,7 +14,7 @@ import SPACING from "../assets/dimens/SPACING";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 
-export default function Toolbar() {
+export default function Toolbar(props) {
   const { header, header_back, header_menu } = styles;
   const navigation = useNavigation();
   return (
@@ -43,7 +43,7 @@ export default function Toolbar() {
               color: "white",
             }}
           >
-            Quản Lý Kho
+            {props.title}
           </Text>
         </View>
         {/* view menu */}
