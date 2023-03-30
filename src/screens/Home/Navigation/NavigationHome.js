@@ -15,9 +15,7 @@ export default NavigationHome = () => {
   const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{ headerShown: false, animation: "fade" }}
-      >
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home" component={Home}></Stack.Screen>
         <Stack.Screen name="Stock" component={ScreenStock}></Stack.Screen>
         <Stack.Screen name="Good" component={ScreenGood}></Stack.Screen>

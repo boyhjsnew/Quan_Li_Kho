@@ -17,6 +17,47 @@ import { useNavigation } from "@react-navigation/native";
 export default function Toolbar(props) {
   const { header, header_back, header_menu } = styles;
   const navigation = useNavigation();
+
+  // menu chon kho
+  const ItemMenuSelectStore = () => (
+    <View style={header_menu}>
+      <TouchableOpacity>
+        <Image
+          source={require("../assets/images/search.png")}
+          style={{ width: 20, height: 20 }}
+        ></Image>
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <FontAwesome
+          name="sort-amount-asc"
+          size={17}
+          color="white"
+          style={{ paddingHorizontal: SPACING * 2 }}
+        ></FontAwesome>
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <Ionicons name="information-circle" size={25} color="white"></Ionicons>
+      </TouchableOpacity>
+    </View>
+  );
+  const ItemMenuSelectGood = () => (
+    <View style={header_menu}>
+      <TouchableOpacity>
+        <Image
+          source={require("../assets/images/search.png")}
+          style={{ width: 20, height: 20 }}
+        ></Image>
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <Ionicons
+          name="ellipsis-vertical"
+          size={20}
+          color="white"
+          style={{ paddingLeft: SPACING * 2 }}
+        ></Ionicons>
+      </TouchableOpacity>
+    </View>
+  );
   return (
     <SafeAreaView
       style={{
@@ -46,24 +87,14 @@ export default function Toolbar(props) {
             {props.title}
           </Text>
         </View>
+
+        {/* Item menu custom*/}
+        {props.title == "Chọn Kho" ? (
+          <ItemMenuSelectStore />
+        ) : props.title == "Hàng hoá" ? (
+          <ItemMenuSelectGood />
+        ) : null}
         {/* view menu */}
-        <View style={header_menu}>
-          <Image
-            source={require("../assets/images/search.png")}
-            style={{ width: 20, height: 20 }}
-          ></Image>
-          <FontAwesome
-            name="sort-amount-asc"
-            size={17}
-            color="white"
-            style={{ paddingHorizontal: SPACING * 2 }}
-          ></FontAwesome>
-          <Ionicons
-            name="information-circle"
-            size={25}
-            color="white"
-          ></Ionicons>
-        </View>
       </View>
     </SafeAreaView>
   );
