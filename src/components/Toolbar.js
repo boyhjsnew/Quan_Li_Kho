@@ -58,6 +58,24 @@ export default function Toolbar(props) {
       </TouchableOpacity>
     </View>
   );
+  const ItemMenuIncomming = () => (
+    <View style={header_menu}>
+      <TouchableOpacity>
+        <Image
+          source={require("../assets/images/search.png")}
+          style={{ width: 20, height: 20 }}
+        ></Image>
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <Ionicons
+          name="ellipsis-vertical"
+          size={20}
+          color="white"
+          style={{ paddingLeft: SPACING * 2 }}
+        ></Ionicons>
+      </TouchableOpacity>
+    </View>
+  );
   return (
     <SafeAreaView
       style={{
@@ -93,6 +111,8 @@ export default function Toolbar(props) {
           <ItemMenuSelectStore />
         ) : props.title == "Hàng hoá" ? (
           <ItemMenuSelectGood />
+        ) : props.title.includes("Incoming") ? (
+          <ItemMenuIncomming />
         ) : null}
         {/* view menu */}
       </View>
