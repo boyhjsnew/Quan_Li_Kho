@@ -8,9 +8,19 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 export default function ScreenGood() {
   const navigation = useNavigation();
+  const goBack = () => {
+    return navigation.goBack();
+  };
+
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
-      <Toolbar title="Hàng hoá" />
+      <Toolbar
+        title="Hàng Hoá"
+        iconOneClick={goBack}
+        iconOne="arrow-back-circle"
+        iconTwo="search"
+        iconThree="ellipsis-v"
+      />
       <HeaderGoods />
       <QuantityGoods />
       <ItemGoods />
@@ -133,7 +143,7 @@ const BottomTabs = () => {
 
 const styles = StyleSheet.create({
   header: {
-    paddingBottom: 15,
+    paddingVertical: 15,
     flexDirection: "row",
     backgroundColor: COLORS.primary,
     paddingHorizontal: 20,

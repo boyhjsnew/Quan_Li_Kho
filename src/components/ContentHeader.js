@@ -10,12 +10,13 @@ import COLORS from "../assets/colors/COLORS";
 export default ContentHeader = (props) => {
   const { navigation } = props;
   return (
-    <View>
+    <View style={{ backgroundColor: COLORS.primary }}>
       <View
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
-          marginTop: 10,
+          paddingVertical: 10,
+          paddingHorizontal: 10,
         }}
       >
         <View
@@ -79,77 +80,77 @@ export default ContentHeader = (props) => {
           ></Image>
         </TouchableOpacity>
       </View>
-      <View
-        style={{
-          height: 61,
-          backgroundColor: color.secondary,
-          marginTop: 15,
-          borderRadius: 10,
-          justifyContent: "center",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
+      <View style={{ padding: 10 }}>
         <View
           style={{
-            paddingRight: 11,
-            height: 43,
-            backgroundColor: color.primary,
-            borderTopRightRadius: 21.5,
-            borderBottomRightRadius: 21.5,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Image
-            style={{ width: 30, height: 30 }}
-            source={(require = imgbox)}
-          ></Image>
-        </View>
-        <View
-          style={{
+            height: 55,
+            backgroundColor: color.secondary,
+            borderRadius: 10,
             flexDirection: "row",
-            justifyContent: "space-evenly",
-            flex: 1,
+            justifyContent: "space-between",
             alignItems: "center",
           }}
         >
-          <View>
-            <Text style={{ color: color.white }}>Nguồn hàng</Text>
-            <Text
-              style={{
-                color: color.white,
-                fontSize: spacing * 1.5,
-                fontWeight: "600",
-                alignSelf: "center",
-                paddingTop: 6,
-              }}
-            >
-              627
-            </Text>
+          <View
+            style={{
+              paddingRight: 11,
+              height: 43,
+              backgroundColor: color.primary,
+              borderTopRightRadius: 21.5,
+              borderBottomRightRadius: 21.5,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Image
+              style={{ width: 30, height: 30 }}
+              source={(require = imgbox)}
+            ></Image>
           </View>
           <View
             style={{
-              height: 37,
-              borderColor: color.white,
-              borderWidth: 0.6,
-              opacity: 0.23,
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+              flex: 1,
+              alignItems: "center",
             }}
-          ></View>
-          <View>
-            <Text style={{ color: color.white }}>Giá trị nguồn hàng</Text>
-            <Text
+          >
+            <View>
+              <Text style={{ color: color.white }}>Nguồn hàng</Text>
+              <Text
+                style={{
+                  color: color.white,
+                  fontSize: spacing * 1.5,
+                  fontWeight: "600",
+                  alignSelf: "center",
+                  paddingTop: 6,
+                }}
+              >
+                627
+              </Text>
+            </View>
+            <View
               style={{
-                color: color.white,
-                fontSize: spacing * 1.5,
-                fontWeight: 600,
-                alignSelf: "center",
-                paddingTop: 6,
+                height: 37,
+                borderColor: color.white,
+                borderWidth: 0.6,
+                opacity: 0.23,
               }}
-            >
-              0.00 đ
-            </Text>
+            ></View>
+            <View>
+              <Text style={{ color: color.white }}>Giá trị nguồn hàng</Text>
+              <Text
+                style={{
+                  color: color.white,
+                  fontSize: spacing * 1.5,
+                  fontWeight: 600,
+                  alignSelf: "center",
+                  paddingTop: 6,
+                }}
+              >
+                0.00 đ
+              </Text>
+            </View>
           </View>
         </View>
       </View>

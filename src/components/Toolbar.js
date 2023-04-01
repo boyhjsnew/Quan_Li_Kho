@@ -17,65 +17,8 @@ import { useNavigation } from "@react-navigation/native";
 export default function Toolbar(props) {
   const { header, header_back, header_menu } = styles;
   const navigation = useNavigation();
-
   // menu chon kho
-  const ItemMenuSelectStore = () => (
-    <View style={header_menu}>
-      <TouchableOpacity>
-        <Image
-          source={require("../assets/images/search.png")}
-          style={{ width: 20, height: 20 }}
-        ></Image>
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <FontAwesome
-          name="sort-amount-asc"
-          size={17}
-          color="white"
-          style={{ paddingHorizontal: SPACING * 2 }}
-        ></FontAwesome>
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <Ionicons name="information-circle" size={25} color="white"></Ionicons>
-      </TouchableOpacity>
-    </View>
-  );
-  const ItemMenuSelectGood = () => (
-    <View style={header_menu}>
-      <TouchableOpacity>
-        <Image
-          source={require("../assets/images/search.png")}
-          style={{ width: 20, height: 20 }}
-        ></Image>
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <Ionicons
-          name="ellipsis-vertical"
-          size={20}
-          color="white"
-          style={{ paddingLeft: SPACING * 2 }}
-        ></Ionicons>
-      </TouchableOpacity>
-    </View>
-  );
-  const ItemMenuIncomming = () => (
-    <View style={header_menu}>
-      <TouchableOpacity>
-        <Image
-          source={require("../assets/images/search.png")}
-          style={{ width: 20, height: 20 }}
-        ></Image>
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <Ionicons
-          name="ellipsis-vertical"
-          size={20}
-          color="white"
-          style={{ paddingLeft: SPACING * 2 }}
-        ></Ionicons>
-      </TouchableOpacity>
-    </View>
-  );
+
   return (
     <SafeAreaView
       style={{
@@ -86,9 +29,9 @@ export default function Toolbar(props) {
       <View style={header}>
         {/* view back */}
         <View style={header_back}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity onPress={props.iconOneClick}>
             <Ionicons
-              name="arrow-back-circle"
+              name={props.iconOne} //"arrow-back-circle"
               color={COLORS.white}
               size={30}
             ></Ionicons>
@@ -105,16 +48,29 @@ export default function Toolbar(props) {
             {props.title}
           </Text>
         </View>
-
-        {/* Item menu custom*/}
-        {props.title == "Chọn Kho" ? (
-          <ItemMenuSelectStore />
-        ) : props.title == "Hàng hoá" ? (
-          <ItemMenuSelectGood />
-        ) : props.title.includes("Incoming") ? (
-          <ItemMenuIncomming />
-        ) : null}
-        {/* view menu */}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <FontAwesome
+            name={props.iconTwo}
+            size={17}
+            color="white"
+          ></FontAwesome>
+          <FontAwesome
+            style={{ paddingHorizontal: 20 }}
+            name={props.iconThree}
+            size={19}
+            color="white"
+          ></FontAwesome>
+          <FontAwesome
+            name={props.iconFour}
+            size={17}
+            color="white"
+          ></FontAwesome>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -123,7 +79,8 @@ export default function Toolbar(props) {
 const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
-    padding: SPACING + 5,
+    paddingHorizontal: 10,
+    paddingTop: 10,
     justifyContent: "space-between",
     alignItems: "center",
   },

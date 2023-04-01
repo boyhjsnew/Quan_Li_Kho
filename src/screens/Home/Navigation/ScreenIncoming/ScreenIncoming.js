@@ -28,7 +28,7 @@ const QuantityGoods = () => (
 const DocumentProperties = () => (
   <View style={styles.documentProperties}>
     <View>
-      <Text style={{ color: "white", fontWeight: "400" , f}}>
+      <Text style={{ color: "white", fontWeight: "400" }}>
         Document Properties
       </Text>
     </View>
