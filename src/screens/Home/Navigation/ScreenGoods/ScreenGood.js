@@ -12,6 +12,7 @@ export default function ScreenGood() {
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
       <Toolbar title="Hàng hoá" />
       <HeaderGoods />
+      <QuantityGoods />
       <ItemGoods />
       <ItemGoods />
       <BottomTabs />
@@ -90,6 +91,12 @@ const ItemGoods = () => (
   </TouchableOpacity>
 );
 
+const QuantityGoods = () => (
+  <View style={styles.quantityGood}>
+    <Text style={styles.textQty}>SL: 627</Text>
+    <Text style={styles.textQty}>Tổng tiền: 0đ/0đ </Text>
+  </View>
+);
 const BottomTabs = () => {
   return (
     <View style={styles.bottomTab}>
@@ -134,7 +141,7 @@ const styles = StyleSheet.create({
   rowGoods: {
     elevation: 1,
     backgroundColor: "white",
-    marginBottom: 10,
+    marginVertical: 6,
     flexDirection: "row",
     padding: 15,
     justifyContent: "space-between",
@@ -171,10 +178,10 @@ const styles = StyleSheet.create({
   },
   midTab: {
     backgroundColor: COLORS.bg,
-    height: 29,
-    width: 55,
+    height: 27,
+    width: 50,
     borderRadius: 15,
-    marginBottom: 14,
+    marginBottom: 15,
     borderBottomLeftRadius: 100,
     borderBottomRightRadius: 100,
     position: "relative",
@@ -194,10 +201,22 @@ const styles = StyleSheet.create({
     marginBottom: 25,
     alignItems: "center",
     justifyContent: "center",
-    height: 45,
-    width: 47,
+    height: 43,
+    width: 43,
     borderRadius: 100,
     backgroundColor: COLORS.primary,
     elevation: 5,
+  },
+  quantityGood: {
+    marginBottom: 5,
+    paddingVertical: 3,
+    paddingHorizontal: 15,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: COLORS.secondary,
+  },
+  textQty: {
+    color: "white",
+    fontWeight: "700",
   },
 });
