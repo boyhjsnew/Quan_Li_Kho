@@ -7,9 +7,10 @@ import COLORS from "../../../../assets/colors/COLORS";
 import Toolbar from "../../../../components/Toolbar";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import ButtonAdd from "../../../../components/ButtonAdd";
+import ModalMenu from "../../../../components/ModalMenu";
 
 export default function ScreenOutGoing() {
-  const navigation = useNavigation();
+  const [activeModal, setActiveModal] = useState(false);
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
       <Toolbar
@@ -18,9 +19,18 @@ export default function ScreenOutGoing() {
         iconTwo="search"
         iconThree="barcode"
         iconFour="ellipsis-v"
+        itemFourClick={() => setActiveModal(!activeModal)}
       />
       <QuantityGoods />
       <DocumentProperties />
+      <ModalMenu
+        itemSort="sort"
+        itemPrintExcel="print"
+        itemListSetting="list-ul"
+        itemHelp="info-circle"
+        activeModal={activeModal}
+        setActiveModal={setActiveModal}
+      />
       <ButtonAdd />
     </View>
   );

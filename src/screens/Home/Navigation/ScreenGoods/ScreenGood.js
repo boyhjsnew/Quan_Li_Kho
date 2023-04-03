@@ -9,20 +9,11 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import ModalMenu from "../../../../components/ModalMenu";
 export default function ScreenGood() {
   const [activeModal, setActiveModal] = useState(false);
-  const navigation = useNavigation();
-  const goBack = () => {
-    return navigation.goBack();
-  };
 
   return (
-    <TouchableOpacity
-      style={{ backgroundColor: COLORS.bg, flex: 1 }}
-      onPress={() => setActiveModal(false)}
-      activeOpacity={1}
-    >
+    <View style={{ backgroundColor: COLORS.bg, flex: 1 }} activeOpacity={1}>
       <Toolbar
         title="Hàng Hoá"
-        iconOneClick={goBack}
         iconOne="arrow-back-circle"
         iconTwo="search"
         iconThree="ellipsis-v"
@@ -42,7 +33,7 @@ export default function ScreenGood() {
         activeModal={activeModal}
         setActiveModal={setActiveModal}
       />
-    </TouchableOpacity>
+    </View>
   );
 }
 const HeaderGoods = () => (

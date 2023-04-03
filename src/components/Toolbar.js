@@ -13,17 +13,17 @@ import SPACING from "../assets/dimens/SPACING";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
 export default function Toolbar(props) {
-  const { header, header_back, header_menu } = styles;
+  const { header, header_back } = styles;
   const navigation = useNavigation();
   const route = useRoute();
   // menu chon kho
-
   return (
     <SafeAreaView
       style={{
         backgroundColor: COLORS.primary,
         paddingTop: 23,
         paddingBottom: 15,
+        justifyContent: "center",
       }}
     >
       <View style={header}>
@@ -34,7 +34,7 @@ export default function Toolbar(props) {
               <Ionicons
                 name={props.iconOne} //"arrow-back-circle"
                 color={COLORS.white}
-                size={30}
+                size={35}
               ></Ionicons>
             </TouchableOpacity>
           ) : (
@@ -66,25 +66,29 @@ export default function Toolbar(props) {
         >
           <FontAwesome
             name={props.iconTwo}
-            size={17}
+            size={20}
             color="white"
           ></FontAwesome>
-          <TouchableOpacity onPress={props.itemThreeClick}>
-            <FontAwesome
-              style={{ paddingHorizontal: 20 }}
-              name={props.iconThree}
-              size={17}
-              color="white"
-            ></FontAwesome>
-          </TouchableOpacity>
+          {props.iconThree && (
+            <TouchableOpacity onPress={props.itemThreeClick}>
+              <FontAwesome
+                style={{ paddingHorizontal: 20 }}
+                name={props.iconThree}
+                size={20}
+                color="white"
+              ></FontAwesome>
+            </TouchableOpacity>
+          )}
 
           {props.iconFour && (
-            <FontAwesome
-              style={{ paddingRight: 20 }}
-              name={props.iconFour}
-              size={17}
-              color="white"
-            ></FontAwesome>
+            <TouchableOpacity onPress={props.itemFourClick}>
+              <FontAwesome
+                style={{ paddingRight: 20 }}
+                name={props.iconFour}
+                size={20}
+                color="white"
+              ></FontAwesome>
+            </TouchableOpacity>
           )}
         </View>
       </View>
@@ -101,10 +105,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   header_back: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  header_menu: {
     flexDirection: "row",
     alignItems: "center",
   },

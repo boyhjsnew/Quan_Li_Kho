@@ -1,28 +1,47 @@
 import { useNavigation } from "@react-navigation/native";
 
-import React, { useState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import React, { useRef, useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from "react-native";
 
 import COLORS from "../../../../assets/colors/COLORS";
 import Toolbar from "../../../../components/Toolbar";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import ButtonAdd from "../../../../components/ButtonAdd";
+import ModalMenu from "../../../../components/ModalMenu";
 
 export default function ScreenIncoming() {
-  const navigation = useNavigation();
+  const [activeModal, setActiveModal] = useState(false);
+
   return (
-    <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
-      <Toolbar
-        title="Nhập hàng"
-        iconOne="arrow-back-circle"
-        iconTwo="search"
-        iconThree="barcode"
-        iconFour="ellipsis-v"
-      />
-      <QuantityGoods />
-      <DocumentProperties />
-      <ButtonAdd clickAdd={() => alert("add 1")} />
-    </View>
+    <TouchableWithoutFeedback onPress={() => setActiveModal(false)}>
+      <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
+        <Toolbar
+          title="Nhập hàng"
+          iconOne="arrow-back-circle"
+          iconTwo="search"
+          iconThree="barcode"
+          iconFour="ellipsis-v"
+          itemFourClick={() => setActiveModal(!activeModal)}
+        />
+        <QuantityGoods />
+        <DocumentProperties />
+        <ModalMenu
+          itemSort="sort"
+          itemPrintExcel="print"
+          itemListSetting="list-ul"
+          itemHelp="info-circle"
+          activeModal={activeModal}
+          setActiveModal={setActiveModal}
+        />
+        <ButtonAdd clickAdd={() => alert("add 1")} />
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 const QuantityGoods = () => (

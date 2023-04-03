@@ -4,4 +4,5 @@ export default {
   bg: "#F4F5FF",
   white: "#FFFEFF",
   border: "#E3E3E3",
+  bgModal: "#626266",
 };
