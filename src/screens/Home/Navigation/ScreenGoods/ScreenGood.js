@@ -143,7 +143,7 @@ const BottomTabs = () => {
 
 const styles = StyleSheet.create({
   header: {
-    paddingVertical: 15,
+    paddingBottom: 10,
     flexDirection: "row",
     backgroundColor: COLORS.primary,
     paddingHorizontal: 20,

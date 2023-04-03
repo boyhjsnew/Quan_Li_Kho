@@ -2,6 +2,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import COLORS from "../../../../assets/colors/COLORS";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import Toolbar from "../../../../components/Toolbar";
 
 export default function ListStock() {
   return (

@@ -19,7 +19,12 @@ export default function ScreenSelectStore() {
   const [isCheckNameStore, setIsCheckNameStore] = useState("All Store");
   return (
     <View>
-      <Toolbar title="Chọn Kho" />
+      <Toolbar
+        title="Chọn Kho"
+        iconOne="arrow-back-circle"
+        iconTwo="search"
+        iconThree="ellipsis-v"
+      />
       <FlatList
         data={listStore}
         renderItem={({ item }) => (

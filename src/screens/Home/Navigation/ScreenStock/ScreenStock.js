@@ -9,7 +9,12 @@ import { TouchableOpacity } from "react-native";
 export default function ScreenStock() {
   return (
     <View style={{ flex: 1 }}>
-      <Toolbar title="Quản Lý Kho" />
+      <Toolbar
+        title="Quản Lý Kho"
+        iconOne="arrow-back-circle"
+        iconTwo="search"
+        iconThree="ellipsis-v"
+      />
       <ListStock />
       <TouchableOpacity style={styles.btnAdd}>
         <Ionicons name="add-sharp" size={35} color="white"></Ionicons>
