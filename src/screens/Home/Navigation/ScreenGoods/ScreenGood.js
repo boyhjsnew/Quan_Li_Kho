@@ -1,32 +1,48 @@
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import COLORS from "../../../../assets/colors/COLORS";
 import Toolbar from "../../../../components/Toolbar";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import ModalMenu from "../../../../components/ModalMenu";
 export default function ScreenGood() {
+  const [activeModal, setActiveModal] = useState(false);
   const navigation = useNavigation();
   const goBack = () => {
     return navigation.goBack();
   };
 
   return (
-    <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
+    <TouchableOpacity
+      style={{ backgroundColor: COLORS.bg, flex: 1 }}
+      onPress={() => setActiveModal(false)}
+      activeOpacity={1}
+    >
       <Toolbar
         title="Hàng Hoá"
         iconOneClick={goBack}
         iconOne="arrow-back-circle"
         iconTwo="search"
         iconThree="ellipsis-v"
+        itemThreeClick={() => setActiveModal(!activeModal)}
       />
       <HeaderGoods />
       <QuantityGoods />
       <ItemGoods />
       <ItemGoods />
       <BottomTabs />
-    </View>
+      <ModalMenu
+        itemPrintExcel="print"
+        itemListSetting="list-ul"
+        itemShowQuantity="md-analytics-outline"
+        itemHideGroup="group"
+        itemHelp="info-circle"
+        activeModal={activeModal}
+        setActiveModal={setActiveModal}
+      />
+    </TouchableOpacity>
   );
 }
 const HeaderGoods = () => (

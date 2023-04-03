@@ -69,17 +69,23 @@ export default function Toolbar(props) {
             size={17}
             color="white"
           ></FontAwesome>
-          <FontAwesome
-            style={{ paddingHorizontal: 20 }}
-            name={props.iconThree}
-            size={19}
-            color="white"
-          ></FontAwesome>
-          <FontAwesome
-            name={props.iconFour}
-            size={17}
-            color="white"
-          ></FontAwesome>
+          <TouchableOpacity onPress={props.itemThreeClick}>
+            <FontAwesome
+              style={{ paddingHorizontal: 20 }}
+              name={props.iconThree}
+              size={17}
+              color="white"
+            ></FontAwesome>
+          </TouchableOpacity>
+
+          {props.iconFour && (
+            <FontAwesome
+              style={{ paddingRight: 20 }}
+              name={props.iconFour}
+              size={17}
+              color="white"
+            ></FontAwesome>
+          )}
         </View>
       </View>
     </SafeAreaView>

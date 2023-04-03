@@ -1,23 +1,27 @@
 import { useNavigation } from "@react-navigation/native";
-import { StatusBar } from "expo-status-bar";
+
 import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { Switch } from "react-native-switch";
+
 import COLORS from "../../../../assets/colors/COLORS";
 import Toolbar from "../../../../components/Toolbar";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import ButtonAdd from "../../../../components/ButtonAdd";
 
 export default function ScreenIncoming() {
   const navigation = useNavigation();
   return (
-    <View style={{ backgroundColor: COLORS.bg }}>
+    <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
       <Toolbar
         title="Nhập hàng"
         iconOne="arrow-back-circle"
         iconTwo="search"
-        iconThree="ellipsis-v"
+        iconThree="barcode"
+        iconFour="ellipsis-v"
       />
       <QuantityGoods />
       <DocumentProperties />
+      <ButtonAdd clickAdd={() => alert("add 1")} />
     </View>
   );
 }
@@ -42,7 +46,7 @@ const DocumentProperties = () => {
           </Text>
         </View>
       </View>
-      <View>
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
         <TouchableOpacity
           style={paid ? styles.switchPaid : styles.switchUnPaid}
           activeOpacity={1}
@@ -62,6 +66,9 @@ const DocumentProperties = () => {
           </Text>
           <View style={{ paddingHorizontal: 2 }}></View>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.subMenu}>
+          <FontAwesome name="angle-down" size={29} color={COLORS.white} />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -75,6 +82,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     backgroundColor: COLORS.secondary,
+    alignItems: "center",
   },
   textQty: {
     color: "white",
@@ -87,12 +95,13 @@ const styles = StyleSheet.create({
   },
   documentProperties: {
     margin: 15,
-    padding: 14,
+    height: 45,
     borderRadius: 8,
     backgroundColor: COLORS.secondary,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    paddingHorizontal: 10,
   },
   switchPaid: {
     backgroundColor: "#4DA55A",
@@ -100,16 +109,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderRadius: 100,
     height: 24,
-    width: 58,
+    width: 60,
     justifyContent: "space-between",
   },
   switchUnPaid: {
-    backgroundColor: "red",
+    backgroundColor: "#FA3850",
     alignItems: "center",
     flexDirection: "row-reverse",
     borderRadius: 100,
     height: 24,
-    width: 58,
+    width: 60,
   },
 
   paid: {
@@ -118,5 +127,14 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 100,
     margin: 3,
+  },
+  subMenu: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: COLORS.primary,
+    height: 30,
+    width: 30,
+    borderRadius: 100,
+    marginLeft: 10,
   },
 });
