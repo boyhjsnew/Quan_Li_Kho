@@ -7,7 +7,9 @@ import Toolbar from "../../../../components/Toolbar";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import ModalMenu from "../../../../components/ModalMenu";
-export default function ScreenGood() {
+import { GOODS } from "../../../../data/goods";
+export default function ScreenGood({navigation}) {
+
   const [activeModal, setActiveModal] = useState(false);
 
   return (
@@ -17,11 +19,11 @@ export default function ScreenGood() {
         iconOne="arrow-back-circle"
         iconTwo="search"
         iconThree="ellipsis-v"
+        clickGoBack = {()=>navigation.goBack()}
         itemThreeClick={() => setActiveModal(!activeModal)}
       />
       <HeaderGoods />
       <QuantityGoods />
-      <ItemGoods />
       <ItemGoods />
       <BottomTabs />
       <ModalMenu
@@ -53,10 +55,13 @@ const HeaderGoods = () => (
     </Text>
   </View>
 );
-const ItemGoods = () => (
-  <TouchableOpacity style={styles.rowGoods}>
-    <View style={styles.leftRow}>
-      <View
+const ItemGoods = () => {
+  return (
+    <View>{GOODS.map((goods,index)=>{
+      return <TouchableOpacity key={index} style={styles.rowGoods}>
+    <View  style={styles.leftRow}>
+      <Image
+      source={{uri:goods.image}}
         style={{
           width: 38,
           height: 38,
@@ -64,14 +69,8 @@ const ItemGoods = () => (
           backgroundColor: COLORS.secondary,
           alignItems: "center",
           justifyContent: "center",
-        }}
-      >
-        <Image
-          style={{ width: 27, height: 27 }}
-          source={require("../../../../assets/images/image.png")}
-        ></Image>
-      </View>
-
+        }}>
+      </Image>
       {/* info goood */}
       <View>
         <Text
@@ -81,7 +80,7 @@ const ItemGoods = () => (
           }}
         >
           {/* name good */}
-          Nuoc Giai Khat
+          {goods.goods}
         </Text>
         <View
           style={{
@@ -94,27 +93,38 @@ const ItemGoods = () => (
             size={15}
             name="barcode"
           ></FontAwesome>
-          <Text style={{ fontSize: 12, opacity: 0.5 }}>3463463</Text>
+          <Text style={{ fontSize: 12, opacity: 0.5 }}>{goods.barCode}</Text>
         </View>
-        <Text style={{ paddingLeft: 10, opacity: 0.5 }}>Cocacola</Text>
+        <Text style={{ paddingLeft: 10, opacity: 0.5,width:220}}>{goods.description}</Text>
       </View>
     </View>
     <View style={styles.rightRow}>
-      <Text style={{ paddingHorizontal: 10, fontWeight: "500" }}>627.00</Text>
-      <TouchableOpacity style={{ paddingTop: 1 }}>
-        <Ionicons name="ellipsis-vertical" size={20} color="gray"></Ionicons>
-      </TouchableOpacity>
+      
+      <Text style={{ paddingHorizontal: 10, fontWeight: "500" }}>{goods.quantity}</Text>
+      <View style={{flexDirection:'row',margin:5}}>
+      {/* gia nhap gia ban */}
+        <Text style={{maxWidth:50,color:'#fd89b6'}}>{goods.purchasePrice}đ/</Text>
+        <Text style={{maxWidth:50,color:'#02b5ef'}}>{goods.salePrice}đ</Text>
+      </View>
+     
     </View>
+    <TouchableOpacity style={{ paddingTop: 1 }}>
+        <Ionicons name="ellipsis-vertical"size={20} color="gray"></Ionicons>
+      </TouchableOpacity>
   </TouchableOpacity>
-);
-
+    })}</View>
+  )
+}
 const QuantityGoods = () => (
   <View style={styles.quantityGood}>
-    <Text style={styles.textQty}>SL: 627</Text>
-    <Text style={styles.textQty}>Tổng tiền: 0đ/0đ </Text>
+    <Text style={styles.textQty}>SL: {GOODS.reduce((total,curr)=>{
+      return total + curr.quantity
+    },0)}</Text>
+    <Text style={styles.textQty}>Tổng tiền:{GOODS.reduce((total,curren)=>total+curren.purchasePrice,0)}đ/{GOODS.reduce((total,curren)=>total+curren.salePrice,0)}đ </Text>
   </View>
 );
 const BottomTabs = () => {
+  const navigation = useNavigation()
   return (
     <View style={styles.bottomTab}>
       <View style={styles.leftTab}>
@@ -127,7 +137,9 @@ const BottomTabs = () => {
       </View>
       <View>
         <View style={styles.midTab}>
-          <TouchableOpacity style={styles.btnAddGoods} activeOpacity={0.5}>
+          <TouchableOpacity
+          onPress={()=>navigation.push('AddGoods')}
+           style={styles.btnAddGoods} activeOpacity={0.5}>
             <Image
               style={{ height: 25, width: 25 }}
               source={require("../../../../assets/images/download.png")}
@@ -164,7 +176,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   leftRow: { flexDirection: "row", alignItems: "center" },
-  rightRow: { flexDirection: "row", alignItems: "center" },
+  rightRow: {  justifyContent:"center" },
   bottomTab: {
     flexDirection: "row",
     position: "absolute",

@@ -38,7 +38,7 @@ export default function Toolbar(props) {
               ></Ionicons>
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity onPress={() => navigation.goBack()}>
+            <TouchableOpacity onPress={props.clickGoBack}>
               <Ionicons
                 name={props.iconOne} //"arrow-back-circle"
                 color={COLORS.white}
@@ -46,7 +46,6 @@ export default function Toolbar(props) {
               ></Ionicons>
             </TouchableOpacity>
           )}
-
           <Text
             style={{
               paddingLeft: SPACING,
