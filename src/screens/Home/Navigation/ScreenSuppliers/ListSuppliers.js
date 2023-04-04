@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import COLORS from "../../../../assets/colors/COLORS";
 
-export default function ListSuppliers() {
+export default function ListSuppliers(props) {
   return (
     <View
       style={{
@@ -25,7 +25,10 @@ export default function ListSuppliers() {
         ></View>
         <Text style={{ fontWeight: "700", paddingHorizontal: 10 }}>Pessi</Text>
       </View>
-      <TouchableOpacity style={{ flexDirection: "row" }}>
+      <TouchableOpacity
+        style={{ flexDirection: "row" }}
+        onPress={props.clickItemSupplier}
+      >
         <Text
           style={{
             paddingHorizontal: 1,

@@ -11,6 +11,7 @@ import ModalBottom from "../../../../components/ModalBottom";
 
 export default function ScreenSuppliers() {
   const [activeModal, setActiveModal] = useState(false);
+  const [activeBottomModal, setActiveBottomModal] = useState(false);
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
       <Toolbar
@@ -28,8 +29,13 @@ export default function ScreenSuppliers() {
         setActiveModal={setActiveModal}
       />
 
-      <ListSuppliers />
-      <ModalBottom />
+      <ListSuppliers
+        clickItemSupplier={() => setActiveBottomModal(!activeBottomModal)}
+      />
+      <ModalBottom
+        activeBottomModal={activeBottomModal}
+        setActiveBottomModal={setActiveBottomModal}
+      />
       <ButtonAdd />
     </View>
   );
