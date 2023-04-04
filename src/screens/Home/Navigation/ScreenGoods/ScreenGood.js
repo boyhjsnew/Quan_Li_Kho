@@ -8,8 +8,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import ModalMenu from "../../../../components/ModalMenu";
 import { GOODS } from "../../../../data/goods";
-export default function ScreenGood({navigation}) {
-
+export default function ScreenGood({ navigation }) {
   const [activeModal, setActiveModal] = useState(false);
 
   return (
@@ -19,7 +18,7 @@ export default function ScreenGood({navigation}) {
         iconOne="arrow-back-circle"
         iconTwo="search"
         iconThree="ellipsis-v"
-        clickGoBack = {()=>navigation.goBack()}
+        clickGoBack={() => navigation.goBack()}
         itemThreeClick={() => setActiveModal(!activeModal)}
       />
       <HeaderGoods />
@@ -57,74 +56,98 @@ const HeaderGoods = () => (
 );
 const ItemGoods = () => {
   return (
-    <View>{GOODS.map((goods,index)=>{
-      return <TouchableOpacity key={index} style={styles.rowGoods}>
-    <View  style={styles.leftRow}>
-      <Image
-      source={{uri:goods.image}}
-        style={{
-          width: 38,
-          height: 38,
-          borderRadius: 100,
-          backgroundColor: COLORS.secondary,
-          alignItems: "center",
-          justifyContent: "center",
-        }}>
-      </Image>
-      {/* info goood */}
-      <View>
-        <Text
-          style={{
-            paddingHorizontal: 10,
-            fontWeight: "500",
-          }}
-        >
-          {/* name good */}
-          {goods.goods}
-        </Text>
-        <View
-          style={{
-            flexDirection: "row",
-            paddingVertical: 5,
-          }}
-        >
-          <FontAwesome
-            style={{ paddingLeft: 10, paddingRight: 5, marginTop: 1 }}
-            size={15}
-            name="barcode"
-          ></FontAwesome>
-          <Text style={{ fontSize: 12, opacity: 0.5 }}>{goods.barCode}</Text>
-        </View>
-        <Text style={{ paddingLeft: 10, opacity: 0.5,width:220}}>{goods.description}</Text>
-      </View>
+    <View>
+      {GOODS.map((goods, index) => {
+        return (
+          <TouchableOpacity key={index} style={styles.rowGoods}>
+            <View style={styles.leftRow}>
+              <Image
+                source={{ uri: goods.image }}
+                style={{
+                  width: 38,
+                  height: 38,
+                  borderRadius: 100,
+                  backgroundColor: COLORS.secondary,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              ></Image>
+              {/* info goood */}
+              <View>
+                <Text
+                  style={{
+                    paddingHorizontal: 10,
+                    fontWeight: "500",
+                  }}
+                >
+                  {/* name good */}
+                  {goods.goods}
+                </Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    paddingVertical: 5,
+                  }}
+                >
+                  <FontAwesome
+                    color="#807F80"
+                    style={{ paddingLeft: 10, paddingRight: 5, marginTop: 1 }}
+                    size={15}
+                    name="barcode"
+                  ></FontAwesome>
+                  <Text style={{ fontSize: 12, opacity: 0.5 }}>
+                    {goods.barCode}
+                  </Text>
+                </View>
+                <Text style={{ paddingLeft: 10, opacity: 0.5, width: 220 }}>
+                  {goods.description}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.rightRow}>
+              <Text style={{ paddingHorizontal: 10, fontWeight: "500" }}>
+                {goods.quantity}
+              </Text>
+              <View style={{ flexDirection: "row", margin: 5 }}>
+                {/* gia nhap gia ban */}
+                <Text style={{ maxWidth: 50, color: "#fd89b6" }}>
+                  {goods.purchasePrice}đ/
+                </Text>
+                <Text style={{ maxWidth: 50, color: "#02b5ef" }}>
+                  {goods.salePrice}đ
+                </Text>
+              </View>
+            </View>
+            <TouchableOpacity style={{ paddingTop: 1 }}>
+              <Ionicons
+                name="ellipsis-vertical"
+                size={20}
+                color="gray"
+              ></Ionicons>
+            </TouchableOpacity>
+          </TouchableOpacity>
+        );
+      })}
     </View>
-    <View style={styles.rightRow}>
-      
-      <Text style={{ paddingHorizontal: 10, fontWeight: "500" }}>{goods.quantity}</Text>
-      <View style={{flexDirection:'row',margin:5}}>
-      {/* gia nhap gia ban */}
-        <Text style={{maxWidth:50,color:'#fd89b6'}}>{goods.purchasePrice}đ/</Text>
-        <Text style={{maxWidth:50,color:'#02b5ef'}}>{goods.salePrice}đ</Text>
-      </View>
-     
-    </View>
-    <TouchableOpacity style={{ paddingTop: 1 }}>
-        <Ionicons name="ellipsis-vertical"size={20} color="gray"></Ionicons>
-      </TouchableOpacity>
-  </TouchableOpacity>
-    })}</View>
-  )
-}
+  );
+};
 const QuantityGoods = () => (
   <View style={styles.quantityGood}>
-    <Text style={styles.textQty}>SL: {GOODS.reduce((total,curr)=>{
-      return total + curr.quantity
-    },0)}</Text>
-    <Text style={styles.textQty}>Tổng tiền:{GOODS.reduce((total,curren)=>total+curren.purchasePrice,0)}đ/{GOODS.reduce((total,curren)=>total+curren.salePrice,0)}đ </Text>
+    <Text style={styles.textQty}>
+      SL:{" "}
+      {GOODS.reduce((total, curr) => {
+        return total + curr.quantity;
+      }, 0)}
+    </Text>
+    <Text style={styles.textQty}>
+      Tổng tiền:
+      {GOODS.reduce((total, curren) => total + curren.purchasePrice, 0)}đ/
+      {GOODS.reduce((total, curren) => total + curren.salePrice, 0)}đ{" "}
+    </Text>
   </View>
 );
 const BottomTabs = () => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   return (
     <View style={styles.bottomTab}>
       <View style={styles.leftTab}>
@@ -138,8 +161,10 @@ const BottomTabs = () => {
       <View>
         <View style={styles.midTab}>
           <TouchableOpacity
-          onPress={()=>navigation.push('AddGoods')}
-           style={styles.btnAddGoods} activeOpacity={0.5}>
+            onPress={() => navigation.push("AddGoods")}
+            style={styles.btnAddGoods}
+            activeOpacity={0.5}
+          >
             <Image
               style={{ height: 25, width: 25 }}
               source={require("../../../../assets/images/download.png")}
@@ -176,7 +201,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   leftRow: { flexDirection: "row", alignItems: "center" },
-  rightRow: {  justifyContent:"center" },
+  rightRow: { justifyContent: "center" },
   bottomTab: {
     flexDirection: "row",
     position: "absolute",
