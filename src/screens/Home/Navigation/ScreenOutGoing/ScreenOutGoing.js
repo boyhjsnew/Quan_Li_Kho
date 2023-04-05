@@ -11,6 +11,7 @@ import ModalMenu from "../../../../components/ModalMenu";
 
 export default function ScreenOutGoing() {
   const [activeModal, setActiveModal] = useState(false);
+  const navigation = useNavigation();
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
       <Toolbar
@@ -19,6 +20,7 @@ export default function ScreenOutGoing() {
         iconTwo="search"
         iconThree="barcode"
         iconFour="ellipsis-v"
+        clickGoBack={() => navigation.goBack()}
         itemFourClick={() => setActiveModal(!activeModal)}
       />
       <QuantityGoods />

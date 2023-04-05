@@ -4,6 +4,7 @@ import {
   SafeAreaView,
   StyleSheet,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import React from "react";
 import COLORS from "../assets/colors/COLORS";
@@ -14,7 +15,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 
 export default function Toolbar(props) {
   const { header, header_back } = styles;
-  const navigation = useNavigation();
+
   const route = useRoute();
   // menu chon kho
   return (
@@ -102,6 +103,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     justifyContent: "space-between",
     alignItems: "center",
+    paddingVertical: Platform.OS === "ios" ? 10 : 0,
   },
   header_back: {
     flexDirection: "row",

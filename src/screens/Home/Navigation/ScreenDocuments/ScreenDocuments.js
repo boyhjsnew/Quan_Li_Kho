@@ -17,6 +17,7 @@ export default function ScreenDocuments() {
         iconOne="arrow-back-circle"
         iconTwo="search"
         iconThree="ellipsis-v"
+        clickGoBack={() => navigation.goBack()}
       />
       <ButtonAdd />
     </View>

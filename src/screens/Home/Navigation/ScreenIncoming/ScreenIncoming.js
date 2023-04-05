@@ -17,7 +17,7 @@ import ModalMenu from "../../../../components/ModalMenu";
 
 export default function ScreenIncoming() {
   const [activeModal, setActiveModal] = useState(false);
-
+  const navigation = useNavigation();
   return (
     <TouchableWithoutFeedback onPress={() => setActiveModal(false)}>
       <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
@@ -27,6 +27,7 @@ export default function ScreenIncoming() {
           iconTwo="search"
           iconThree="barcode"
           iconFour="ellipsis-v"
+          clickGoBack={() => navigation.goBack()}
           itemFourClick={() => setActiveModal(!activeModal)}
         />
         <QuantityGoods />

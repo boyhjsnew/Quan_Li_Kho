@@ -12,6 +12,7 @@ import ModalBottom from "../../../../components/ModalBottom";
 export default function ScreenSuppliers() {
   const [activeModal, setActiveModal] = useState(false);
   const [activeBottomModal, setActiveBottomModal] = useState(false);
+  const navigation = useNavigation();
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
       <Toolbar
@@ -21,6 +22,7 @@ export default function ScreenSuppliers() {
         iconThree="sort-amount-asc"
         iconFour="ellipsis-v"
         itemFourClick={() => setActiveModal(!activeModal)}
+        clickGoBack={() => navigation.goBack()}
       />
       <NumberSupplier />
       <ModalMenu

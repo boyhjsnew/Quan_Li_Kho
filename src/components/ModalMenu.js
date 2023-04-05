@@ -6,6 +6,7 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -88,8 +89,7 @@ const styles = StyleSheet.create({
     borderRadius: 13,
     elevation: 10,
     right: 0,
-    zIndex: 24,
-    top: 27,
+    top: Platform.OS === "ios" ? 100 : 27,
     paddingHorizontal: 10,
     paddingVertical: 10,
   },
