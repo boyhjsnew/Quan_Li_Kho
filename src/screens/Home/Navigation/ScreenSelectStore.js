@@ -10,20 +10,21 @@ import {
 import React, { useState } from "react";
 import Toolbar from "../../../components/Toolbar";
 import COLORS from "../../../assets/colors/COLORS";
+import { useNavigation } from "@react-navigation/native";
 
 export default function ScreenSelectStore() {
   const listStore = [
     { nameStore: "All Store" },
     { nameStore: "Kho binh thanh" },
   ];
+  const navigation = useNavigation();
   const [isCheckNameStore, setIsCheckNameStore] = useState("All Store");
   return (
-    <View>
+    <View style={{ flex: 1, backgroundColor: COLORS.bg }}>
       <Toolbar
         title="Chọn Kho"
         iconOne="arrow-back-circle"
-        iconTwo="search"
-        iconThree="ellipsis-v"
+        clickGoBack={() => navigation.goBack()}
       />
       <FlatList
         data={listStore}
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
   rowStock: {
     flexDirection: "row",
     padding: 15,
-    backgroundColor: COLORS.bg,
+    backgroundColor: "white",
     justifyContent: "space-between",
     borderBottomWidth: 0.6,
     borderColor: "#E3E3E3",

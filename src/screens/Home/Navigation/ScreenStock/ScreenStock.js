@@ -5,15 +5,17 @@ import ListStock from "./ListStock";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import COLORS from "../../../../assets/colors/COLORS";
 import { TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 export default function ScreenStock() {
+  const navigation = useNavigation();
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: COLORS.bg }}>
       <Toolbar
         title="Quản Lý Kho"
         iconOne="arrow-back-circle"
         iconTwo="search"
-        iconThree="ellipsis-v"
+        clickGoBack={() => navigation.goBack()}
       />
       <ListStock />
       <TouchableOpacity style={styles.btnAdd}>

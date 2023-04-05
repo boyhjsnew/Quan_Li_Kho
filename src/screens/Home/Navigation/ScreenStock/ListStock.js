@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   rowStock: {
     flexDirection: "row",
     padding: 15,
-    backgroundColor: COLORS.bg,
+    backgroundColor: "white",
     justifyContent: "space-between",
     borderBottomWidth: 0.6,
     borderColor: "#E3E3E3",
