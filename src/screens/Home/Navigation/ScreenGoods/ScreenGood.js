@@ -23,7 +23,7 @@ export default function ScreenGood({ navigation }) {
       />
       <HeaderGoods />
       <QuantityGoods />
-      <ItemGoods />
+      <ItemGoods navigation />
       <BottomTabs />
       <ModalMenu
         itemPrintExcel="print"
@@ -55,11 +55,12 @@ const HeaderGoods = () => (
   </View>
 );
 const ItemGoods = () => {
+  const navigation = useNavigation();
   return (
     <View>
       {GOODS.map((goods, index) => {
         return (
-          <TouchableOpacity key={index} style={styles.rowGoods}>
+          <TouchableOpacity onPress={()=>{navigation.push('EditGoods')}} key={index} style={styles.rowGoods}>
             <View style={styles.leftRow}>
               <Image
                 source={{ uri: goods.image }}

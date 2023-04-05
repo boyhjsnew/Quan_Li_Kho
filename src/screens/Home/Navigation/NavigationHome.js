@@ -12,6 +12,9 @@ import ScreenSelectStore from "./ScreenSelectStore";
 import ScreenReports from "./ScreenReports/ScreenReports";
 import ScreenExpense from "./ScreenExpense/ScreenExpense";
 import NavGood from "./ScreenGoods/NavGood";
+import NavSuppliers from "./ScreenSuppliers/NavSuppliers";
+import NavCustomers from "./ScreenCustomers/NavCustomers";
+
 export default NavigationHome = () => {
   const Stack = createNativeStackNavigator();
   return (
@@ -28,11 +31,11 @@ export default NavigationHome = () => {
         ></Stack.Screen>
         <Stack.Screen
           name="Suppliers"
-          component={ScreenSuppliers}
+          component={NavSuppliers}
         ></Stack.Screen>
         <Stack.Screen
           name="Customers"
-          component={ScreenCustomers}
+          component={NavCustomers}
         ></Stack.Screen>
         <Stack.Screen
           name="Document"

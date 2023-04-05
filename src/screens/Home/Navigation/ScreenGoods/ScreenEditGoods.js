@@ -13,16 +13,16 @@ import Toolbar from "../../../../components/Toolbar";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import COLORS from "../../../../assets/colors/COLORS";
 import { TextInput } from "react-native-gesture-handler";
-
-export default function ScreenAddGoods({ navigation }) {
+export default function ScreenEditGoods({navigation}) {
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
       <Toolbar
         iconOne="arrow-back-circle"
-        title="Thêm Hàng Hóa"
+        title="Edit item"
         iconThree="check"
+        itemThreeClick={()=>navigation.goBack()}
         clickGoBack={() => navigation.goBack()}
-        itemThreeClick={()=>navigation.goBack()}/>
+      />
       <HeaderGoods />
       <ScrollView style={{ padding: 15 }}>
         <ContentAddGoods />

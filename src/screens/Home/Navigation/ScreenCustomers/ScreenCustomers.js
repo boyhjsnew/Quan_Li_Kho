@@ -8,22 +8,22 @@ import ButtonAdd from "../../../../components/ButtonAdd";
 import ModalMenu from "../../../../components/ModalMenu";
 import ListCustomers from "./ListCustomers";
 import ModalBottom from "../../../../components/ModalBottom";
-export default function ScreenCustomers() {
+export default function ScreenCustomers(props) {
   const [activeModal, setActiveModal] = useState(false);
   const [activeBottomModal, setActiveBottomModal] = useState(false);
-  const navigation = useNavigation();
+  const SubNavigation = useNavigation();
+  const {navigation} = props
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
       <Toolbar
-        title="Nhà Cung Cấp"
+        title="Khách Hàng"
         iconOne="arrow-back-circle"
         iconTwo="search"
         iconThree="sort-amount-asc"
         iconFour="ellipsis-v"
         clickGoBack={() => navigation.goBack()}
-        itemFourClick={() => setActiveModal(!activeModal)}
-      />
-      <ListCustomers clickItemCustomers={() => setActiveBottomModal(true)} />
+        itemFourClick={() => setActiveModal(!activeModal)}/>
+      <ListCustomers clickItemCustomers={() => setActiveBottomModal(true)} clickToAddCustomer={()=>SubNavigation.push('AddCustomers')} />
       <ModalMenu
         itemPrintExcel="print"
         activeModal={activeModal}
@@ -33,7 +33,7 @@ export default function ScreenCustomers() {
         activeBottomModal={activeBottomModal}
         setActiveBottomModal={setActiveBottomModal}
       />
-      <ButtonAdd />
+      <ButtonAdd clickAdd={()=>SubNavigation.push('AddCustomers')} />
     </View>
   );
 }

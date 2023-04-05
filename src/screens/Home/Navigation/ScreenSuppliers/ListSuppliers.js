@@ -1,10 +1,15 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import COLORS from "../../../../assets/colors/COLORS";
+import { SUPPLIERS } from "../../../../data/suppliers";
 
 export default function ListSuppliers(props) {
   return (
-    <View
+    <View>
+      {SUPPLIERS.map((suppliers,index)=>{
+        return <TouchableOpacity
+        onPress={props.clickToAddSuppliers}
+        key={index}
       style={{
         flexDirection: "row",
         justifyContent: "space-between",
@@ -23,7 +28,7 @@ export default function ListSuppliers(props) {
             borderRadius: 19,
           }}
         ></View>
-        <Text style={{ fontWeight: "700", paddingHorizontal: 10 }}>Pessi</Text>
+        <Text style={{ fontWeight: "700", paddingHorizontal: 10 }}>{suppliers.supplier}</Text>
       </View>
       <TouchableOpacity
         style={{ flexDirection: "row" }}
@@ -57,6 +62,9 @@ export default function ListSuppliers(props) {
           {"\u2B24"}
         </Text>
       </TouchableOpacity>
+    </TouchableOpacity>
+      })}
     </View>
+    
   );
 }

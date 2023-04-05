@@ -5,6 +5,7 @@ import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ScreenGood from './ScreenGood';
 import ScreenAddGoods from './ScreenAddGoods';
+import ScreenEditGoods from './ScreenEditGoods';
 
 export default function NavGood({navigation}) {
     const Stack = createNativeStackNavigator();
@@ -14,9 +15,10 @@ export default function NavGood({navigation}) {
     <NavigationContainer independent={true}>
         <Stack.Navigator screenOptions={{headerShown:false}}>
             <Stack.Screen name="Goods">
-              {()=><ScreenGood navigation = {navigation}/>}
+              {()=><ScreenGood navigation={navigation}/>}
             </Stack.Screen>
             <Stack.Screen name='AddGoods' component={ScreenAddGoods}></Stack.Screen>
+            <Stack.Screen name='EditGoods' component={ScreenEditGoods}></Stack.Screen>
         </Stack.Navigator>
     </NavigationContainer>
   )
