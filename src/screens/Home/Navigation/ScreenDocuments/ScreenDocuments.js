@@ -6,27 +6,20 @@ import Toolbar from "../../../../components/Toolbar";
 import COLORS from "../../../../assets/colors/COLORS";
 import ButtonAdd from "../../../../components/ButtonAdd";
 import FloatingButton from "../../../../components/FloatingButton";
+import ListCustomers from "../ScreenCustomers/ListCustomers";
 
 export default function ScreenDocuments() {
   const navigation = useNavigation();
 
   return (
-    <View style={{ backgroundColor: COLORS.bg }}>
-      <View>
+    <View style={{ backgroundColor: COLORS.bg, flex:1 , position:"relative"}}>
          <Toolbar
         title="Chứng Từ"
         iconOne="arrow-back-circle"
         iconTwo="search"
         iconThree="ellipsis-v"
         clickGoBack={() => navigation.goBack()}
-      />
-      </View>
-     
-   
-      <View >
-      <FloatingButton/>
-      </View>
-      
+      /><FloatingButton navigation={navigation}/>
     </View>
   );
 }

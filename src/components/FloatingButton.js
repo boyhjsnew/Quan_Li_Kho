@@ -5,41 +5,55 @@ import React from 'react'
 import COLORS from '../assets/colors/COLORS';
 import { FloatingAction } from "react-native-floating-action";
 
-const actions = [
-    {
-      text: "Accessibility",
-      icon: require("../assets/images/addimage.png"),
-      name: "bt_accessibility",
-      position: 2
-    },
-    {
-      text: "Language",
-      icon: require("../assets/images/addimage.png"),
-      name: "bt_language",
-      position: 1
-    },
-    {
-      text: "Location",
-      icon: require("../assets/images/addimage.png"),
-      name: "bt_room",
-      position: 3
-    },
-    {
-      text: "Video",
-      icon: require("../assets/images/addimage.png"),
-      name: "bt_videocam",
-      position: 4
-    }
-  ];
-export default function FloatingButton() {
-  return (
-    <View style={{position:"absolute",backgroundColor:"black",right:0,top:700}}>
-  <FloatingAction
-    actions={actions}
-    onPressItem={name => {
-      console.log(`selected button: ${name}`);
-    }}
-  />
-</View>
 
-)}
+export default function FloatingButton(props) {
+    const{navigation} = props
+    const actions = [
+        {
+          color:'white',
+          tintColor:'#3377fe',
+          text: 'Nhập hàng',
+          icon: require("../assets/images/incoming.png"),
+          name: "Incoming",
+          position: 1,
+        },
+        {
+          color:'white',
+          tintColor:'#f9c25b',
+          text: "Xuất hàng",
+          icon: require("../assets/images/outgoing.png"),
+          name: "OutGoing",
+          position: 2
+        },
+        {
+          color:'white',
+          text: "Stock-taking",
+          tintColor:'#02b2ed',
+          icon: require("../assets/images/box.png"),
+          name: "Stock-taking",
+          position: 3
+        },
+        {
+          color:'white',
+          tintColor:'#cb5a5f',
+          text: "Transfer",
+          icon: require("../assets/images/exchange.png"),
+          position: 5,
+          name:'Transfer'
+        }
+      ];
+  return (
+  <FloatingAction
+    
+    position='right'
+    actions={actions}
+    color={COLORS.primary}
+    
+    onPressItem={name => {
+      if(name==='Incoming') return navigation.push(name);
+      if(name==='OutGoing') return navigation.push(name);
+      if(name==='Stock-taking') return(alert('LÀM THÊM screen Stock..'))
+      if(name==='Transfer') return(alert('LÀM Thêm màn hình Tranfer'))
+      
+    }}
+  />)}
