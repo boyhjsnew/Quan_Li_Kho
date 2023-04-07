@@ -22,8 +22,8 @@ const ModalMenu = (props) => {
     itemShowQuantity,
     itemHideGroup,
     itemHelp,
+    itemDelete,
   } = props;
-
   return (
     <Modal
       transparent={true}
@@ -73,6 +73,12 @@ const ModalMenu = (props) => {
             <View style={styles.item}>
               <FontAwesome name={itemHelp} size={15} color="#4F5868" />
               <Text style={styles.text}> Trợ Giúp</Text>
+            </View>
+          )}
+          {itemDelete && (
+            <View style={styles.item}>
+              <FontAwesome name={itemDelete} size={15} color="#4F5868" />
+              <Text style={styles.text}>Xoá bỏ</Text>
             </View>
           )}
         </View>

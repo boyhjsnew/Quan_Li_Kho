@@ -6,6 +6,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import COLORS from "../../../../assets/colors/COLORS";
 import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import ButtonAdd from "../../../../components/ButtonAdd";
 
 export default function ScreenStock() {
   const navigation = useNavigation();
@@ -18,23 +19,7 @@ export default function ScreenStock() {
         clickGoBack={() => navigation.goBack()}
       />
       <ListStock />
-      <TouchableOpacity style={styles.btnAdd}>
-        <Ionicons name="add-sharp" size={35} color="white"></Ionicons>
-      </TouchableOpacity>
+      <ButtonAdd />
     </View>
   );
 }
-const styles = StyleSheet.create({
-  btnAdd: {
-    elevation: 8,
-    position: "absolute",
-    height: 50,
-    width: 50,
-    borderRadius: 35,
-    backgroundColor: COLORS.primary,
-    justifyContent: "center",
-    alignItems: "center",
-    bottom: 15,
-    right: 15,
-  },
-});

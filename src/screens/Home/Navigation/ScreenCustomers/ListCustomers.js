@@ -11,14 +11,13 @@ export default function ListCustomers(props) {
           <TouchableOpacity
             key={index}
             onPress={props.clickToAddCustomer}
-            
             style={{
               flexDirection: "row",
               justifyContent: "space-between",
               backgroundColor: "white",
-              padding: 12,
+              padding: 10,
               alignItems: "center",
-              marginVertical: 10,
+              marginVertical: 5,
             }}
           >
             <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -35,13 +34,13 @@ export default function ListCustomers(props) {
               </Text>
             </View>
             <TouchableOpacity
-              style={{ flexDirection: "row" }}
+              style={{ flexDirection: "row", padding: 10 }}
               onPress={props.clickItemCustomers}
             >
               <Text
                 style={{
                   paddingHorizontal: 1,
-                  fontSize: 8,
+                  fontSize: 5,
                   color: "#8E8D95",
                 }}
               >
@@ -50,7 +49,7 @@ export default function ListCustomers(props) {
               <Text
                 style={{
                   paddingHorizontal: 1,
-                  fontSize: 8,
+                  fontSize: 5,
                   color: "#8E8D95",
                 }}
               >
@@ -59,7 +58,7 @@ export default function ListCustomers(props) {
               <Text
                 style={{
                   paddingHorizontal: 1,
-                  fontSize: 8,
+                  fontSize: 5,
                   color: "#8E8D95",
                 }}
               >

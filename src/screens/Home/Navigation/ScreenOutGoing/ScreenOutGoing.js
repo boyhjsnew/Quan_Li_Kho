@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { useRoute } from "@react-navigation/native";
 
 import COLORS from "../../../../assets/colors/COLORS";
 import Toolbar from "../../../../components/Toolbar";
@@ -12,6 +13,7 @@ import ModalMenu from "../../../../components/ModalMenu";
 export default function ScreenOutGoing() {
   const [activeModal, setActiveModal] = useState(false);
   const navigation = useNavigation();
+  const route = useRoute();
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
       <Toolbar
@@ -32,6 +34,7 @@ export default function ScreenOutGoing() {
         itemHelp="info-circle"
         activeModal={activeModal}
         setActiveModal={setActiveModal}
+        route={route.name}
       />
       <ButtonAdd />
     </View>

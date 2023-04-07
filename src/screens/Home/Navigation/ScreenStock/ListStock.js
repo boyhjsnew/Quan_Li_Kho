@@ -1,47 +1,96 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 import React, { useState } from "react";
 import COLORS from "../../../../assets/colors/COLORS";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import Toolbar from "../../../../components/Toolbar";
+
+import {
+  GestureHandlerRootView,
+  Swipeable,
+} from "react-native-gesture-handler";
 
 export default function ListStock() {
+  const [listStock, setListStock] = useState([
+    { id: 1, name: "Kho binh thanh", quantity: "627" },
+    { id: 2, name: "Kho binh tan", quantity: "628" },
+    { id: 3, name: "Kho binh thanh", quantity: "627" },
+    { id: 4, name: "Kho binh thanh", quantity: "627" },
+  ]);
+
   return (
-    <View>
-      <ItemStock />
-      <ItemStock />
-    </View>
+    <FlatList
+      data={listStock}
+      key={(item) => item.id}
+      renderItem={({ item }) => (
+        <ItemStock
+          item={item}
+          listStock={listStock}
+          setListStock={setListStock}
+        />
+      )}
+    ></FlatList>
   );
 }
-const ItemStock = () => (
-  <TouchableOpacity style={styles.rowStock}>
-    <View style={styles.leftRow}>
-      <View
-        style={{
-          width: 38,
-          height: 38,
-          borderRadius: 100,
-          backgroundColor: COLORS.secondary,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
+
+const ItemStock = (props) => {
+  const { item, listStock, setListStock } = props;
+  const handlerDelete = (id) => {
+    setListStock(listStock.filter((item) => item.id != id));
+  };
+  const renderRightActions = (id) => {
+    return (
+      <TouchableOpacity
+        style={styles.deleteButton}
+        onPress={() => handlerDelete(id)}
       >
-        <Image
-          style={{ width: 20, height: 20 }}
-          source={require("../../../../assets/images/store.png")}
-        ></Image>
-      </View>
-      <Text style={{ paddingHorizontal: 10, fontWeight: "500" }}>
-        Kho Hang Binh Thanh
-      </Text>
-    </View>
-    <View style={styles.rightRow}>
-      <Text style={{ paddingHorizontal: 10, fontWeight: "500" }}>627.00</Text>
-      <TouchableOpacity style={{ paddingTop: 1 }}>
-        <Ionicons name="ellipsis-vertical" size={17} color="gray"></Ionicons>
+        <Ionicons name="trash-outline" size={27} color="white" />
       </TouchableOpacity>
-    </View>
-  </TouchableOpacity>
-);
+    );
+  };
+
+  return (
+    <GestureHandlerRootView>
+      <Swipeable renderRightActions={() => renderRightActions(item.id)}>
+        <View style={styles.rowStock}>
+          <View style={styles.leftRow}>
+            <View
+              style={{
+                width: 38,
+                height: 38,
+                borderRadius: 100,
+                backgroundColor: COLORS.secondary,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Image
+                style={{ width: 20, height: 20 }}
+                source={require("../../../../assets/images/store.png")}
+              ></Image>
+            </View>
+            <Text style={{ paddingHorizontal: 10, fontWeight: "500" }}>
+              {item.name}
+            </Text>
+          </View>
+
+          <View style={styles.rightRow}>
+            <Text style={{ paddingHorizontal: 10, fontWeight: "500" }}>
+              {item.quantity}
+            </Text>
+            <TouchableOpacity style={{ paddingTop: 1 }}></TouchableOpacity>
+          </View>
+        </View>
+      </Swipeable>
+    </GestureHandlerRootView>
+  );
+};
+
 const styles = StyleSheet.create({
   rowStock: {
     flexDirection: "row",
@@ -52,5 +101,14 @@ const styles = StyleSheet.create({
     borderColor: "#E3E3E3",
   },
   leftRow: { flexDirection: "row", alignItems: "center" },
-  rightRow: { flexDirection: "row", alignItems: "center" },
+  rightRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  deleteButton: {
+    backgroundColor: "#dd2c00",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 70,
+  },
 });

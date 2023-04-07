@@ -15,13 +15,13 @@ const styles = StyleSheet.create({
   btnAdd: {
     position: "absolute",
     bottom: 20,
-    right: 10,
+    right: 20,
     width: 50,
     height: 50,
     backgroundColor: COLORS.primary,
     borderRadius: 25,
     alignItems: "center",
     justifyContent: "center",
-    elevation: 5,
+    elevation: 10,
   },
 });
