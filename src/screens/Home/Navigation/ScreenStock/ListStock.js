@@ -5,17 +5,20 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
+  Dimensions,
+  TextInput,
 } from "react-native";
 import React, { useState } from "react";
 import COLORS from "../../../../assets/colors/COLORS";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import Modal from "react-native-modal";
 
 import {
   GestureHandlerRootView,
   Swipeable,
 } from "react-native-gesture-handler";
 
-export default function ListStock() {
+export default function ListStock(props) {
   const [listStock, setListStock] = useState([
     { id: 1, name: "Kho binh thanh", quantity: "627" },
     { id: 2, name: "Kho binh tan", quantity: "628" },
@@ -24,17 +27,19 @@ export default function ListStock() {
   ]);
 
   return (
-    <FlatList
-      data={listStock}
-      key={(item) => item.id}
-      renderItem={({ item }) => (
-        <ItemStock
-          item={item}
-          listStock={listStock}
-          setListStock={setListStock}
-        />
-      )}
-    ></FlatList>
+    <View>
+      <FlatList
+        data={listStock}
+        key={(item) => item.id}
+        renderItem={({ item }) => (
+          <ItemStock
+            item={item}
+            listStock={listStock}
+            setListStock={setListStock}
+          />
+        )}
+      />
+    </View>
   );
 }
 

@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, StyleSheet } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import Toolbar from "../../../../components/Toolbar";
 import ListStock from "./ListStock";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -7,9 +7,11 @@ import COLORS from "../../../../assets/colors/COLORS";
 import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import ButtonAdd from "../../../../components/ButtonAdd";
+import ModalAddStore from "./ModalAddStore";
 
 export default function ScreenStock() {
   const navigation = useNavigation();
+  const [activeModal, setActiveModal] = useState(false);
   return (
     <View style={{ flex: 1, backgroundColor: COLORS.bg }}>
       <Toolbar
@@ -19,7 +21,11 @@ export default function ScreenStock() {
         clickGoBack={() => navigation.goBack()}
       />
       <ListStock />
-      <ButtonAdd />
+      <ModalAddStore
+        activeModal={activeModal}
+        setActiveModal={setActiveModal}
+      />
+      <ButtonAdd clickAdd={() => setActiveModal(true)} />
     </View>
   );
 }
