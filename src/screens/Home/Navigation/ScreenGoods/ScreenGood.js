@@ -26,7 +26,9 @@ export default function ScreenGood({ navigation }) {
       />
       <HeaderGoods />
       <QuantityGoods />
-      <ItemGoods navigation />
+      {showSearch && <Search />}
+      <ItemGoods />
+
       <BottomTabs />
       <ModalMenu
         itemPrintExcel="print"
