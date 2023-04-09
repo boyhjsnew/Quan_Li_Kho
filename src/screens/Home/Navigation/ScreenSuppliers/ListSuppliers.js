@@ -17,7 +17,7 @@ export default function ListSuppliers(props) {
               backgroundColor: "white",
               padding: 12,
               alignItems: "center",
-              marginVertical: 10,
+              marginVertical: 5,
             }}
           >
             <View style={{ flexDirection: "row", alignItems: "center" }}>

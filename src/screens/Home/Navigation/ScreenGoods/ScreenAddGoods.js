@@ -22,7 +22,8 @@ export default function ScreenAddGoods({ navigation }) {
         title="Thêm Hàng Hóa"
         iconThree="check"
         clickGoBack={() => navigation.goBack()}
-        itemThreeClick={()=>navigation.goBack()}/>
+        itemThreeClick={() => navigation.goBack()}
+      />
       <HeaderGoods />
       <ScrollView style={{ padding: 15 }}>
         <ContentAddGoods />

@@ -1,0 +1,8 @@
+import { legacy_createStore as createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
+import { reducer } from "./reducers/index";
+
+const middleware = [thunk];
+export default function configureStore(initialState) {
+  return createStore(reducer, initialState);
+}

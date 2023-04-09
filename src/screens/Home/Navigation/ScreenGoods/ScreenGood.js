@@ -11,22 +11,21 @@ import { GOODS } from "../../../../data/goods";
 import Search from "../../../../components/Search";
 export default function ScreenGood({ navigation }) {
   const [activeModal, setActiveModal] = useState(false);
-  const [showSearch,setShowSearch] = useState(false)
+  const [showSearch, setShowSearch] = useState(false);
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }} activeOpacity={1}>
       <Toolbar
         title="Hàng Hoá"
         iconOne="arrow-back-circle"
         iconTwo="search"
-        isSelected = {showSearch}
+        isSelected={showSearch}
         iconThree="ellipsis-v"
-        clickSearch={()=>setShowSearch(!showSearch)}
+        clickSearch={() => setShowSearch(!showSearch)}
         clickGoBack={() => navigation.goBack()}
         itemThreeClick={() => setActiveModal(!activeModal)}
       />
       <HeaderGoods />
       <QuantityGoods />
-      {showSearch==true?<Search/>:<View></View>}
       <ItemGoods navigation />
       <BottomTabs />
       <ModalMenu
@@ -64,7 +63,13 @@ const ItemGoods = () => {
     <View>
       {GOODS.map((goods, index) => {
         return (
-          <TouchableOpacity onPress={()=>{navigation.push('EditGoods')}} key={index} style={styles.rowGoods}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.push("EditGoods");
+            }}
+            key={index}
+            style={styles.rowGoods}
+          >
             <View style={styles.leftRow}>
               <Image
                 source={{ uri: goods.image }}
@@ -104,7 +109,10 @@ const ItemGoods = () => {
                     {goods.barCode}
                   </Text>
                 </View>
-                <Text style={{ paddingLeft: 10, opacity: 0.5, width: 220 }}>
+                <Text
+                  style={{ paddingLeft: 10, opacity: 0.5, width: 220 }}
+                  numberOfLines={1}
+                >
                   {goods.description}
                 </Text>
               </View>

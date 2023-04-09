@@ -8,6 +8,7 @@ import {
 import React from "react";
 import COLORS from "../../../../assets/colors/COLORS";
 import Modal from "react-native-modal";
+import { useSelector, useDispatch } from "react-redux";
 
 export default ModalAddStore = (props) => {
   const { activeModal, setActiveModal } = props;
