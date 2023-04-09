@@ -8,21 +8,25 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import ModalMenu from "../../../../components/ModalMenu";
 import { GOODS } from "../../../../data/goods";
+import Search from "../../../../components/Search";
 export default function ScreenGood({ navigation }) {
   const [activeModal, setActiveModal] = useState(false);
-
+  const [showSearch,setShowSearch] = useState(false)
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }} activeOpacity={1}>
       <Toolbar
         title="Hàng Hoá"
         iconOne="arrow-back-circle"
         iconTwo="search"
+        isSelected = {showSearch}
         iconThree="ellipsis-v"
+        clickSearch={()=>setShowSearch(!showSearch)}
         clickGoBack={() => navigation.goBack()}
         itemThreeClick={() => setActiveModal(!activeModal)}
       />
       <HeaderGoods />
       <QuantityGoods />
+      {showSearch==true?<Search/>:<View></View>}
       <ItemGoods navigation />
       <BottomTabs />
       <ModalMenu

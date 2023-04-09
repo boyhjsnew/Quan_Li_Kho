@@ -26,7 +26,7 @@ export default function ScreenEditGoods({navigation}) {
       <HeaderGoods />
       <ScrollView style={{ padding: 15 }}>
         <ContentAddGoods />
-        <ButtonContentGoods />
+        <ButtonContentGoods navigation={navigation}/>
         <QuantityGoods />
       </ScrollView>
     </View>
@@ -160,19 +160,20 @@ const ContentAddGoods = () => {
   );
 };
 const ButtonContentGoods = (props) => {
+  const{navigation} = props
   const infoBtn = [
     {
       iconBtn: require("./../../../../assets/images/add.png"),
       nameBtn: "Nhận Hàng",
       clickBtn: () => {
-        alert("add");
+        return navigation.push('Receive')
       },
     },
     {
       iconBtn: require("../../../../assets/images/minus.png"),
       nameBtn: "Xuất Hàng",
       clickBtn: () => {
-        alert("xoa");
+        return navigation.push('Issue')
       },
     },
     {

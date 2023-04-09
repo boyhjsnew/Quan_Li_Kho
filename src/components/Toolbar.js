@@ -15,6 +15,8 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 
 export default function Toolbar(props) {
   const { header, header_back } = styles;
+  const{clickSearch,isSelected}= props
+  
 
   const route = useRoute();
   // menu chon kho
@@ -25,8 +27,7 @@ export default function Toolbar(props) {
         paddingTop: 23,
         paddingBottom: 15,
         justifyContent: "center",
-      }}
-    >
+      }}>
       <View style={header}>
         {/* view back */}
         <View style={header_back}>
@@ -53,8 +54,7 @@ export default function Toolbar(props) {
               fontSize: 17,
               fontWeight: "500",
               color: "white",
-            }}
-          >
+            }}>
             {props.title}
           </Text>
         </View>
@@ -64,11 +64,14 @@ export default function Toolbar(props) {
             justifyContent: "space-between",
           }}
         >
+        <TouchableOpacity onPress={clickSearch}>
           <FontAwesome
             name={props.iconTwo}
             size={20}
             color="white"
+            style={{color:isSelected==true?'#00FF00':COLORS.white}}
           ></FontAwesome>
+          </TouchableOpacity>
           {props.iconThree && (
             <TouchableOpacity onPress={props.itemThreeClick}>
               <FontAwesome
@@ -79,7 +82,6 @@ export default function Toolbar(props) {
               ></FontAwesome>
             </TouchableOpacity>
           )}
-
           {props.iconFour && (
             <TouchableOpacity onPress={props.itemFourClick}>
               <FontAwesome
