@@ -5,13 +5,15 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import COLORS from "../../../../assets/colors/COLORS";
 import Modal from "react-native-modal";
 import { useSelector, useDispatch } from "react-redux";
 
 export default ModalAddStore = (props) => {
   const { activeModal, setActiveModal } = props;
+  const [inputext, setInputext] = useState("");
+  const dispatch = useDispatch();
   return (
     <Modal
       isVisible={activeModal}
@@ -28,11 +30,11 @@ export default ModalAddStore = (props) => {
           }}
         >
           <TextInput
+            onChangeText={setInputext}
             placeholder="Tên kho"
             style={{ marginTop: 10, paddingVertical: 5, fontSize: 16 }}
           ></TextInput>
         </View>
-
         <View style={styles.button}>
           <TouchableOpacity
             style={styles.btnCancel}
@@ -40,7 +42,18 @@ export default ModalAddStore = (props) => {
           >
             <Text style={styles.txt}>HUỶ BỎ</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnAdd}>
+          <TouchableOpacity
+            style={styles.btnAdd}
+            onPress={() => {
+              dispatch({
+                type: "INSERT_WAREHOUSE",
+                payload: {
+                  name: inputext,
+                },
+              });
+              setActiveModal(false);
+            }}
+          >
             <Text style={styles.txt}>ĐỒNG Ý</Text>
           </TouchableOpacity>
         </View>

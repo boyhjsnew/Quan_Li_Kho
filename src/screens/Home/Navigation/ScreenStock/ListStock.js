@@ -17,26 +17,17 @@ import {
   GestureHandlerRootView,
   Swipeable,
 } from "react-native-gesture-handler";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function ListStock(props) {
-  const [listStock, setListStock] = useState([
-    { id: 1, name: "Kho binh thanh", quantity: "627" },
-    { id: 2, name: "Kho binh tan", quantity: "628" },
-    { id: 3, name: "Kho binh thanh", quantity: "627" },
-    { id: 4, name: "Kho binh thanh", quantity: "627" },
-  ]);
-
+  const listStock = useSelector((state) => state.warehouseReducer.items);
   return (
     <View>
       <FlatList
         data={listStock}
-        key={(item) => item.id}
+        key={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <ItemStock
-            item={item}
-            listStock={listStock}
-            setListStock={setListStock}
-          />
+          <ItemStock item={item} listStock={listStock} />
         )}
       />
     </View>
@@ -44,10 +35,13 @@ export default function ListStock(props) {
 }
 
 const ItemStock = (props) => {
-  const { item, listStock, setListStock } = props;
-  const handlerDelete = (id) => {
-    setListStock(listStock.filter((item) => item.id != id));
-  };
+  const { item } = props;
+  const dispatch = useDispatch();
+  const handlerDelete = (id) =>
+    dispatch({
+      type: "DELETE_WAREHOUSE",
+      payload: { id },
+    });
   const renderRightActions = (id) => {
     return (
       <TouchableOpacity

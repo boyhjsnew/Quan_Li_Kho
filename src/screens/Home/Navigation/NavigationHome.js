@@ -14,36 +14,49 @@ import ScreenExpense from "./ScreenExpense/ScreenExpense";
 import NavGood from "./ScreenGoods/NavGood";
 import NavSuppliers from "./ScreenSuppliers/NavSuppliers";
 import NavCustomers from "./ScreenCustomers/NavCustomers";
+import configureStore from "../../../redux/store";
+import { Provider as ReduxProvider } from "react-redux";
+import { useEffect } from "react";
 
 export default NavigationHome = () => {
   const Stack = createNativeStackNavigator();
+  const store = configureStore();
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Home" component={Home}></Stack.Screen>
-        <Stack.Screen name="Stock" component={ScreenStock}></Stack.Screen>
-        <Stack.Screen name="NavGood" component={NavGood}></Stack.Screen>
-        <Stack.Screen name="Incoming" component={ScreenIncoming}></Stack.Screen>
-        <Stack.Screen name="OutGoing" component={ScreenOutGoing}></Stack.Screen>
-        <Stack.Screen
-          name="SelectStore"
-          component={ScreenSelectStore}
-        ></Stack.Screen>
-        <Stack.Screen
-          name="Suppliers"
-          component={NavSuppliers}
-        ></Stack.Screen>
-        <Stack.Screen
-          name="Customers"
-          component={NavCustomers}
-        ></Stack.Screen>
-        <Stack.Screen
-          name="Document"
-          component={ScreenDocuments}
-        ></Stack.Screen>
-        <Stack.Screen name="Report" component={ScreenReports}></Stack.Screen>
-        <Stack.Screen name="Expense" component={ScreenExpense}></Stack.Screen>
-      </Stack.Navigator>
-    </NavigationContainer>
+    <ReduxProvider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Home" component={Home}></Stack.Screen>
+          <Stack.Screen name="Stock" component={ScreenStock}></Stack.Screen>
+          <Stack.Screen name="NavGood" component={NavGood}></Stack.Screen>
+          <Stack.Screen
+            name="Incoming"
+            component={ScreenIncoming}
+          ></Stack.Screen>
+          <Stack.Screen
+            name="OutGoing"
+            component={ScreenOutGoing}
+          ></Stack.Screen>
+          <Stack.Screen
+            name="SelectStore"
+            component={ScreenSelectStore}
+          ></Stack.Screen>
+          <Stack.Screen
+            name="Suppliers"
+            component={NavSuppliers}
+          ></Stack.Screen>
+          <Stack.Screen
+            name="Customers"
+            component={NavCustomers}
+          ></Stack.Screen>
+          <Stack.Screen
+            name="Document"
+            component={ScreenDocuments}
+          ></Stack.Screen>
+          <Stack.Screen name="Report" component={ScreenReports}></Stack.Screen>
+          <Stack.Screen name="Expense" component={ScreenExpense}></Stack.Screen>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ReduxProvider>
   );
 };

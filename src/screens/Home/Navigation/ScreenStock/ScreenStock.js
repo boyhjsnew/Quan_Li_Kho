@@ -2,9 +2,9 @@ import { View, Text, SafeAreaView, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import Toolbar from "../../../../components/Toolbar";
 import ListStock from "./ListStock";
-import Ionicons from "@expo/vector-icons/Ionicons";
+
 import COLORS from "../../../../assets/colors/COLORS";
-import { TouchableOpacity } from "react-native";
+
 import { useNavigation } from "@react-navigation/native";
 import ButtonAdd from "../../../../components/ButtonAdd";
 import ModalAddStore from "./ModalAddStore";

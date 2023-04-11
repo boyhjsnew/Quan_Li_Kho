@@ -1,11 +1,10 @@
 //gom lai truong thong tin
 import { combineReducers } from "redux";
-import warehouseReducer from "./WarehouseReducer";
+import warehouseReducer from "./warehouseReducer";
 
 let reducers = combineReducers({
-  listWarehouse: warehouseReducer,
+  warehouseReducer: warehouseReducer,
 });
-
 const rootReducer = (state, action) => {
   return reducers(state, action);
 };
