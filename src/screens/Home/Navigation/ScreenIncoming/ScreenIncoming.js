@@ -14,10 +14,14 @@ import Toolbar from "../../../../components/Toolbar";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import ButtonAdd from "../../../../components/ButtonAdd";
 import ModalMenu from "../../../../components/ModalMenu";
+import Search from "../../../../components/Search";
+import SearchIncoming from "../../../../components/SearchIncoming";
 
 export default function ScreenIncoming() {
   const [activeModal, setActiveModal] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
   const navigation = useNavigation();
+
   return (
     <TouchableWithoutFeedback onPress={() => setActiveModal(false)}>
       <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
@@ -29,7 +33,8 @@ export default function ScreenIncoming() {
           iconFour="ellipsis-v"
           clickGoBack={() => navigation.goBack()}
           itemFourClick={() => setActiveModal(!activeModal)}
-        />
+          clickSearch={() => setShowSearch(!showSearch)}/>
+        {showSearch?<SearchIncoming/>:null}
         <QuantityGoods />
         <DocumentProperties />
         <ModalMenu
@@ -38,8 +43,7 @@ export default function ScreenIncoming() {
           itemListSetting="list-ul"
           itemHelp="info-circle"
           activeModal={activeModal}
-          setActiveModal={setActiveModal}
-        />
+          setActiveModal={setActiveModal}/>
         <ButtonAdd clickAdd={() => alert("add 1")} />
       </View>
     </TouchableWithoutFeedback>

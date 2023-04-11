@@ -6,8 +6,6 @@ import NavigationHome from "./src/screens/Home/Navigation/NavigationHome";
 import deleteStore from "./src/redux/actions/deleteStore";
 
 export default function App() {
-  useEffect(() => {
-    deleteStore();
-  });
+  
   return <NavigationHome />;
 }

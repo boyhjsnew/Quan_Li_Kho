@@ -15,7 +15,6 @@ export default function NavCustomers({navigation}) {
       <Stack.Navigator screenOptions={{headerShown:false}}>
         <Stack.Screen name='Customers'>
             {()=><ScreenCustomers navigation={navigation}/>}
-            
         </Stack.Screen>
         <Stack.Screen name='AddCustomers' component={ScreenAddCustomer}></Stack.Screen>
       </Stack.Navigator>

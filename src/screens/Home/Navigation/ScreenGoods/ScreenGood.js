@@ -21,13 +21,11 @@ export default function ScreenGood({ navigation }) {
         iconThree="ellipsis-v"
         clickSearch={() => setShowSearch(!showSearch)}
         clickGoBack={() => navigation.goBack()}
-        itemThreeClick={() => setActiveModal(!activeModal)}
-      />
+        itemThreeClick={() => setActiveModal(!activeModal)}/>
       <HeaderGoods />
       <QuantityGoods />
       {showSearch && <Search />}
       <ItemGoods />
-
       <BottomTabs />
       <ModalMenu
         itemPrintExcel="print"
@@ -36,10 +34,8 @@ export default function ScreenGood({ navigation }) {
         itemHideGroup="group"
         itemHelp="info-circle"
         activeModal={activeModal}
-        setActiveModal={setActiveModal}
-      />
-    </View>
-  );
+        setActiveModal={setActiveModal}/>
+    </View>);
 }
 const HeaderGoods = () => (
   <View style={styles.header}>

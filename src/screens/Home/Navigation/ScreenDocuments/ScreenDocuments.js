@@ -9,9 +9,11 @@ import FloatingButton from "../../../../components/FloatingButton";
 import ListCustomers from "../ScreenCustomers/ListCustomers";
 import ListDocuments from "./ListDocuments";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import SearchDocument from "../../../../components/SearchDocument";
 
 export default function ScreenDocuments() {
   const navigation = useNavigation();
+  const [showSearch, setShowSearch] = useState(false);
 
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1, position: "relative" }}>
@@ -20,8 +22,10 @@ export default function ScreenDocuments() {
         iconOne="arrow-back-circle"
         iconTwo="search"
         iconThree="ellipsis-v"
+        clickSearch={() => setShowSearch(!showSearch)}
         clickGoBack={() => navigation.goBack()}
       />
+      {showSearch==true ?<SearchDocument/>:null}
       <HeaderDocuments />
       <QuantityDocuments />
       <ListDocuments />
@@ -74,7 +78,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   header: {
-    paddingBottom: 10,
+    paddingVertical:10,
     flexDirection: "row",
     backgroundColor: COLORS.primary,
     paddingHorizontal: 20,

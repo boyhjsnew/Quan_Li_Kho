@@ -9,10 +9,12 @@ import ModalMenu from "../../../../components/ModalMenu";
 import ListSuppliers from "./ListSuppliers";
 import ModalBottom from "../../../../components/ModalBottom";
 import { SUPPLIERS } from "../../../../data/suppliers";
+import SearchSupplier from "../../../../components/SearchSupplier";
 
 export default function ScreenSuppliers(props) {
   const [activeModal, setActiveModal] = useState(false);
   const [activeBottomModal, setActiveBottomModal] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
   const {navigation} = props;
   const subNavigation  = useNavigation()
   return (
@@ -23,10 +25,15 @@ export default function ScreenSuppliers(props) {
         iconTwo="search"
         iconThree="sort-amount-asc"
         iconFour="ellipsis-v"
+        clickSearch={() => setShowSearch(!showSearch)}
+        
         itemFourClick={() => setActiveModal(!activeModal)}
         clickGoBack={() => navigation.goBack()}
+
       />
+     
       <NumberSupplier />
+      {showSearch==true?<SearchSupplier/>:null}
       <ModalMenu
         itemPrintExcel="print"
         activeModal={activeModal}

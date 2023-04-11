@@ -9,10 +9,13 @@ import Toolbar from "../../../../components/Toolbar";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import ButtonAdd from "../../../../components/ButtonAdd";
 import ModalMenu from "../../../../components/ModalMenu";
+import SearchIncoming from "../../../../components/SearchIncoming";
 
 export default function ScreenOutGoing() {
   const [activeModal, setActiveModal] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
   const navigation = useNavigation();
+
   const route = useRoute();
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
@@ -22,9 +25,12 @@ export default function ScreenOutGoing() {
         iconTwo="search"
         iconThree="barcode"
         iconFour="ellipsis-v"
+        clickSearch={() => setShowSearch(!showSearch)}
         clickGoBack={() => navigation.goBack()}
-        itemFourClick={() => setActiveModal(!activeModal)}
+        itemFourClick={() => setActiveModal(!activeModal)
+        }
       />
+       {showSearch?<SearchIncoming/>:null}
       <QuantityGoods />
       <DocumentProperties />
       <ModalMenu

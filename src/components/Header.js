@@ -5,7 +5,7 @@ import SPACING from "../assets/dimens/SPACING";
 import COLOR from "../assets/colors/COLORS";
 
 export default Header = (props) => {
-  const { title, icon_one, icontwo, iconthree } = props;
+  const { title, icon_one, icontwo, iconthree,clickSearch } = props;
   return (
     <View
       style={{
