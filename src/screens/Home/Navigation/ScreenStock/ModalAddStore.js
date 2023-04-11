@@ -9,11 +9,11 @@ import React, { useState } from "react";
 import COLORS from "../../../../assets/colors/COLORS";
 import Modal from "react-native-modal";
 import { useSelector, useDispatch } from "react-redux";
+import insertStore from "../../../../redux/actions/insertStore";
 
 export default ModalAddStore = (props) => {
   const { activeModal, setActiveModal } = props;
   const [inputext, setInputext] = useState("");
-  const dispatch = useDispatch();
   return (
     <Modal
       isVisible={activeModal}
@@ -45,13 +45,7 @@ export default ModalAddStore = (props) => {
           <TouchableOpacity
             style={styles.btnAdd}
             onPress={() => {
-              dispatch({
-                type: "INSERT_WAREHOUSE",
-                payload: {
-                  name: inputext,
-                },
-              });
-              setActiveModal(false);
+              insertStore(inputext), setActiveModal(false);
             }}
           >
             <Text style={styles.txt}>ĐỒNG Ý</Text>

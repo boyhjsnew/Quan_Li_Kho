@@ -11,7 +11,6 @@ import {
 import React, { useState } from "react";
 import COLORS from "../../../../assets/colors/COLORS";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import Modal from "react-native-modal";
 
 import {
   GestureHandlerRootView,
