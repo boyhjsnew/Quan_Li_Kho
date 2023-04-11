@@ -7,7 +7,7 @@ import deleteStore from "./src/redux/actions/deleteStore";
 
 export default function App() {
   useEffect(() => {
-    deleteStore;
+    deleteStore();
   });
   return <NavigationHome />;
 }
