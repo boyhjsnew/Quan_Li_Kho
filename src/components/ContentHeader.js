@@ -6,9 +6,14 @@ import imgbox from "../assets/images/box.png";
 import imgStore from "../assets/images/store.png";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import COLORS from "../assets/colors/COLORS";
+import { useSelector } from "react-redux";
 
 export default ContentHeader = (props) => {
   const { navigation } = props;
+  const store = useSelector((state) => {
+    return state.warehouseReducer.items;
+  });
+
   return (
     <View style={{ backgroundColor: COLORS.primary }}>
       <View
@@ -42,7 +47,13 @@ export default ContentHeader = (props) => {
                 color: color.white,
               }}
             >
-              Kho hàng Bình Thạnh
+              {store.map((item) => {
+                if (item.isPicked) {
+                  return item.name;
+                } else {
+                  return "";
+                }
+              })}
             </Text>
             <TouchableOpacity
               onPress={() => navigation.navigate("SelectStore")}

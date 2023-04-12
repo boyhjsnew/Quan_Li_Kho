@@ -11,14 +11,18 @@ import React, { useState } from "react";
 import Toolbar from "../../../components/Toolbar";
 import COLORS from "../../../assets/colors/COLORS";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import updateStore from "../../../redux/actions/pickStore";
 
 export default function ScreenSelectStore() {
-  const listStore = [
-    { nameStore: "All Store" },
-    { nameStore: "Kho binh thanh" },
-  ];
+  // const listStore = [
+  //   { nameStore: "All Store" },
+  //   { nameStore: "Kho binh thanh" },
+  // ];
+
+  const listStore = useSelector((state) => state.warehouseReducer.items);
   const navigation = useNavigation();
-  const [isCheckNameStore, setIsCheckNameStore] = useState("All Store");
+
   return (
     <View style={{ flex: 1, backgroundColor: COLORS.bg }}>
       <Toolbar
@@ -28,13 +32,7 @@ export default function ScreenSelectStore() {
       />
       <FlatList
         data={listStore}
-        renderItem={({ item }) => (
-          <ItemSelectStock
-            item={item}
-            isCheckNameStore={isCheckNameStore}
-            setIsCheckNameStore={setIsCheckNameStore}
-          />
-        )}
+        renderItem={({ item }) => <ItemSelectStock item={item} />}
       ></FlatList>
     </View>
   );
@@ -45,7 +43,9 @@ const ItemSelectStock = (props) => {
     <TouchableOpacity
       activeOpacity={0.6}
       style={styles.rowStock}
-      onPress={() => props.setIsCheckNameStore(item.nameStore)}
+      onPress={() => {
+        updateStore(item.id);
+      }}
     >
       <View style={styles.leftRow}>
         <View
@@ -64,7 +64,7 @@ const ItemSelectStock = (props) => {
           ></Image>
         </View>
         <Text style={{ paddingHorizontal: 10, fontWeight: "500" }}>
-          {item.nameStore}
+          {item.name}
         </Text>
       </View>
       <View style={styles.rightRow}>
@@ -80,7 +80,7 @@ const ItemSelectStock = (props) => {
             justifyContent: "center",
           }}
         >
-          {item.nameStore == props.isCheckNameStore ? (
+          {item.isPicked && (
             <View
               style={{
                 width: 16,
@@ -89,7 +89,7 @@ const ItemSelectStock = (props) => {
                 borderRadius: 20,
               }}
             ></View>
-          ) : null}
+          )}
         </TouchableOpacity>
       </View>
     </TouchableOpacity>

@@ -11,12 +11,14 @@ import {
 import React, { useState } from "react";
 import COLORS from "../../../../assets/colors/COLORS";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import Dialog from "react-native-dialog";
 
 import {
   GestureHandlerRootView,
   Swipeable,
 } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
+import deleteStore from "../../../../redux/actions/deleteStore";
 
 export default function ListStock(props) {
   const listStock = useSelector((state) => state.warehouseReducer.items);
@@ -36,16 +38,26 @@ export default function ListStock(props) {
 const ItemStock = (props) => {
   const { item } = props;
   const dispatch = useDispatch();
-  const handlerDelete = (id) =>
-    dispatch({
-      type: "DELETE_WAREHOUSE",
-      payload: { id },
-    });
-  const renderRightActions = (id) => {
+  const handlerDelete = (id, isPicked, name) => {
+    if (isPicked || name == "Kho Mặc Định") {
+      if (isPicked) {
+        alert(`${name} đang hiện hành không thể xoá !`);
+      } else {
+        alert("Kho mặc định không thể xoá");
+      }
+    } else {
+      deleteStore(id),
+        dispatch({
+          type: "DELETE_WAREHOUSE",
+          payload: { id },
+        });
+    }
+  };
+  const renderRightActions = (item) => {
     return (
       <TouchableOpacity
         style={styles.deleteButton}
-        onPress={() => handlerDelete(id)}
+        onPress={() => handlerDelete(item.id, item.isPicked, item.name)}
       >
         <Ionicons name="trash-outline" size={27} color="white" />
       </TouchableOpacity>
@@ -54,7 +66,7 @@ const ItemStock = (props) => {
 
   return (
     <GestureHandlerRootView>
-      <Swipeable renderRightActions={() => renderRightActions(item.id)}>
+      <Swipeable renderRightActions={() => renderRightActions(item)}>
         <View style={styles.rowStock}>
           <View style={styles.leftRow}>
             <View

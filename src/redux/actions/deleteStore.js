@@ -1,9 +1,9 @@
 import { firebase } from "../../firebase/firebase";
 const data = firebase.firestore().collection("Store");
 
-const deleteStore = () => {
+const deleteStore = (id) => {
   data
-    .doc("BLr0P325XrgrwDV6LNFL")
+    .doc(id)
     .delete()
     .then(() => {
       console.log("da xoa ");

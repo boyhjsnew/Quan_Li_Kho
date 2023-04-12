@@ -24,6 +24,7 @@ let warehouseReducer = (state = initialState, action) => {
     //   // return newState;
     //   console.log("INSERT");
     // }
+
     case "DELETE_WAREHOUSE": {
       let newState = { ...state };
       newState.items = newState.items.filter(

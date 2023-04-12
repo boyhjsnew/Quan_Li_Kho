@@ -7,6 +7,7 @@ export const fetchWarehouse = (dispatch) => {
       items.push({
         id: doc.id,
         name: doc.data().name,
+        isPicked: doc.data().isPicked,
       });
     });
     dispatch({ type: "GET_WAREHOUSE", payload: items });
