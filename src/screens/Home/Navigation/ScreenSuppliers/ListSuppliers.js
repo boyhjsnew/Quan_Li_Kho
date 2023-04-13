@@ -1,16 +1,18 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import React, { useEffect, useState } from "react";
 import COLORS from "../../../../assets/colors/COLORS";
 import { useDispatch, useSelector } from "react-redux";
 import { FlatList } from "react-native-gesture-handler";
 import ModalBottom from "../../../../components/ModalBottom";
 import deleteSupplier from "../../../../redux/actions/actionSuppliers/deleteSupplier";
+import sendEmail from "../../../../utils/sendEmail";
+import handlePhoneCall from "../../../../utils/phoneCall";
 
 export default function ListSuppliers(props) {
   const SUPPLIERS = useSelector((state) => state.supplierReducer.items);
   const [refresh, setRefresh] = useState(false);
   const [activeBottomModal, setActiveBottomModal] = useState(false);
-  const [idSupplier, setIdSupplier] = useState("");
+  const [itemSupplier, setitemSupplier] = useState("");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -18,11 +20,11 @@ export default function ListSuppliers(props) {
   }, [SUPPLIERS]);
 
   const deleteItem = () => {
-    deleteSupplier(idSupplier);
+    deleteSupplier(itemSupplier.id);
     setActiveBottomModal(false);
     dispatch({
       type: "DELETE_SUPPLIER",
-      payload: idSupplier,
+      payload: itemSupplier.id,
     });
   };
   const renderItems = ({ item }) => (
@@ -44,8 +46,16 @@ export default function ListSuppliers(props) {
             height: 40,
             backgroundColor: COLORS.border,
             borderRadius: 19,
+            overflow: "hidden",
+            justifyContent: "center",
+            alignItems: "center",
           }}
-        ></View>
+        >
+          <Image
+            style={{ width: 35, height: 35, marginTop: 3 }}
+            source={require("../../../../assets/images/delivery-man.png")}
+          ></Image>
+        </View>
         <Text style={{ fontWeight: "700", paddingHorizontal: 10 }}>
           {item.name}
         </Text>
@@ -54,7 +64,7 @@ export default function ListSuppliers(props) {
         style={{ flexDirection: "row" }}
         onPress={() => {
           setActiveBottomModal(true);
-          setIdSupplier(item.id);
+          setitemSupplier(item);
         }}
       >
         <Text
@@ -96,6 +106,8 @@ export default function ListSuppliers(props) {
         renderItem={renderItems}
       ></FlatList>
       <ModalBottom
+        phoneCall={() => handlePhoneCall(itemSupplier.phoneCall)}
+        sendEmail={() => sendEmail(itemSupplier.email, itemSupplier.name)}
         deleteItem={deleteItem}
         activeBottomModal={activeBottomModal}
         setActiveBottomModal={setActiveBottomModal}

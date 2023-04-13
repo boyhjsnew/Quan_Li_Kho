@@ -6,20 +6,27 @@ import COLORS from "../../../../assets/colors/COLORS";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import insertSupplier from "../../../../redux/actions/actionSuppliers/insertSupplier";
 import { useDispatch } from "react-redux";
-
+import updateSupplier from "../../../../redux/actions/actionSuppliers/updateSupplier";
+import { Linking } from "react-native";
+import sendEmail from "../../../../utils/sendEmail";
 export default function ScreenAddSuppliers() {
   const route = useRoute();
-  const defaultValue = 0;
-  // const { paramName = defaultValue } = route.params || {};
-  // const Email = paramName.item.email;
+  const Email = route.params.item.email;
+  const Adresss = route.params.item.address;
+  const Name = route.params.item.name;
+  const Bankdetail = route.params.item.bankdetail;
+  const Notes = route.params.item.notes;
+  const Phone = route.params.item.phone;
+  const TaxID = route.params.item.taxID;
+
   const navigation = useNavigation();
-  const [email, setEmail] = useState();
-  const [address, setAdderss] = useState();
-  const [name, setName] = useState();
-  const [bankdetail, setBankdetails] = useState();
-  const [notes, setNotes] = useState();
-  const [phone, setPhone] = useState();
-  const [taxID, setTaxID] = useState();
+  const [emailSupplier, setEmail] = useState(Email);
+  const [address, setAdderss] = useState(Adresss);
+  const [name, setName] = useState(Name);
+  const [bankdetail, setBankdetails] = useState(Bankdetail);
+  const [notes, setNotes] = useState(Notes);
+  const [phone, setPhone] = useState(Phone);
+  const [taxID, setTaxID] = useState(TaxID);
 
   return (
     <View>
@@ -30,17 +37,27 @@ export default function ScreenAddSuppliers() {
           iconThree="check"
           clickGoBack={() => navigation.goBack()}
           itemThreeClick={() => {
-            route.params
-              ? alert("Update")
-              : insertSupplier(
+            route.params.item === "ADD"
+              ? insertSupplier(
                   address,
                   bankdetail,
-                  email,
+                  emailSupplier,
+                  name,
+                  notes,
+                  phone,
+                  taxID
+                )
+              : updateSupplier(
+                  route.params.item.id,
+                  address,
+                  bankdetail,
+                  emailSupplier,
                   name,
                   notes,
                   phone,
                   taxID
                 );
+
             navigation.goBack();
           }}
         />
@@ -51,7 +68,7 @@ export default function ScreenAddSuppliers() {
           setAdderss={setAdderss}
           bankdetail={bankdetail}
           setBankdetails={setBankdetails}
-          email={email}
+          emailSupplier={emailSupplier}
           setEmail={setEmail}
           name={name}
           setName={setName}
@@ -73,7 +90,7 @@ const ContentAddSupplier = (props) => {
     setBankdetails,
     bankdetail,
     setEmail,
-    email,
+    emailSupplier,
     setName,
     name,
     setNotes,
@@ -99,6 +116,7 @@ const ContentAddSupplier = (props) => {
       </Text>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <TextInput
+          value={name}
           onChangeText={setName}
           cursorColor={COLORS.primary}
           style={{
@@ -144,7 +162,7 @@ const ContentAddSupplier = (props) => {
       </Text>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <TextInput
-          value={email}
+          value={emailSupplier}
           onChangeText={setEmail}
           cursorColor={COLORS.primary}
           style={{
@@ -174,7 +192,9 @@ const ContentAddSupplier = (props) => {
             borderColor: COLORS.border,
           }}
         >
-          <Ionicons name="mail" size={30} color={"#90929E"}></Ionicons>
+          <TouchableOpacity onPress={() => sendEmail(emailSupplier, name)}>
+            <Ionicons name="mail" size={30} color={"#90929E"}></Ionicons>
+          </TouchableOpacity>
         </TouchableOpacity>
       </View>
       <Text
@@ -189,6 +209,8 @@ const ContentAddSupplier = (props) => {
         Số điện thoại
       </Text>
       <TextInput
+        keyboardType={"numeric"}
+        value={phone}
         onChangeText={setPhone}
         cursorColor={COLORS.primary}
         inputMode="numeric"
@@ -227,6 +249,7 @@ const ContentAddSupplier = (props) => {
         }}
       >
         <TextInput
+          value={address}
           onChangeText={setAdderss}
           style={{ paddingTop: 10 }}
           cursorColor={COLORS.primary}
@@ -245,6 +268,7 @@ const ContentAddSupplier = (props) => {
         Thông tin ngân hàng
       </Text>
       <TextInput
+        value={bankdetail}
         onChangeText={setBankdetails}
         cursorColor={COLORS.primary}
         style={{
@@ -270,6 +294,7 @@ const ContentAddSupplier = (props) => {
         Mã số thuế
       </Text>
       <TextInput
+        value={taxID}
         onChangeText={setTaxID}
         cursorColor={COLORS.primary}
         style={{
@@ -307,6 +332,7 @@ const ContentAddSupplier = (props) => {
         }}
       >
         <TextInput
+          value={notes}
           onChangeText={setNotes}
           style={{ paddingTop: 10 }}
           cursorColor={COLORS.primary}

@@ -7,8 +7,15 @@ import imgOutGoing from "../assets/images/outgoing.png";
 import imgSuppliers from "../assets/images/suppliers.png";
 import imgCustom from "../assets/images/customers.png";
 import imgDoc from "../assets/images/documents.png";
+import { useSelector } from "react-redux";
 export default Dashboard = (props) => {
   const { navigation } = props;
+  const quantitySupplier = useSelector(
+    (state) => state.supplierReducer.items.length
+  );
+  const quantityCustomers = useSelector(
+    (state) => state.customersReducer.items.length
+  );
 
   return (
     <View>
@@ -131,7 +138,7 @@ export default Dashboard = (props) => {
                 fontSize: 14,
               }}
             >
-              1
+              {quantitySupplier}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -166,7 +173,7 @@ export default Dashboard = (props) => {
                 fontSize: 14,
               }}
             >
-              1
+              {quantityCustomers}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity

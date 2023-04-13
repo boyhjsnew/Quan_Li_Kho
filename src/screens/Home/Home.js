@@ -10,6 +10,7 @@ import Toolbar from "../../components/Toolbar";
 import { useDispatch } from "react-redux";
 import { fetchWarehouse } from "../../redux/actions/getStore";
 import { fetchSuppliers } from "../../redux/actions/actionSuppliers/getSuppliers";
+import { fetchCustomers } from "../../redux/actions/actionCustomers/getCustomers";
 
 export default function Home() {
   const navigation = useNavigation();
@@ -21,6 +22,9 @@ export default function Home() {
   useEffect(() => {
     fetchWarehouse(dispatch);
   }, [dispatch]);
+  useEffect(() => {
+    fetchCustomers(dispatch);
+  });
   return (
     <View>
       <View>

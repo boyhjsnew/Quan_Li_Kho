@@ -40,7 +40,7 @@ export default function ScreenSuppliers(props) {
       <ListSuppliers navigation={subNavigation} />
       <ButtonAdd
         clickAdd={() => {
-          subNavigation.push("AddSuppliers");
+          subNavigation.navigate("AddSuppliers", { item: "ADD" });
         }}
       />
     </View>

@@ -1,7 +1,7 @@
 import { firebase } from "../../../firebase/firebase";
 
-const data = firebase.firestore().collection("Suppliers");
-export const fetchSuppliers = (dispatch) => {
+const data = firebase.firestore().collection("Customers");
+export const fetchCustomers = (dispatch) => {
   data.onSnapshot((snapshot) => {
     const items = [];
     snapshot.forEach((doc) => {
@@ -13,9 +13,10 @@ export const fetchSuppliers = (dispatch) => {
         phone: doc.data().phone,
         bankdetail: doc.data().bankdetail,
         taxID: doc.data().taxID,
+        discount: doc.data().discount,
         notes: doc.data().notes,
       });
     });
-    dispatch({ type: "GET_SUPPLIERS", payload: items });
+    dispatch({ type: "GET_CUSTOMERS", payload: items });
   });
 };

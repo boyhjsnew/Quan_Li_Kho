@@ -30,8 +30,8 @@ const ModalBottom = (props) => {
       onBackButtonPress={() => props.setActiveBottomModal(false)}
       animationInTiming={900}
       animationOutTiming={500}
-      backdropTransitionInTiming={1000}
-      backdropTransitionOutTiming={1000}
+      backdropTransitionInTiming={800}
+      backdropTransitionOutTiming={700}
     >
       <View style={styles.modalbottom}>
         <View style={{ alignItems: "center", paddingVertical: 5 }}>
@@ -44,7 +44,10 @@ const ModalBottom = (props) => {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.itemBottomMadal}>
+        <TouchableOpacity
+          style={styles.itemBottomMadal}
+          onPress={props.sendEmail}
+        >
           <FontAwesome name="mail-reply" size={20} color="#293855" />
           <Text style={{ color: "#293855", paddingHorizontal: 15 }}>
             Gửi Email
@@ -58,7 +61,10 @@ const ModalBottom = (props) => {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.itemBottomMadal}>
+        <TouchableOpacity
+          style={styles.itemBottomMadal}
+          onPress={props.phoneCall}
+        >
           <FontAwesome name="phone" size={20} color="#293855" />
           <Text style={{ color: "#293855", paddingHorizontal: 15 }}>
             Phone Call
@@ -75,7 +81,9 @@ const ModalBottom = (props) => {
           onPress={props.deleteItem}
         >
           <Ionicons name="person-remove" size={20} color="#CB0A0A" />
-          <Text style={{ color: "#CB0A0A", paddingHorizontal: 15 }}>Xoá</Text>
+          <Text style={{ color: "#CB0A0A", paddingHorizontal: 15 }}>
+            Xoá bỏ
+          </Text>
         </TouchableOpacity>
       </View>
     </Modal>
