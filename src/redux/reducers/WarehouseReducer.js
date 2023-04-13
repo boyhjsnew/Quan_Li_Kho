@@ -1,8 +1,3 @@
-import {
-  INSERT_WAREHOUSE,
-  DELETE_WAREHOUSE,
-} from "../constants/constWarehouse";
-import { app, getFirestore, db, getDocs } from "../../firebase/firebase";
 let initialState = {
   items: [],
 };

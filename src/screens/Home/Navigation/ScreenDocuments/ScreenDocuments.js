@@ -10,6 +10,7 @@ import ListCustomers from "../ScreenCustomers/ListCustomers";
 import ListDocuments from "./ListDocuments";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import SearchDocument from "../../../../components/SearchDocument";
+import HeaderNameStore from "../../../../components/HeaderNameStore";
 
 export default function ScreenDocuments() {
   const navigation = useNavigation();
@@ -25,8 +26,8 @@ export default function ScreenDocuments() {
         clickSearch={() => setShowSearch(!showSearch)}
         clickGoBack={() => navigation.goBack()}
       />
-      {showSearch==true ?<SearchDocument/>:null}
-      <HeaderDocuments />
+      {showSearch == true ? <SearchDocument /> : null}
+      <HeaderNameStore />
       <QuantityDocuments />
       <ListDocuments />
       <ListDocuments />
@@ -34,23 +35,6 @@ export default function ScreenDocuments() {
     </View>
   );
 }
-const HeaderDocuments = () => (
-  <View style={styles.header}>
-    <Image
-      style={{ width: 20, height: 20, opacity: 0.7 }}
-      source={require("../../../../assets/images/store.png")}
-    ></Image>
-    <Text
-      style={{
-        paddingLeft: 15,
-        color: "white",
-        opacity: 0.7,
-      }}
-    >
-      Kho Bình Thạnh
-    </Text>
-  </View>
-);
 
 const QuantityDocuments = () => {
   return (
@@ -78,7 +62,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   header: {
-    paddingVertical:10,
+    paddingVertical: 10,
     flexDirection: "row",
     backgroundColor: COLORS.primary,
     paddingHorizontal: 20,

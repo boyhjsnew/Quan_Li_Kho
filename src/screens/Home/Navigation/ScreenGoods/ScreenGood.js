@@ -8,6 +8,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import ModalMenu from "../../../../components/ModalMenu";
 import { GOODS } from "../../../../data/goods";
 import Search from "../../../../components/Search";
+import HeaderNameStore from "../../../../components/HeaderNameStore";
 export default function ScreenGood({ navigation }) {
   const [activeModal, setActiveModal] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
@@ -21,8 +22,9 @@ export default function ScreenGood({ navigation }) {
         iconThree="ellipsis-v"
         clickSearch={() => setShowSearch(!showSearch)}
         clickGoBack={() => navigation.goBack()}
-        itemThreeClick={() => setActiveModal(!activeModal)}/>
-      <HeaderGoods />
+        itemThreeClick={() => setActiveModal(!activeModal)}
+      />
+      <HeaderNameStore />
       <QuantityGoods />
       {showSearch && <Search />}
       <ItemGoods />
@@ -34,26 +36,12 @@ export default function ScreenGood({ navigation }) {
         itemHideGroup="group"
         itemHelp="info-circle"
         activeModal={activeModal}
-        setActiveModal={setActiveModal}/>
-    </View>);
+        setActiveModal={setActiveModal}
+      />
+    </View>
+  );
 }
-const HeaderGoods = () => (
-  <View style={styles.header}>
-    <Image
-      style={{ width: 20, height: 20, opacity: 0.7 }}
-      source={require("../../../../assets/images/store.png")}
-    ></Image>
-    <Text
-      style={{
-        paddingLeft: 15,
-        color: "white",
-        opacity: 0.7,
-      }}
-    >
-      Kho Bình Thạnh
-    </Text>
-  </View>
-);
+
 const ItemGoods = () => {
   const navigation = useNavigation();
   return (
@@ -196,12 +184,6 @@ const BottomTabs = () => {
 };
 
 const styles = StyleSheet.create({
-  header: {
-    paddingBottom: 10,
-    flexDirection: "row",
-    backgroundColor: COLORS.primary,
-    paddingHorizontal: 20,
-  },
   rowGoods: {
     elevation: 1,
     backgroundColor: "white",

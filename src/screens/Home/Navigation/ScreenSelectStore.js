@@ -11,8 +11,8 @@ import React, { useState } from "react";
 import Toolbar from "../../../components/Toolbar";
 import COLORS from "../../../assets/colors/COLORS";
 import { useNavigation } from "@react-navigation/native";
-import { useDispatch, useSelector } from "react-redux";
 import updateStore from "../../../redux/actions/pickStore";
+import { useSelector } from "react-redux";
 
 export default function ScreenSelectStore() {
   // const listStore = [

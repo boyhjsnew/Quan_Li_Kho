@@ -70,7 +70,10 @@ const ModalBottom = (props) => {
           <Text style={{ color: "#293855", paddingHorizontal: 15 }}>Zalo</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.itemBottomMadal}>
+        <TouchableOpacity
+          style={styles.itemBottomMadal}
+          onPress={props.deleteItem}
+        >
           <Ionicons name="person-remove" size={20} color="#CB0A0A" />
           <Text style={{ color: "#CB0A0A", paddingHorizontal: 15 }}>Xoá</Text>
         </TouchableOpacity>
