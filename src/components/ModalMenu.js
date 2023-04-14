@@ -46,7 +46,7 @@ const ModalMenu = (props) => {
             </TouchableOpacity>
           )}
           {itemPrintExcel && (
-            <TouchableOpacity style={styles.item}>
+            <TouchableOpacity style={styles.item} onPress={props.handleExcel}>
               <FontAwesome name={itemPrintExcel} size={15} color="#4F5868" />
               <Text style={styles.text}> Xuất File Excel</Text>
             </TouchableOpacity>

@@ -10,12 +10,14 @@ import ListSuppliers from "./ListSuppliers";
 import ModalBottom from "../../../../components/ModalBottom";
 import SearchSupplier from "../../../../components/SearchSupplier";
 import { useSelector } from "react-redux";
+import ModalBottomExcel from "../../../../components/ModalButtomExcel";
 
 export default function ScreenSuppliers(props) {
   const [activeModal, setActiveModal] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const { navigation } = props;
   const subNavigation = useNavigation();
+  const [activeModalExcel, setActiveModalExcel] = useState(false);
 
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
@@ -33,11 +35,23 @@ export default function ScreenSuppliers(props) {
       <NumberSupplier />
       {showSearch == true ? <SearchSupplier /> : null}
       <ModalMenu
+        handleExcel={() => {
+          setActiveModalExcel(true);
+          setActiveModal(false);
+        }}
         itemPrintExcel="print"
         activeModal={activeModal}
         setActiveModal={setActiveModal}
       />
-      <ListSuppliers navigation={subNavigation} />
+      <ModalBottomExcel
+        activeModalExcel={activeModalExcel}
+        setActiveModalExcel={setActiveModalExcel}
+      ></ModalBottomExcel>
+      <ListSuppliers
+        navigation={subNavigation}
+        activeModalExcel={activeModalExcel}
+        setActiveModalExcel={setActiveModalExcel}
+      />
       <ButtonAdd
         clickAdd={() => {
           subNavigation.navigate("AddSuppliers", { item: "ADD" });

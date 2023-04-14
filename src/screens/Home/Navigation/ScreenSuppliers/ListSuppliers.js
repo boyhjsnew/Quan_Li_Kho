@@ -7,6 +7,9 @@ import ModalBottom from "../../../../components/ModalBottom";
 import deleteSupplier from "../../../../redux/actions/actionSuppliers/deleteSupplier";
 import sendEmail from "../../../../utils/sendEmail";
 import handlePhoneCall from "../../../../utils/phoneCall";
+import ModalBottomExcel from "../../../../components/ModalButtomExcel";
+
+// excel
 
 export default function ListSuppliers(props) {
   const SUPPLIERS = useSelector((state) => state.supplierReducer.items);
@@ -14,6 +17,7 @@ export default function ListSuppliers(props) {
   const [activeBottomModal, setActiveBottomModal] = useState(false);
   const [itemSupplier, setitemSupplier] = useState("");
   const dispatch = useDispatch();
+  const { activeModalExcel, setActiveModalExcel } = props;
 
   useEffect(() => {
     setRefresh(!refresh);
@@ -111,6 +115,10 @@ export default function ListSuppliers(props) {
         deleteItem={deleteItem}
         activeBottomModal={activeBottomModal}
         setActiveBottomModal={setActiveBottomModal}
+      />
+      <ModalBottomExcel
+        activeModalExcel={activeModalExcel}
+        setActiveModalExcel={setActiveModalExcel}
       />
     </View>
   );
