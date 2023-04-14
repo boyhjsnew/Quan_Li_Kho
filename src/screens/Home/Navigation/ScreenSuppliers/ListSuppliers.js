@@ -8,6 +8,7 @@ import deleteSupplier from "../../../../redux/actions/actionSuppliers/deleteSupp
 import sendEmail from "../../../../utils/sendEmail";
 import handlePhoneCall from "../../../../utils/phoneCall";
 import ModalBottomExcel from "../../../../components/ModalButtomExcel";
+import saveExcelFile from "../../../../utils/saveExcel";
 
 // excel
 
@@ -31,6 +32,7 @@ export default function ListSuppliers(props) {
       payload: itemSupplier.id,
     });
   };
+
   const renderItems = ({ item }) => (
     <TouchableOpacity
       onPress={() => props.navigation.navigate("AddSuppliers", { item: item })}
@@ -117,6 +119,7 @@ export default function ListSuppliers(props) {
         setActiveBottomModal={setActiveBottomModal}
       />
       <ModalBottomExcel
+        shareExcel={() => saveExcelFile(SUPPLIERS)}
         activeModalExcel={activeModalExcel}
         setActiveModalExcel={setActiveModalExcel}
       />

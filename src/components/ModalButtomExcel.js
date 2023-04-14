@@ -46,7 +46,7 @@ const ModalBottomExcel = (props) => {
 
         <TouchableOpacity
           style={styles.itemBottomMadal}
-          onPress={props.sendEmail}
+          onPress={props.shareExcel}
         >
           <FontAwesome name="share" size={20} color="#293855" />
           <Text style={{ color: "#293855", paddingHorizontal: 15 }}>
@@ -54,7 +54,10 @@ const ModalBottomExcel = (props) => {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.itemBottomMadal}>
+        <TouchableOpacity
+          style={styles.itemBottomMadal}
+          onPress={props.saveExcel}
+        >
           <FontAwesome name="save" size={20} color="#293855" />
           <Text style={{ color: "#293855", paddingHorizontal: 15 }}>
             Lưu vào máy

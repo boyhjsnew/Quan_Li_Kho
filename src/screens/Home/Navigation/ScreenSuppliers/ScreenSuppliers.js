@@ -11,6 +11,7 @@ import ModalBottom from "../../../../components/ModalBottom";
 import SearchSupplier from "../../../../components/SearchSupplier";
 import { useSelector } from "react-redux";
 import ModalBottomExcel from "../../../../components/ModalButtomExcel";
+import saveExcelFile from "../../../../utils/saveExcel";
 
 export default function ScreenSuppliers(props) {
   const [activeModal, setActiveModal] = useState(false);
@@ -44,6 +45,7 @@ export default function ScreenSuppliers(props) {
         setActiveModal={setActiveModal}
       />
       <ModalBottomExcel
+        saveExcel={() => saveExcelFile(SUPPLIERS)}
         activeModalExcel={activeModalExcel}
         setActiveModalExcel={setActiveModalExcel}
       ></ModalBottomExcel>
