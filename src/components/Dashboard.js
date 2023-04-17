@@ -31,7 +31,7 @@ export default Dashboard = (props) => {
           }}
         >
           <TouchableOpacity
-            onPress={() => navigation.navigate("NavGood")}
+            onPress={() => navigation.navigate("NavGood",{fullIcon:true})}
             style={{
               width: 112,
               height: 107,

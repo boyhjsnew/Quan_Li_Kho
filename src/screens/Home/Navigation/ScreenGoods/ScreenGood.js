@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import COLORS from "../../../../assets/colors/COLORS";
@@ -9,7 +9,8 @@ import ModalMenu from "../../../../components/ModalMenu";
 import { GOODS } from "../../../../data/goods";
 import Search from "../../../../components/Search";
 import HeaderNameStore from "../../../../components/HeaderNameStore";
-export default function ScreenGood({ navigation }) {
+export default function ScreenGood({ navigation,...props}) {
+  const{fullIcon} = props
   const [activeModal, setActiveModal] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   return (
@@ -28,7 +29,7 @@ export default function ScreenGood({ navigation }) {
       <QuantityGoods />
       {showSearch && <Search />}
       <ItemGoods />
-      <BottomTabs />
+      <BottomTabs fullIcon={fullIcon} />
       <ModalMenu
         itemPrintExcel="print"
         itemListSetting="list-ul"
@@ -144,7 +145,10 @@ const QuantityGoods = () => (
     </Text>
   </View>
 );
-const BottomTabs = () => {
+const BottomTabs = (props) => {
+ 
+  const {fullIcon} = props
+ 
   const navigation = useNavigation();
   return (
     <View style={styles.bottomTab}>
@@ -154,7 +158,7 @@ const BottomTabs = () => {
           size={23}
           color={COLORS.white}
         ></FontAwesome>
-        <Ionicons name="copy-outline" size={23} color={COLORS.white}></Ionicons>
+        {fullIcon==true?<Ionicons name="copy-outline" size={23} color={COLORS.white}></Ionicons>:<View style={{width:23,height:23}}></View>}
       </View>
       <View>
         <View style={styles.midTab}>
@@ -172,12 +176,18 @@ const BottomTabs = () => {
         <View style={styles.midTab2}></View>
       </View>
       <View style={styles.rightTab}>
-        <FontAwesome
+        {fullIcon==true?<FontAwesome
           name="sort-amount-asc"
           size={17}
           color="white"
-        ></FontAwesome>
-        <FontAwesome name="check-square" size={23} color="white"></FontAwesome>
+        ></FontAwesome>:<View style={{width:23,height:23}}></View>}
+       
+        {fullIcon==true?<FontAwesome
+          name="check-square"
+          size={17}
+          color="white"
+        ></FontAwesome>:<View style={{width:23,height:23}}></View>}
+      
       </View>
     </View>
   );

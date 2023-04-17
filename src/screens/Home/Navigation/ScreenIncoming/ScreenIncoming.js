@@ -16,12 +16,16 @@ import ButtonAdd from "../../../../components/ButtonAdd";
 import ModalMenu from "../../../../components/ModalMenu";
 import Search from "../../../../components/Search";
 import SearchIncoming from "../../../../components/SearchIncoming";
+import { TextInput } from "react-native-gesture-handler";
+import { Button } from "react-native-elements";
+import Ionicons from "@expo/vector-icons/Ionicons";
+
 
 export default function ScreenIncoming() {
   const [activeModal, setActiveModal] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const navigation = useNavigation();
-
+  
   return (
     <TouchableWithoutFeedback onPress={() => setActiveModal(false)}>
       <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
@@ -44,7 +48,7 @@ export default function ScreenIncoming() {
           itemHelp="info-circle"
           activeModal={activeModal}
           setActiveModal={setActiveModal}/>
-        <ButtonAdd clickAdd={() => alert("add 1")} />
+        <ButtonAdd clickAdd={() => navigation.push('NavGood',{fullIcon:false}) } />
       </View>
     </TouchableWithoutFeedback>
   );
@@ -61,8 +65,10 @@ const QuantityGoods = () => (
 
 const DocumentProperties = () => {
   const [paid, setPaid] = useState(true);
+  const [showContentDoc,setShowContentDoc] = useState(false)
   return (
-    <View style={styles.documentProperties}>
+    <View>
+      <View style={styles.documentProperties}>
       <View>
         <View>
           <Text style={{ color: "white", fontWeight: "400" }}>
@@ -90,11 +96,42 @@ const DocumentProperties = () => {
           </Text>
           <View style={{ paddingHorizontal: 2 }}></View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.subMenu}>
-          <FontAwesome name="angle-down" size={29} color={COLORS.white} />
+        <TouchableOpacity style={styles.subMenu} onPress={()=>setShowContentDoc(!showContentDoc)}>
+          {showContentDoc===false?<FontAwesome name="angle-down" size={29} color={COLORS.white} />:<FontAwesome name="angle-up" size={29} color={COLORS.white} style={{bottom:1}} ></FontAwesome>}
         </TouchableOpacity>
       </View>
+    
     </View>
+    {showContentDoc && <View style={{backgroundColor:COLORS.secondary,paddingHorizontal:10,marginHorizontal:15,marginTop:-25,borderBottomRightRadius:10,borderBottomLeftRadius:10}}>
+       <View style={{width:'97%',borderWidth:0.3,alignSelf:"center",borderColor:COLORS.white,marginTop:7}}></View>
+       <View style={{flexDirection:"row",width:'100%',justifyContent:"space-between",paddingTop:10}}>
+         <View style={{width:'48%'}}>
+         <Text style={{paddingBottom:7,color:COLORS.white,fontWeight:"700",fontSize:16}}>Document's date</Text>
+         <TouchableWithoutFeedback onPress={()=>{alert('ok')}}><View style={{height:40,backgroundColor:COLORS.white,borderRadius:10,padding:5}}></View></TouchableWithoutFeedback>
+         
+         </View>
+         <View style={{width:'48%'}}>
+         <Text style={{paddingBottom:7,color:COLORS.white,fontWeight:"700",fontSize:16}}>Document's No</Text>
+         <TextInput style={{height:40,backgroundColor:COLORS.white,borderRadius:10,padding:5}}></TextInput>
+         </View>
+        
+       </View>
+       <View>
+       <Text style={{paddingVertical:7,color:COLORS.white,fontWeight:"700",fontSize:16}}>Supplier</Text>
+       <TouchableWithoutFeedback onPress={()=>{alert('ok')}} >
+       <View style={{width:"100%",height:40,borderRadius:10,backgroundColor:COLORS.white,justifyContent:'center'}}>
+        <Ionicons name='chevron-forward' style={{right:3,position:'absolute'}} size={30}></Ionicons>
+       
+       </View>
+       </TouchableWithoutFeedback>
+      
+       <Text style={{paddingVertical:7,color:COLORS.white,fontWeight:"700",fontSize:16}}>Comment</Text>
+       <TextInput style={{width:"100%",height:40,backgroundColor:COLORS.white,borderRadius:9,marginBottom:15,paddingLeft:5}}></TextInput>
+       </View>
+      
+    </View>}
+    </View>
+    
   );
 };
 
@@ -119,7 +156,7 @@ const styles = StyleSheet.create({
   },
   documentProperties: {
     margin: 15,
-    height: 45,
+    height: 50,
     borderRadius: 8,
     backgroundColor: COLORS.secondary,
     flexDirection: "row",

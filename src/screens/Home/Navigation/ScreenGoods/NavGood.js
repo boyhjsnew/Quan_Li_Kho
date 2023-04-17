@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { NavigationContainer, useNavigation, useRoute } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ScreenGood from './ScreenGood';
 import ScreenAddGoods from './ScreenAddGoods';
@@ -10,6 +10,9 @@ import ScreenIssueGoods from './SubScreenGoods/ScreenIssueGoods';
 import ScreenReceiveGoods from './SubScreenGoods/ScreenReceiveGoods';
 
 export default function NavGood({navigation}) {
+   const route = useRoute()
+   const {fullIcon} = route.params
+   
     const Stack = createNativeStackNavigator();
 
   return (
@@ -17,7 +20,7 @@ export default function NavGood({navigation}) {
     <NavigationContainer independent={true}>
         <Stack.Navigator screenOptions={{headerShown:false}}>
             <Stack.Screen name="Goods">
-              {()=><ScreenGood navigation={navigation}/>}
+              {()=><ScreenGood navigation={navigation} fullIcon={fullIcon}/>}
             </Stack.Screen>
             <Stack.Screen name='AddGoods' component={ScreenAddGoods}></Stack.Screen>
             <Stack.Screen name='EditGoods' component={ScreenEditGoods}></Stack.Screen>
