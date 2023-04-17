@@ -23,6 +23,7 @@
     "react-native": "0.71.4",
     "react-native-blob-util": "^0.17.3",
     "react-native-bouncy-checkbox": "^3.0.7",
+    "react-native-calendars": "^1.1295.0",
     "react-native-dialog": "^9.3.0",
     "react-native-elements": "^3.4.3",
     "react-native-email-link": "^1.14.5",
