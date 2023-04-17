@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { fetchWarehouse } from "../../redux/actions/getStore";
 import { fetchSuppliers } from "../../redux/actions/actionSuppliers/getSuppliers";
 import { fetchCustomers } from "../../redux/actions/actionCustomers/getCustomers";
+import { fetchProducts } from "../../redux/actions/actionProducts/getProducts";
 
 export default function Home() {
   const navigation = useNavigation();
@@ -24,7 +25,11 @@ export default function Home() {
   }, [dispatch]);
   useEffect(() => {
     fetchCustomers(dispatch);
-  });
+  }, [dispatch]);
+  useEffect(() => {
+    fetchProducts(dispatch);
+  }, [dispatch]);
+
   return (
     <View>
       <View>

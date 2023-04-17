@@ -1,25 +1,25 @@
-import { View, Text,TextInput,TouchableOpacity, } from 'react-native'
-import React from 'react'
-import Toolbar from '../../../../../components/Toolbar'
-import COLORS from '../../../../../assets/colors/COLORS'
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import React from "react";
+import Toolbar from "../../../../../components/Toolbar";
+import COLORS from "../../../../../assets/colors/COLORS";
 
-export default function ScreenReceiveGoods({navigation}) {
+export default function ScreenReceiveGoods({ navigation }) {
   return (
     <View>
-      <Toolbar  iconOne="arrow-back-circle"
-        title="Tăng mặt hàng"
+      <Toolbar
+        iconOne="arrow-back-circle"
+        title="Nhập Hàng"
         iconThree="check"
-        itemThreeClick={()=>navigation.goBack()}
-        clickGoBack={() => navigation.goBack()}/>
-        <ContentReceiveGoods/>
+        itemThreeClick={() => navigation.goBack()}
+        clickGoBack={() => navigation.goBack()}
+      />
+      <ContentReceiveGoods />
     </View>
-
-  )
+  );
 }
 const ContentReceiveGoods = () => {
   return (
-    <View style={{padding:10}}>
+    <View style={{ padding: 10 }}>
       <Text
         style={{
           color: "#90929E",
@@ -32,7 +32,6 @@ const ContentReceiveGoods = () => {
         Số Lượng
       </Text>
       <TextInput
-       
         cursorColor={COLORS.primary}
         style={{
           height: 40,
@@ -58,7 +57,6 @@ const ContentReceiveGoods = () => {
       </Text>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <TextInput
-         
           cursorColor={COLORS.primary}
           style={{
             width: "100%",
@@ -72,8 +70,8 @@ const ContentReceiveGoods = () => {
             borderColor: COLORS.border,
           }}
         ></TextInput>
+
         {/* CLICK QR_CODE */}
-        
       </View>
       <Text
         style={{
@@ -86,20 +84,16 @@ const ContentReceiveGoods = () => {
       >
         Nhà cung cấp
       </Text>
-      <TextInput
-        cursorColor={COLORS.primary}
-       
+      <View
         style={{
-          height: 40,
           backgroundColor: "white",
           borderRadius: 8,
           paddingLeft: 10,
           paddingEnd: 10,
-          color: "black",
-          borderWidth: 0.5,
-          borderColor: COLORS.border,
+          height: 40,
         }}
-      ></TextInput>
+      ></View>
+
       <Text
         style={{
           color: "#90929E",
@@ -113,7 +107,6 @@ const ContentReceiveGoods = () => {
       </Text>
       <TextInput
         cursorColor={COLORS.primary}
-       
         style={{
           height: 80,
           backgroundColor: "white",

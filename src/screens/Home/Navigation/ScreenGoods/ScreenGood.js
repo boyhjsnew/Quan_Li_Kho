@@ -1,6 +1,13 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  FlatList,
+} from "react-native";
 import COLORS from "../../../../assets/colors/COLORS";
 import Toolbar from "../../../../components/Toolbar";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -9,10 +16,15 @@ import ModalMenu from "../../../../components/ModalMenu";
 import { GOODS } from "../../../../data/goods";
 import Search from "../../../../components/Search";
 import HeaderNameStore from "../../../../components/HeaderNameStore";
-export default function ScreenGood({ navigation,...props}) {
-  const{fullIcon} = props
+import { useSelector } from "react-redux";
+
+export default function ScreenGood(props) {
+  const navigation = useNavigation();
+  const { fullIcon } = props;
   const [activeModal, setActiveModal] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
+  const PRODUCTS = useSelector((state) => state.productsReducer.items);
+
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }} activeOpacity={1}>
       <Toolbar
@@ -28,7 +40,7 @@ export default function ScreenGood({ navigation,...props}) {
       <HeaderNameStore />
       <QuantityGoods />
       {showSearch && <Search />}
-      <ItemGoods />
+      <ItemGoods navigation={navigation} PRODUCTS={PRODUCTS} />
       <BottomTabs fullIcon={fullIcon} />
       <ModalMenu
         itemPrintExcel="print"
@@ -43,31 +55,46 @@ export default function ScreenGood({ navigation,...props}) {
   );
 }
 
-const ItemGoods = () => {
-  const navigation = useNavigation();
+const ItemGoods = (props) => {
+  const { PRODUCTS, navigation } = props;
   return (
-    <View>
-      {GOODS.map((goods, index) => {
+    <FlatList
+      data={PRODUCTS}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => {
         return (
           <TouchableOpacity
             onPress={() => {
               navigation.push("EditGoods");
             }}
-            key={index}
             style={styles.rowGoods}
           >
             <View style={styles.leftRow}>
-              <Image
-                source={{ uri: goods.image }}
-                style={{
-                  width: 38,
-                  height: 38,
-                  borderRadius: 100,
-                  backgroundColor: COLORS.secondary,
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              ></Image>
+              {item ? (
+                <Image
+                  source={{ uri: item.image[0] }}
+                  style={{
+                    width: 38,
+                    height: 38,
+                    borderRadius: 100,
+                    backgroundColor: COLORS.secondary,
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                ></Image>
+              ) : (
+                <Image
+                  source={require(".././../../.././assets/images/image.png")}
+                  style={{
+                    width: 38,
+                    height: 38,
+                    borderRadius: 100,
+                    backgroundColor: COLORS.secondary,
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                ></Image>
+              )}
               {/* info goood */}
               <View>
                 <Text
@@ -77,7 +104,7 @@ const ItemGoods = () => {
                   }}
                 >
                   {/* name good */}
-                  {goods.goods}
+                  {item.nameproduct}
                 </Text>
                 <View
                   style={{
@@ -92,42 +119,60 @@ const ItemGoods = () => {
                     name="barcode"
                   ></FontAwesome>
                   <Text style={{ fontSize: 12, opacity: 0.5 }}>
-                    {goods.barCode}
+                    {item.barcode}
                   </Text>
                 </View>
                 <Text
                   style={{ paddingLeft: 10, opacity: 0.5, width: 220 }}
                   numberOfLines={1}
                 >
-                  {goods.description}
+                  {item.description}
                 </Text>
               </View>
             </View>
             <View style={styles.rightRow}>
-              <Text style={{ paddingHorizontal: 10, fontWeight: "500" }}>
-                {goods.quantity}
-              </Text>
-              <View style={{ flexDirection: "row", margin: 5 }}>
-                {/* gia nhap gia ban */}
-                <Text style={{ maxWidth: 50, color: "#fd89b6" }}>
-                  {goods.purchasePrice}đ/
+              <View
+                style={{
+                  paddingVertical: 10,
+                  height: "100%",
+                  justifyContent: "space-around",
+                }}
+              >
+                <Text
+                  style={{
+                    fontWeight: "500",
+                    alignSelf: "flex-end",
+                  }}
+                >
+                  {"0.0"}
                 </Text>
-                <Text style={{ maxWidth: 50, color: "#02b5ef" }}>
-                  {goods.salePrice}đ
-                </Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                  }}
+                >
+                  {/* gia nhap gia ban */}
+                  <Text style={{ color: "#fd89b6" }}>
+                    {item.pricePurcharse}đ
+                  </Text>
+                  <View>
+                    <Text>/</Text>
+                  </View>
+                  <Text style={{ color: "#02b5ef" }}>{item.priceSale}đ</Text>
+                </View>
               </View>
+              <TouchableOpacity style={{ paddingTop: 1, marginVertical: 20 }}>
+                <Ionicons
+                  name="ellipsis-vertical"
+                  size={25}
+                  color="gray"
+                ></Ionicons>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity style={{ paddingTop: 1 }}>
-              <Ionicons
-                name="ellipsis-vertical"
-                size={20}
-                color="gray"
-              ></Ionicons>
-            </TouchableOpacity>
           </TouchableOpacity>
         );
-      })}
-    </View>
+      }}
+    ></FlatList>
   );
 };
 const QuantityGoods = () => (
@@ -146,9 +191,8 @@ const QuantityGoods = () => (
   </View>
 );
 const BottomTabs = (props) => {
- 
-  const {fullIcon} = props
- 
+  const { fullIcon } = props;
+
   const navigation = useNavigation();
   return (
     <View style={styles.bottomTab}>
@@ -158,7 +202,15 @@ const BottomTabs = (props) => {
           size={23}
           color={COLORS.white}
         ></FontAwesome>
-        {fullIcon==true?<Ionicons name="copy-outline" size={23} color={COLORS.white}></Ionicons>:<View style={{width:23,height:23}}></View>}
+        {fullIcon == true ? (
+          <Ionicons
+            name="copy-outline"
+            size={23}
+            color={COLORS.white}
+          ></Ionicons>
+        ) : (
+          <View style={{ width: 23, height: 23 }}></View>
+        )}
       </View>
       <View>
         <View style={styles.midTab}>
@@ -176,18 +228,25 @@ const BottomTabs = (props) => {
         <View style={styles.midTab2}></View>
       </View>
       <View style={styles.rightTab}>
-        {fullIcon==true?<FontAwesome
-          name="sort-amount-asc"
-          size={17}
-          color="white"
-        ></FontAwesome>:<View style={{width:23,height:23}}></View>}
-       
-        {fullIcon==true?<FontAwesome
-          name="check-square"
-          size={17}
-          color="white"
-        ></FontAwesome>:<View style={{width:23,height:23}}></View>}
-      
+        {fullIcon == true ? (
+          <FontAwesome
+            name="sort-amount-asc"
+            size={17}
+            color="white"
+          ></FontAwesome>
+        ) : (
+          <View style={{ width: 23, height: 23 }}></View>
+        )}
+
+        {fullIcon == true ? (
+          <FontAwesome
+            name="check-square"
+            size={17}
+            color="white"
+          ></FontAwesome>
+        ) : (
+          <View style={{ width: 23, height: 23 }}></View>
+        )}
       </View>
     </View>
   );
@@ -199,11 +258,21 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginVertical: 6,
     flexDirection: "row",
-    padding: 15,
+    paddingHorizontal: 17,
+    paddingVertical: 5,
     justifyContent: "space-between",
   },
-  leftRow: { flexDirection: "row", alignItems: "center" },
-  rightRow: { justifyContent: "center" },
+  leftRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+  },
+  rightRow: {
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+    flex: 0.7,
+  },
   bottomTab: {
     flexDirection: "row",
     position: "absolute",

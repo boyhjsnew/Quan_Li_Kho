@@ -21,6 +21,8 @@ export default function ScreenCustomers(props) {
   const SubNavigation = useNavigation();
   const { navigation } = props;
   const [showSearch, setShowSearch] = useState(false);
+  const [activeModalExcel, setActiveModalExcel] = useState(false);
+
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
       <Toolbar
@@ -35,8 +37,16 @@ export default function ScreenCustomers(props) {
       />
       <NumberCustomer />
       {showSearch ? <SearchCustomer /> : null}
-      <ListCustomers navigation={SubNavigation} />
+      <ListCustomers
+        navigation={SubNavigation}
+        activeModalExcel={activeModalExcel}
+        setActiveModalExcel={setActiveModalExcel}
+      />
       <ModalMenu
+        handleExcel={() => {
+          setActiveModal(false);
+          setActiveModalExcel(true);
+        }}
         itemPrintExcel="print"
         activeModal={activeModal}
         setActiveModal={setActiveModal}

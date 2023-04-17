@@ -37,7 +37,10 @@ const ModalBottomExcel = (props) => {
         <View style={{ alignItems: "center", paddingVertical: 5 }}>
           <View style={styles.btnSwipe}></View>
         </View>
-        <TouchableOpacity style={styles.itemBottomMadal}>
+        <TouchableOpacity
+          style={styles.itemBottomMadal}
+          onPress={props.openExcel}
+        >
           <FontAwesome name="file-excel-o" size={20} color="#293855" />
           <Text style={{ color: "#293855", paddingHorizontal: 15 }}>
             Mở File Excel

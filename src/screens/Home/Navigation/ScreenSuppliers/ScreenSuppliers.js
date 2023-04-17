@@ -7,11 +7,9 @@ import COLORS from "../../../../assets/colors/COLORS";
 import ButtonAdd from "../../../../components/ButtonAdd";
 import ModalMenu from "../../../../components/ModalMenu";
 import ListSuppliers from "./ListSuppliers";
-import ModalBottom from "../../../../components/ModalBottom";
 import SearchSupplier from "../../../../components/SearchSupplier";
 import { useSelector } from "react-redux";
 import ModalBottomExcel from "../../../../components/ModalButtomExcel";
-import saveExcelFile from "../../../../utils/saveExcel";
 
 export default function ScreenSuppliers(props) {
   const [activeModal, setActiveModal] = useState(false);
@@ -19,6 +17,8 @@ export default function ScreenSuppliers(props) {
   const { navigation } = props;
   const subNavigation = useNavigation();
   const [activeModalExcel, setActiveModalExcel] = useState(false);
+  const [activeModalSort, setActiveModalSort] = useState(false);
+  const [inputSearch, setInputSearch] = useState("");
 
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
@@ -28,13 +28,19 @@ export default function ScreenSuppliers(props) {
         iconTwo="search"
         iconThree="sort-amount-asc"
         iconFour="ellipsis-v"
+        itemThreeClick={() => setActiveModalSort(true)}
         clickSearch={() => setShowSearch(!showSearch)}
         itemFourClick={() => setActiveModal(!activeModal)}
         clickGoBack={() => navigation.goBack()}
       />
 
       <NumberSupplier />
-      {showSearch == true ? <SearchSupplier /> : null}
+      {showSearch == true ? (
+        <SearchSupplier
+          inputSearch={inputSearch}
+          setInputSearch={setInputSearch}
+        />
+      ) : null}
       <ModalMenu
         handleExcel={() => {
           setActiveModalExcel(true);
@@ -50,9 +56,13 @@ export default function ScreenSuppliers(props) {
         setActiveModalExcel={setActiveModalExcel}
       ></ModalBottomExcel>
       <ListSuppliers
+        activeModalSort={activeModalSort}
+        setActiveModalSort={setActiveModalSort}
         navigation={subNavigation}
         activeModalExcel={activeModalExcel}
         setActiveModalExcel={setActiveModalExcel}
+        inputSearch={inputSearch}
+        setInputSearch={setInputSearch}
       />
       <ButtonAdd
         clickAdd={() => {

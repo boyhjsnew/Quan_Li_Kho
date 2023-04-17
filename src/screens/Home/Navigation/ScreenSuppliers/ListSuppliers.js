@@ -8,21 +8,40 @@ import deleteSupplier from "../../../../redux/actions/actionSuppliers/deleteSupp
 import sendEmail from "../../../../utils/sendEmail";
 import handlePhoneCall from "../../../../utils/phoneCall";
 import ModalBottomExcel from "../../../../components/ModalButtomExcel";
-import saveExcelFile from "../../../../utils/saveExcel";
+import { shareFileExcel } from "../../../../utils/shareExcel";
+import ModalSort from "../../../../components/ModalSort";
+import { fetchSuppliers } from "../../../../redux/actions/actionSuppliers/getSuppliers";
 
 // excel
 
 export default function ListSuppliers(props) {
+  const { activeModalExcel, setActiveModalExcel } = props;
+  const { activeModalSort, setActiveModalSort } = props;
   const SUPPLIERS = useSelector((state) => state.supplierReducer.items);
   const [refresh, setRefresh] = useState(false);
   const [activeBottomModal, setActiveBottomModal] = useState(false);
   const [itemSupplier, setitemSupplier] = useState("");
   const dispatch = useDispatch();
-  const { activeModalExcel, setActiveModalExcel } = props;
+  const [pickSort, setPickSort] = useState("Mặc định");
+  const { inputSearch } = props;
+  const [suppliers, setSuppliers] = useState(SUPPLIERS);
 
   useEffect(() => {
     setRefresh(!refresh);
   }, [SUPPLIERS]);
+
+  useEffect(() => {
+    if (inputSearch.length > 0) {
+      const searchInput = inputSearch.toLowerCase();
+      setSuppliers(
+        SUPPLIERS.filter((supplier) =>
+          supplier.name.toLowerCase().includes(searchInput)
+        )
+      );
+    } else {
+      fetchSuppliers(dispatch);
+    }
+  }, [inputSearch]);
 
   const deleteItem = () => {
     deleteSupplier(itemSupplier.id);
@@ -106,7 +125,7 @@ export default function ListSuppliers(props) {
   return (
     <View>
       <FlatList
-        data={SUPPLIERS}
+        data={inputSearch.length > 0 ? suppliers : SUPPLIERS}
         extraData={refresh}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderItems}
@@ -119,10 +138,20 @@ export default function ListSuppliers(props) {
         setActiveBottomModal={setActiveBottomModal}
       />
       <ModalBottomExcel
-        shareExcel={() => saveExcelFile(SUPPLIERS)}
+        shareExcel={() => {
+          shareFileExcel(SUPPLIERS);
+          setActiveModalExcel(false);
+        }}
         activeModalExcel={activeModalExcel}
         setActiveModalExcel={setActiveModalExcel}
       />
+      <ModalSort
+        handleAsc={() => alert("helll")}
+        pickSort={pickSort}
+        setPickSort={setPickSort}
+        activeModalSort={activeModalSort}
+        setActiveModalSort={setActiveModalSort}
+      ></ModalSort>
     </View>
   );
 }

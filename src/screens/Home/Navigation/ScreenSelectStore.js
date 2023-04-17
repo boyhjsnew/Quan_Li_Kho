@@ -15,11 +15,6 @@ import updateStore from "../../../redux/actions/pickStore";
 import { useSelector } from "react-redux";
 
 export default function ScreenSelectStore() {
-  // const listStore = [
-  //   { nameStore: "All Store" },
-  //   { nameStore: "Kho binh thanh" },
-  // ];
-
   const listStore = useSelector((state) => state.warehouseReducer.items);
   const navigation = useNavigation();
 

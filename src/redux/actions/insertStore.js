@@ -5,7 +5,7 @@ const insertStore = (name) => {
   data
     .add({
       name,
-      icPicked: false,
+      isPicked: false,
     })
     .then(() => {
       console.log("INSERTED STORE");

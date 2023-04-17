@@ -1,16 +1,21 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import React, { useState } from "react";
 import COLORS from "../../../../assets/colors/COLORS";
-import { CUSTOMERS } from "../../../../data/customers";
 import { FlatList } from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
 import ModalBottom from "../../../../components/ModalBottom";
 import deleteCustomer from "../../../../redux/actions/actionCustomers/deleteCustomers";
+import ModalBottomExcel from "../../../../components/ModalButtomExcel";
+import {
+  shareExcel,
+  shareFileExcelCustomers,
+} from "../../../../utils/shareExcel";
 
 export default function ListCustomers(props) {
   const CUSTOMERS = useSelector((state) => state.customersReducer.items);
   const [activeBottomModal, setActiveBottomModal] = useState(false);
   const [itemCustomers, setitemCustomers] = useState("");
+  const { activeModalExcel, setActiveModalExcel } = props;
 
   const renderItems = ({ item }) => (
     <TouchableOpacity
@@ -96,6 +101,11 @@ export default function ListCustomers(props) {
         }}
         activeBottomModal={activeBottomModal}
         setActiveBottomModal={setActiveBottomModal}
+      />
+      <ModalBottomExcel
+        shareExcel={() => shareFileExcelCustomers(CUSTOMERS)}
+        activeModalExcel={activeModalExcel}
+        setActiveModalExcel={setActiveModalExcel}
       />
     </View>
   );

@@ -7,12 +7,12 @@ import {
   ScrollView,
 } from "react-native";
 import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Header } from "react-native-elements/dist/header/Header";
+
 import Toolbar from "../../../../components/Toolbar";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import COLORS from "../../../../assets/colors/COLORS";
 import { TextInput } from "react-native-gesture-handler";
+import HeaderNameStore from "../../../../components/HeaderNameStore";
 
 export default function ScreenAddGoods({ navigation }) {
   return (
@@ -24,32 +24,16 @@ export default function ScreenAddGoods({ navigation }) {
         clickGoBack={() => navigation.goBack()}
         itemThreeClick={() => navigation.goBack()}
       />
-      <HeaderGoods />
+      <HeaderNameStore />
       <ScrollView style={{ padding: 15 }}>
         <ContentAddGoods />
-        <ButtonContentGoods />
+        <ButtonContentGoods navigation={navigation} />
         <QuantityGoods />
       </ScrollView>
     </View>
   );
 }
-const HeaderGoods = () => (
-  <View style={styles.header}>
-    <Image
-      style={{ width: 20, height: 20, opacity: 0.7 }}
-      source={require("../../../../assets/images/store.png")}
-    ></Image>
-    <Text
-      style={{
-        paddingLeft: 15,
-        color: "white",
-        opacity: 0.7,
-      }}
-    >
-      Kho Bình Thạnh
-    </Text>
-  </View>
-);
+
 const styles = StyleSheet.create({
   header: {
     paddingBottom: 10,
@@ -59,7 +43,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const ContentAddGoods = () => {
+const ContentAddGoods = (props) => {
+  const { naviagtion } = props;
   return (
     <View style={{}}>
       <Text
@@ -71,10 +56,10 @@ const ContentAddGoods = () => {
           paddingTop: 10,
         }}
       >
-        Tên nhà cung cấp
+        Tên sản phẩm
       </Text>
       <TextInput
-        placeholder="Tên nhà cung cấp"
+        placeholder="Tên sản phẩm"
         cursorColor={COLORS.primary}
         style={{
           height: 40,
@@ -161,12 +146,13 @@ const ContentAddGoods = () => {
   );
 };
 const ButtonContentGoods = (props) => {
+  const { navigation } = props;
   const infoBtn = [
     {
       iconBtn: require("./../../../../assets/images/add.png"),
       nameBtn: "Nhận Hàng",
       clickBtn: () => {
-        alert("add");
+        navigation.navigate("Receive");
       },
     },
     {
