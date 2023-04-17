@@ -11,6 +11,8 @@ export const fetchProducts = (dispatch) => {
         barcode: doc.data().barcode,
         image: doc.data().image,
         description: doc.data().description,
+        pricePurcharse: doc.data().pricePurcharse,
+        priceSale: doc.data().priceSale,
       });
     });
     dispatch({ type: "GET_PRODUCTS", payload: items });

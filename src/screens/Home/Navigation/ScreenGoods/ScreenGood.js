@@ -18,8 +18,7 @@ import Search from "../../../../components/Search";
 import HeaderNameStore from "../../../../components/HeaderNameStore";
 import { useSelector } from "react-redux";
 
-export default function ScreenGood(props) {
-  const navigation = useNavigation();
+export default function ScreenGood({ navigation, ...props }) {
   const { fullIcon } = props;
   const [activeModal, setActiveModal] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
@@ -56,7 +55,8 @@ export default function ScreenGood(props) {
 }
 
 const ItemGoods = (props) => {
-  const { PRODUCTS, navigation } = props;
+  const naviagtion = useNavigation();
+  const { PRODUCTS } = props;
   return (
     <FlatList
       data={PRODUCTS}
@@ -65,7 +65,7 @@ const ItemGoods = (props) => {
         return (
           <TouchableOpacity
             onPress={() => {
-              navigation.push("EditGoods");
+              naviagtion.push("EditGoods");
             }}
             style={styles.rowGoods}
           >
