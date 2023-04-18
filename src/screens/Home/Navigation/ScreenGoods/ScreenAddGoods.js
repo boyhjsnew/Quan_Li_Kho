@@ -1,18 +1,24 @@
 import {
-  View,
-  Text,
-  StyleSheet,
+ 
   Image,
-  TouchableOpacity,
+ 
   ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  TextInput,
+  Modal,
 } from "react-native";
 import React from "react";
 
 import Toolbar from "../../../../components/Toolbar";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import COLORS from "../../../../assets/colors/COLORS";
-import { TextInput } from "react-native-gesture-handler";
+
 import HeaderNameStore from "../../../../components/HeaderNameStore";
+
 
 export default function ScreenAddGoods({ navigation }) {
   return (

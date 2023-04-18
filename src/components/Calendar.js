@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Calendar } from "react-native-calendars";
 
 import COLORS from "../assets/colors/COLORS";
+import { Modal } from 'react-native-modal'
 export default function ModalCalendar(props) {
   const [timeStamp, setTimeStamp] = useState(new Date().getDay());
   const [day, setDay] = useState(new Date().getDate());
@@ -93,7 +94,7 @@ export default function ModalCalendar(props) {
         >
           <TouchableOpacity onPress={() => setShowCalendar(false)}>
             <Text
-              style={{ fontSize: 15, paddingHorizontal: 10, fontWeight: "600" }}
+              style={{ fontSize: 18, paddingHorizontal: 10,  }}
             >
               Hủy
             </Text>
@@ -107,7 +108,7 @@ export default function ModalCalendar(props) {
             }}
           >
             <Text
-              style={{ fontSize: 15, paddingHorizontal: 10, fontWeight: "600" }}
+              style={{ fontSize: 18, paddingHorizontal: 10, }}
             >
               Xong
             </Text>

@@ -106,7 +106,7 @@ export default Dashboard = (props) => {
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate("Suppliers");
+              navigation.navigate("Suppliers",{from:'fromHome'});
             }}
             style={{
               width: 112,

@@ -1,5 +1,12 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import { MenuProvider } from "react-native-popup-menu";
+import {
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+} from "react-native-popup-menu";
 import {
   StyleSheet,
   Text,
@@ -17,6 +24,8 @@ import { GOODS } from "../../../../data/goods";
 import Search from "../../../../components/Search";
 import HeaderNameStore from "../../../../components/HeaderNameStore";
 import { useSelector } from "react-redux";
+import ModalForGoods from "../../../../components/ModalForGoods";
+import { Dimensions } from "react-native";
 
 export default function ScreenGood({ navigation, ...props }) {
   const { fullIcon } = props;
@@ -39,7 +48,10 @@ export default function ScreenGood({ navigation, ...props }) {
       <HeaderNameStore />
       <QuantityGoods />
       {showSearch && <Search />}
-      <ItemGoods navigation={navigation} PRODUCTS={PRODUCTS} />
+      <MenuProvider>
+        <ItemGoods navigation={navigation} PRODUCTS={PRODUCTS} />
+      </MenuProvider>
+
       <BottomTabs fullIcon={fullIcon} />
       <ModalMenu
         itemPrintExcel="print"
@@ -55,13 +67,16 @@ export default function ScreenGood({ navigation, ...props }) {
 }
 
 const ItemGoods = (props) => {
+  const [modalGoods, setModalGoods] = useState(false);
   const naviagtion = useNavigation();
   const { PRODUCTS } = props;
+
+  const handlerPress = () => {};
   return (
     <FlatList
       data={PRODUCTS}
       keyExtractor={(item) => item.id}
-      renderItem={({ item }) => {
+      renderItem={({ item, index }) => {
         return (
           <TouchableOpacity
             onPress={() => {
@@ -109,7 +124,7 @@ const ItemGoods = (props) => {
                 <View
                   style={{
                     flexDirection: "row",
-                    paddingVertical: 5,
+                    paddingVertical: 7,
                   }}
                 >
                   <FontAwesome
@@ -134,7 +149,6 @@ const ItemGoods = (props) => {
               <View
                 style={{
                   paddingVertical: 10,
-                  height: "100%",
                   justifyContent: "space-around",
                 }}
               >
@@ -148,7 +162,11 @@ const ItemGoods = (props) => {
                 </Text>
                 <View
                   style={{
+                    width:110,
+                    justifyContent:"flex-end",
+                    
                     flexDirection: "row",
+                    paddingTop: 5,
                   }}
                 >
                   {/* gia nhap gia ban */}
@@ -161,13 +179,9 @@ const ItemGoods = (props) => {
                   <Text style={{ color: "#02b5ef" }}>{item.priceSale}đ</Text>
                 </View>
               </View>
-              <TouchableOpacity style={{ paddingTop: 1, marginVertical: 20 }}>
-                <Ionicons
-                  name="ellipsis-vertical"
-                  size={25}
-                  color="gray"
-                ></Ionicons>
-              </TouchableOpacity>
+
+             
+              <PopUpMenu />
             </View>
           </TouchableOpacity>
         );
@@ -199,13 +213,13 @@ const BottomTabs = (props) => {
       <View style={styles.leftTab}>
         <FontAwesome
           name="folder-open-o"
-          size={23}
+          size={20}
           color={COLORS.white}
         ></FontAwesome>
         {fullIcon == true ? (
           <Ionicons
             name="copy-outline"
-            size={23}
+            size={20}
             color={COLORS.white}
           ></Ionicons>
         ) : (
@@ -252,6 +266,55 @@ const BottomTabs = (props) => {
   );
 };
 
+const PopUpMenu = () => {
+  return (
+    <Menu >
+      <MenuTrigger >
+        <Ionicons name="ellipsis-vertical" size={20} color="gray"></Ionicons>
+      </MenuTrigger>
+      <MenuOptions >
+        <MenuOption onSelect={() => alert(`Dong 278`)}>
+        <View style={{flexDirection:"row",alignItems:"center"}}>
+        <Ionicons style={{padding:10}} name="stopwatch-outline" size={20} color="#293855">
+          </Ionicons>
+          <Text style={{ color: "black", fontSize: 16, paddingVertical: 9,paddingHorizontal:8 }}>
+            Lịch sử
+          </Text>
+        </View>
+        </MenuOption>
+        <MenuOption onSelect={() => alert(`287`)}>
+        <View style={{flexDirection:"row",alignItems:"center"}}>
+        <Ionicons style={{padding:10}} name='alert-circle' size={20} color="#293855">
+          </Ionicons>
+          <Text style={{ color: "black", fontSize: 16, paddingVertical: 9,paddingHorizontal:8 }}>
+            Số lượng tất cả kho
+          </Text>
+        </View>
+        </MenuOption>
+        <MenuOption onSelect={() => alert(`296`)}>
+        <View style={{flexDirection:"row",alignItems:"center"}}>
+        <Ionicons style={{padding:10}} name='trash-bin' size={20} color="#293855">
+          </Ionicons>
+          <Text style={{ color: "black", fontSize: 16, paddingVertical: 9,paddingHorizontal:8 }}>
+            Xóa bỏ
+          </Text>
+        </View>
+          
+        </MenuOption>
+        <MenuOption onSelect={() => alert(`Share 306`)}>
+        <View style={{flexDirection:"row",alignItems:"center"}}>
+        <Ionicons style={{padding:10}} name='share-social' size={20} color="#293855">
+          </Ionicons>
+          <Text style={{ color: "black", fontSize: 16, paddingVertical: 9,paddingHorizontal:8 }}>
+            Chia sẻ
+          </Text>
+        </View>
+          
+        </MenuOption>
+      </MenuOptions>
+    </Menu>
+  );
+};
 const styles = StyleSheet.create({
   rowGoods: {
     elevation: 1,
@@ -259,7 +322,7 @@ const styles = StyleSheet.create({
     marginVertical: 6,
     flexDirection: "row",
     paddingHorizontal: 17,
-    paddingVertical: 5,
+    paddingVertical: 7,
     justifyContent: "space-between",
   },
   leftRow: {
