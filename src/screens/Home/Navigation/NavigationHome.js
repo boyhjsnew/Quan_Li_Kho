@@ -1,4 +1,4 @@
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useRoute } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ScreenCustomers from "./ScreenCustomers/ScreenCustomers";
 import ScreenDocuments from "./ScreenDocuments/ScreenDocuments";
@@ -21,6 +21,8 @@ import { useEffect } from "react";
 export default NavigationHome = () => {
   const Stack = createNativeStackNavigator();
   const store = configureStore();
+  
+  
 
   return (
     <ReduxProvider store={store}>

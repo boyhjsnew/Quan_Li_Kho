@@ -19,14 +19,17 @@ import ButtonAdd from "../../../../components/ButtonAdd";
 import ModalMenu from "../../../../components/ModalMenu";
 import SearchIncoming from "../../../../components/SearchIncoming";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
-export default function ScreenOutGoing() {
+export default function ScreenOutGoing({route}) {
   const [activeModal, setActiveModal] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const navigation = useNavigation();
   const [showCalendar,setShowCalendar]=useState(false)
+  const item = useSelector(state=> state.pickCustomerReducer.items,shallowEqual )
+  
 
-  const route = useRoute();
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
       <Toolbar
@@ -41,7 +44,7 @@ export default function ScreenOutGoing() {
       />
       {showSearch && <SearchIncoming />}
       <QuantityGoods />
-      <DocumentProperties navigation={navigation} />
+      <DocumentProperties navigation={navigation} item={item}/>
       <ModalMenu
         itemSort="sort"
         itemPrintExcel="print"
@@ -73,6 +76,9 @@ const DocumentProperties = (props) => {
   const [paid, setPaid] = useState(true);
   const [showContentDoc, setShowContentDoc] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
+  const route = useRoute()
+  
+ 
 
   // CALENDER
   const [timeStamp, setTimeStamp] = useState(new Date().getDay());
@@ -85,6 +91,8 @@ const DocumentProperties = (props) => {
       setInputDiscount("");
     }
   };
+
+
   return (
     <View>
       <View style={styles.documentProperties}>
@@ -224,7 +232,7 @@ const DocumentProperties = (props) => {
             </Text>
             <TouchableWithoutFeedback
               onPress={() => {
-                navigation.push("Customers");
+                navigation.push("Customers",{from:'fromOutgoing'});
               }}
             >
               <View
@@ -234,8 +242,10 @@ const DocumentProperties = (props) => {
                   borderRadius: 10,
                   backgroundColor: COLORS.white,
                   justifyContent: "center",
+                  paddingHorizontal:10
                 }}
               >
+              <Text style={{fontSize:16, }}>{props.item.name}</Text>
                 <Ionicons
                   name="chevron-forward"
                   style={{ right: 3, position: "absolute" }}
@@ -307,9 +317,6 @@ const DocumentProperties = (props) => {
           </View>
           </View>
         </Modal>
-        
-      
-      
     </View>
   );
 };

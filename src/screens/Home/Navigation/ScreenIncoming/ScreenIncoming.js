@@ -18,16 +18,19 @@ import ButtonAdd from "../../../../components/ButtonAdd";
 import ModalMenu from "../../../../components/ModalMenu";
 import Search from "../../../../components/Search";
 import SearchIncoming from "../../../../components/SearchIncoming";
-
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { Button } from "react-native-elements";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import ModalCalendar from "../../../../components/Calendar";
 
-export default function ScreenIncoming() {
+export default function ScreenIncoming({route}) {
+ 
   const [activeModal, setActiveModal] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const navigation = useNavigation();
   
+
+
   return (
     <TouchableWithoutFeedback onPress={() => setActiveModal(false)}>
       <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
@@ -66,7 +69,7 @@ const QuantityGoods = () => (
 );
 
 const DocumentProperties = (props) => {
-  
+  const item = useSelector(state=> state.pickSupplierReducer.items,shallowEqual )
   const navigation = useNavigation() ;
   const [paid, setPaid] = useState(true);
   const [showContentDoc, setShowContentDoc] = useState(false);
@@ -219,7 +222,7 @@ const DocumentProperties = (props) => {
             </Text>
             <TouchableWithoutFeedback
               onPress={() => {
-                navigation.push("Suppliers");
+                navigation.push("Suppliers",{from:'fromIncoming'});
               }}
             >
               <View
@@ -229,8 +232,12 @@ const DocumentProperties = (props) => {
                   borderRadius: 10,
                   backgroundColor: COLORS.white,
                   justifyContent: "center",
+                  paddingLeft:10
+
                 }}
+                
               >
+              <Text style={{fontSize:16}}>{item.name}</Text>
                 <Ionicons
                   name="chevron-forward"
                   style={{ right: 3, position: "absolute" }}

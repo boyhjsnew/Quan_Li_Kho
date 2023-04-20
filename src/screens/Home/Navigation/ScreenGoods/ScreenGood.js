@@ -70,8 +70,12 @@ const ItemGoods = (props) => {
   const [modalGoods, setModalGoods] = useState(false);
   const naviagtion = useNavigation();
   const { PRODUCTS } = props;
+  const {navigation} = props
+  const navigation2 = () =>{
+    return navigation.push('Suppliers')
+  }
 
-  const handlerPress = () => {};
+  
   return (
     <FlatList
       data={PRODUCTS}
@@ -82,8 +86,7 @@ const ItemGoods = (props) => {
             onPress={() => {
               naviagtion.push("EditGoods");
             }}
-            style={styles.rowGoods}
-          >
+            style={styles.rowGoods}>
             <View style={styles.leftRow}>
               {item ? (
                 <Image

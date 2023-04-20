@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
@@ -12,13 +12,17 @@ import { useSelector } from "react-redux";
 import ModalBottomExcel from "../../../../components/ModalButtomExcel";
 
 export default function ScreenSuppliers(props) {
+  
   const [activeModal, setActiveModal] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
-  const { navigation } = props;
+  const { navigation,from } = props;
   const subNavigation = useNavigation();
   const [activeModalExcel, setActiveModalExcel] = useState(false);
   const [activeModalSort, setActiveModalSort] = useState(false);
   const [inputSearch, setInputSearch] = useState("");
+
+  
+  
 
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
@@ -56,6 +60,8 @@ export default function ScreenSuppliers(props) {
         setActiveModalExcel={setActiveModalExcel}
       ></ModalBottomExcel>
       <ListSuppliers
+        navigation2={navigation}
+        from={from}
         activeModalSort={activeModalSort}
         setActiveModalSort={setActiveModalSort}
         navigation={subNavigation}

@@ -11,11 +11,13 @@ import ModalBottomExcel from "../../../../components/ModalButtomExcel";
 import { shareFileExcel } from "../../../../utils/shareExcel";
 import ModalSort from "../../../../components/ModalSort";
 import { fetchSuppliers } from "../../../../redux/actions/actionSuppliers/getSuppliers";
+import { useNavigation } from "@react-navigation/native";
 
 // excel
 
 export default function ListSuppliers(props) {
-  const { activeModalExcel, setActiveModalExcel } = props;
+  
+  const { activeModalExcel, setActiveModalExcel, navigation2,navigation } = props;
   const { activeModalSort, setActiveModalSort } = props;
   const SUPPLIERS = useSelector((state) => state.supplierReducer.items);
   const [refresh, setRefresh] = useState(false);
@@ -23,7 +25,7 @@ export default function ListSuppliers(props) {
   const [itemSupplier, setitemSupplier] = useState("");
   const dispatch = useDispatch();
   const [pickSort, setPickSort] = useState("Mặc định");
-  const { inputSearch } = props;
+  const { inputSearch,from } = props;
   const [suppliers, setSuppliers] = useState(SUPPLIERS);
 
   useEffect(() => {
@@ -52,9 +54,18 @@ export default function ListSuppliers(props) {
     });
   };
 
-  const renderItems = ({ item }) => (
+  const renderItems = ({ item }) => {
+   
+    return(
+     
     <TouchableOpacity
-      onPress={() => props.navigation.navigate("AddSuppliers", { item: item })}
+      onPress={() => { if(from=='fromHome'){return navigation.navigate("AddSuppliers", { item: item })}
+      if(from=='fromIncoming'){return navigation2.navigate('Incoming', dispatch({
+          type:'PICK_SUPPLIER',
+          payload:item
+         }))}
+      }
+      }
       style={{
         flexDirection: "row",
         justifyContent: "space-between",
@@ -121,7 +132,7 @@ export default function ListSuppliers(props) {
         </Text>
       </TouchableOpacity>
     </TouchableOpacity>
-  );
+)};
   return (
     <View>
       <FlatList

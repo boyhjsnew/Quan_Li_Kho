@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import React, { useState } from "react";
 import COLORS from "../../../../assets/colors/COLORS";
 import { FlatList } from "react-native-gesture-handler";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ModalBottom from "../../../../components/ModalBottom";
 import deleteCustomer from "../../../../redux/actions/actionCustomers/deleteCustomers";
 import ModalBottomExcel from "../../../../components/ModalButtomExcel";
@@ -10,16 +10,34 @@ import {
   shareExcel,
   shareFileExcelCustomers,
 } from "../../../../utils/shareExcel";
+import { useNavigation } from "@react-navigation/native";
+import { useEffect } from "react";
 
 export default function ListCustomers(props) {
   const CUSTOMERS = useSelector((state) => state.customersReducer.items);
   const [activeBottomModal, setActiveBottomModal] = useState(false);
   const [itemCustomers, setitemCustomers] = useState("");
-  const { activeModalExcel, setActiveModalExcel } = props;
+  const { activeModalExcel, setActiveModalExcel,from,navigation2 } = props;
+  const navigationSub = useNavigation()
+  const dispatch = useDispatch()
+ 
 
   const renderItems = ({ item }) => (
+
     <TouchableOpacity
-      onPress={() => props.navigation.navigate("AddCustomers", { item: item })}
+
+      onPress={() => {
+        if(from=="fromHome"){
+          return props.navigation.navigate("AddCustomers", { item: item })
+        }
+        if(from!=='fromHome'){
+         navigation2.navigate('OutGoing',{item:item});
+         dispatch({
+          type:'PICK_CUSTOMERS',
+          payload:item
+         })
+        }
+      }}
       style={{
         flexDirection: "row",
         justifyContent: "space-between",

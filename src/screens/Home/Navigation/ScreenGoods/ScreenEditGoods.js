@@ -13,7 +13,12 @@ import Toolbar from "../../../../components/Toolbar";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import COLORS from "../../../../assets/colors/COLORS";
 import { TextInput } from "react-native-gesture-handler";
+import { useRoute } from "@react-navigation/native";
 export default function ScreenEditGoods({navigation}) {
+  
+   
+
+   
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
       <Toolbar
@@ -160,13 +165,13 @@ const ContentAddGoods = () => {
   );
 };
 const ButtonContentGoods = (props) => {
-  const{navigation} = props
+  const{navigation,navigation2} = props
   const infoBtn = [
     {
       iconBtn: require("./../../../../assets/images/add.png"),
       nameBtn: "Nhận Hàng",
       clickBtn: () => {
-        return navigation.push('Receive')
+        return navigation.push('Receive',{navigation2:navigation2})
       },
     },
     {

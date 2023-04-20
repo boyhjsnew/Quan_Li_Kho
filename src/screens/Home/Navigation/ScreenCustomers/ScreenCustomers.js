@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import {
@@ -19,9 +19,11 @@ import { useSelector } from "react-redux";
 export default function ScreenCustomers(props) {
   const [activeModal, setActiveModal] = useState(false);
   const SubNavigation = useNavigation();
-  const { navigation } = props;
+  const { navigation,from } = props;
   const [showSearch, setShowSearch] = useState(false);
   const [activeModalExcel, setActiveModalExcel] = useState(false);
+  
+  
 
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
@@ -38,6 +40,8 @@ export default function ScreenCustomers(props) {
       <NumberCustomer />
       {showSearch ? <SearchCustomer /> : null}
       <ListCustomers
+        from={from}
+        navigation2={navigation}
         navigation={SubNavigation}
         activeModalExcel={activeModalExcel}
         setActiveModalExcel={setActiveModalExcel}
@@ -53,7 +57,7 @@ export default function ScreenCustomers(props) {
       />
 
       <ButtonAdd
-        clickAdd={() => SubNavigation.navigate("AddCustomers", { item: "ADD" })}
+        clickAdd={() => SubNavigation.push("AddCustomers", { item: "ADD" })}
       />
     </View>
   );

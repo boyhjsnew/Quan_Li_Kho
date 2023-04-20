@@ -43,7 +43,7 @@ export default function Home() {
         <ContentHeader navigation={navigation} />
       </View>
       <View style={{ paddingHorizontal: 14 }}>
-        <Dashboard navigation={navigation} />
+        <Dashboard navigation={navigation}  />
       </View>
 
       <View style={{ paddingHorizontal: 14 }}>

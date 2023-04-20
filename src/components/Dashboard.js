@@ -10,6 +10,7 @@ import imgDoc from "../assets/images/documents.png";
 import { useSelector } from "react-redux";
 export default Dashboard = (props) => {
   const { navigation } = props;
+  
   const quantitySupplier = useSelector(
     (state) => state.supplierReducer.items.length
   );
@@ -73,8 +74,7 @@ export default Dashboard = (props) => {
                 marginHorizontal: 9,
                 fontSize: 12,
                 fontWeight: "600",
-              }}
-            >
+              }}>
               Nhập hàng
             </Text>
           </TouchableOpacity>
@@ -85,8 +85,7 @@ export default Dashboard = (props) => {
               height: 107,
               backgroundColor: color.white,
               borderRadius: 10,
-            }}
-          >
+            }}>
             <Image
               style={{ width: 48, height: 48, marginTop: 10, marginLeft: 10 }}
               source={(require = imgOutGoing)}
@@ -142,7 +141,7 @@ export default Dashboard = (props) => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => navigation.navigate("Customers")}
+            onPress={() => navigation.navigate("Customers",{from:'fromHome'})}
             style={{
               width: 112,
               height: 107,

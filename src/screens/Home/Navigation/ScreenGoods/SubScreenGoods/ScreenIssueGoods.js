@@ -3,7 +3,7 @@ import {
   Text,
   View,
   TouchableOpacity,
- 
+  ScrollView,
   TextInput,
   Modal,
  
@@ -14,8 +14,14 @@ import COLORS from '../../../../../assets/colors/COLORS'
 
 
 import ModalCalendar from '../../../../../components/Calendar'
+import { useNavigation } from '@react-navigation/native'
+
+
+
+  
 export default function ScreenIssueGoods({navigation}) {
   
+   
   return (
     <View>
      <Toolbar  iconOne="arrow-back-circle"
@@ -28,7 +34,8 @@ export default function ScreenIssueGoods({navigation}) {
   )
 }
 const ContentIssueGoods = () => {
-
+  const [showList,setShowList] = useState(false)
+  const[customer,setCustomer] = useState('')
   const [showCalendar, setShowCalendar] = useState(false);
 
   // CALENDER
@@ -36,6 +43,7 @@ const ContentIssueGoods = () => {
   const [day, setDay] = useState(new Date().getDate());
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [year, setYear] = useState(new Date().getFullYear());
+  const navigation = useNavigation()
   return (
     <View>
 
@@ -115,7 +123,7 @@ const ContentIssueGoods = () => {
         }}>
         Khách hàng
       </Text>
-      <View
+      <TouchableOpacity onPress={()=>setShowList(!showList)}
         cursorColor={COLORS.primary}
         style={{
           height: 40,
@@ -124,10 +132,11 @@ const ContentIssueGoods = () => {
           paddingLeft: 10,
           paddingEnd: 10,
           color: "black",
+          justifyContent:"center",
           borderWidth: 0.5,
           borderColor: COLORS.border,
         }}
-      ></View>
+      ><Text style={{fontSize:16}}>{customer}</Text></TouchableOpacity>
       <Text
         style={{
           color: "#90929E",
@@ -149,6 +158,7 @@ const ContentIssueGoods = () => {
           borderColor: COLORS.border,
         }}
       ></TextInput>
+      {showList&&<ListCustomer setCustomer={setCustomer} setShowList={setShowList}/>}
     </View>
     <Modal visible={showCalendar} transparent={true}>
         <View style={{backgroundColor:'rgba(0, 0, 0, 0.5)',flex:1}}>
@@ -166,3 +176,33 @@ const ContentIssueGoods = () => {
     
   );
 };
+const ListCustomer = (props) => {
+  const {setCustomer,setShowList} = props
+ 
+  const listSup= [
+    {
+      id:1,name:'Nguyen van A'
+    }
+    ,{
+      id:1,name:'Nguyen van b'
+    },
+    ,{
+      id:1,name:'Nguyen van c'
+    }
+  ]
+  return (
+    <ScrollView style={{position:'absolute',marginTop:270,backgroundColor:COLORS.white,right:0,left:0,margin:20,elevation:5,height:150}}>
+       {listSup.map((item,index)=>{
+      return<TouchableOpacity key={index} onPress={()=>{ setCustomer(item.name),setShowList(false)}} >
+    
+
+      <Text style={{padding:10}}>{item.name}</Text>
+    
+   </TouchableOpacity>
+    })}
+   
+    </ScrollView>
+   
+  )
+  
+}
