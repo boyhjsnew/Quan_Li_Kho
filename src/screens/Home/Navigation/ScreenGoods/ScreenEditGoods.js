@@ -14,58 +14,30 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import COLORS from "../../../../assets/colors/COLORS";
 import { TextInput } from "react-native-gesture-handler";
 import { useRoute } from "@react-navigation/native";
-export default function ScreenEditGoods({navigation}) {
-  
-   
-
-   
+import HeaderNameStore from "../../../../components/HeaderNameStore";
+export default function ScreenEditGoods({ navigation }) {
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
       <Toolbar
         iconOne="arrow-back-circle"
-        title="Edit item"
+        title="Sửa sản phẩm"
         iconThree="check"
-        itemThreeClick={()=>navigation.goBack()}
+        itemThreeClick={() => navigation.goBack()}
         clickGoBack={() => navigation.goBack()}
       />
-      <HeaderGoods />
+      <HeaderNameStore />
       <ScrollView style={{ padding: 15 }}>
         <ContentAddGoods />
-        <ButtonContentGoods navigation={navigation}/>
+        <ButtonContentGoods navigation={navigation} />
         <QuantityGoods />
       </ScrollView>
     </View>
   );
 }
-const HeaderGoods = () => (
-  <View style={styles.header}>
-    <Image
-      style={{ width: 20, height: 20, opacity: 0.7 }}
-      source={require("../../../../assets/images/store.png")}
-    ></Image>
-    <Text
-      style={{
-        paddingLeft: 15,
-        color: "white",
-        opacity: 0.7,
-      }}
-    >
-      Kho Bình Thạnh
-    </Text>
-  </View>
-);
-const styles = StyleSheet.create({
-  header: {
-    paddingBottom: 10,
-    flexDirection: "row",
-    backgroundColor: COLORS.primary,
-    paddingHorizontal: 20,
-  },
-});
 
 const ContentAddGoods = () => {
   return (
-    <View style={{}}>
+    <View>
       <Text
         style={{
           color: "#90929E",
@@ -75,10 +47,10 @@ const ContentAddGoods = () => {
           paddingTop: 10,
         }}
       >
-        Tên nhà cung cấp
+        Tên sản phẩm
       </Text>
       <TextInput
-        placeholder="Tên nhà cung cấp"
+        placeholder="Tên sản phẩm"
         cursorColor={COLORS.primary}
         style={{
           height: 40,
@@ -165,20 +137,20 @@ const ContentAddGoods = () => {
   );
 };
 const ButtonContentGoods = (props) => {
-  const{navigation,navigation2} = props
+  const { navigation, navigation2 } = props;
   const infoBtn = [
     {
       iconBtn: require("./../../../../assets/images/add.png"),
       nameBtn: "Nhận Hàng",
       clickBtn: () => {
-        return navigation.push('Receive',{navigation2:navigation2})
+        return navigation.push("Receive", { navigation2: navigation2 });
       },
     },
     {
       iconBtn: require("../../../../assets/images/minus.png"),
       nameBtn: "Xuất Hàng",
       clickBtn: () => {
-        return navigation.push('Issue')
+        return navigation.push("Issue");
       },
     },
     {

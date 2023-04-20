@@ -24,14 +24,13 @@ import { GOODS } from "../../../../data/goods";
 import Search from "../../../../components/Search";
 import HeaderNameStore from "../../../../components/HeaderNameStore";
 import { useSelector } from "react-redux";
-import ModalForGoods from "../../../../components/ModalForGoods";
-import { Dimensions } from "react-native";
 
 export default function ScreenGood({ navigation, ...props }) {
   const { fullIcon } = props;
   const [activeModal, setActiveModal] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const PRODUCTS = useSelector((state) => state.productsReducer.items);
+  const [dislayBottom, setDislayBottom] = useState(true);
 
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }} activeOpacity={1}>
@@ -49,10 +48,14 @@ export default function ScreenGood({ navigation, ...props }) {
       <QuantityGoods />
       {showSearch && <Search />}
       <MenuProvider>
-        <ItemGoods navigation={navigation} PRODUCTS={PRODUCTS} />
+        <ItemGoods
+          navigation={navigation}
+          PRODUCTS={PRODUCTS}
+          setDislayBottom={setDislayBottom}
+        />
       </MenuProvider>
 
-      <BottomTabs fullIcon={fullIcon} />
+      {dislayBottom && <BottomTabs fullIcon={fullIcon} />}
       <ModalMenu
         itemPrintExcel="print"
         itemListSetting="list-ul"
@@ -67,17 +70,15 @@ export default function ScreenGood({ navigation, ...props }) {
 }
 
 const ItemGoods = (props) => {
-  const [modalGoods, setModalGoods] = useState(false);
   const naviagtion = useNavigation();
   const { PRODUCTS } = props;
-  const {navigation} = props
-  const navigation2 = () =>{
-    return navigation.push('Suppliers')
-  }
 
-  
   return (
     <FlatList
+      onEndReachedThreshold={0}
+      showsVerticalScrollIndicator={false}
+      onScrollBeginDrag={() => props.setDislayBottom(false)}
+      onScrollEndDrag={() => props.setDislayBottom(true)}
       data={PRODUCTS}
       keyExtractor={(item) => item.id}
       renderItem={({ item, index }) => {
@@ -86,16 +87,16 @@ const ItemGoods = (props) => {
             onPress={() => {
               naviagtion.push("EditGoods");
             }}
-            style={styles.rowGoods}>
+            style={styles.rowGoods}
+          >
             <View style={styles.leftRow}>
-              {item ? (
+              {item.image[0] != "null" ? (
                 <Image
                   source={{ uri: item.image[0] }}
                   style={{
                     width: 38,
                     height: 38,
                     borderRadius: 100,
-                    backgroundColor: COLORS.secondary,
                     alignItems: "center",
                     justifyContent: "center",
                   }}
@@ -165,9 +166,9 @@ const ItemGoods = (props) => {
                 </Text>
                 <View
                   style={{
-                    width:110,
-                    justifyContent:"flex-end",
-                    
+                    width: 110,
+                    justifyContent: "flex-end",
+
                     flexDirection: "row",
                     paddingTop: 5,
                   }}
@@ -183,7 +184,6 @@ const ItemGoods = (props) => {
                 </View>
               </View>
 
-             
               <PopUpMenu />
             </View>
           </TouchableOpacity>
@@ -271,48 +271,90 @@ const BottomTabs = (props) => {
 
 const PopUpMenu = () => {
   return (
-    <Menu >
-      <MenuTrigger >
+    <Menu>
+      <MenuTrigger>
         <Ionicons name="ellipsis-vertical" size={20} color="gray"></Ionicons>
       </MenuTrigger>
-      <MenuOptions >
+      <MenuOptions>
         <MenuOption onSelect={() => alert(`Dong 278`)}>
-        <View style={{flexDirection:"row",alignItems:"center"}}>
-        <Ionicons style={{padding:10}} name="stopwatch-outline" size={20} color="#293855">
-          </Ionicons>
-          <Text style={{ color: "black", fontSize: 16, paddingVertical: 9,paddingHorizontal:8 }}>
-            Lịch sử
-          </Text>
-        </View>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Ionicons
+              style={{ padding: 10 }}
+              name="stopwatch-outline"
+              size={20}
+              color="#293855"
+            ></Ionicons>
+            <Text
+              style={{
+                color: "black",
+                fontSize: 16,
+                paddingVertical: 9,
+                paddingHorizontal: 8,
+              }}
+            >
+              Lịch sử
+            </Text>
+          </View>
         </MenuOption>
         <MenuOption onSelect={() => alert(`287`)}>
-        <View style={{flexDirection:"row",alignItems:"center"}}>
-        <Ionicons style={{padding:10}} name='alert-circle' size={20} color="#293855">
-          </Ionicons>
-          <Text style={{ color: "black", fontSize: 16, paddingVertical: 9,paddingHorizontal:8 }}>
-            Số lượng tất cả kho
-          </Text>
-        </View>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Ionicons
+              style={{ padding: 10 }}
+              name="alert-circle"
+              size={20}
+              color="#293855"
+            ></Ionicons>
+            <Text
+              style={{
+                color: "black",
+                fontSize: 16,
+                paddingVertical: 9,
+                paddingHorizontal: 8,
+              }}
+            >
+              Số lượng tất cả kho
+            </Text>
+          </View>
         </MenuOption>
         <MenuOption onSelect={() => alert(`296`)}>
-        <View style={{flexDirection:"row",alignItems:"center"}}>
-        <Ionicons style={{padding:10}} name='trash-bin' size={20} color="#293855">
-          </Ionicons>
-          <Text style={{ color: "black", fontSize: 16, paddingVertical: 9,paddingHorizontal:8 }}>
-            Xóa bỏ
-          </Text>
-        </View>
-          
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Ionicons
+              style={{ padding: 10 }}
+              name="trash-bin"
+              size={20}
+              color="#293855"
+            ></Ionicons>
+            <Text
+              style={{
+                color: "black",
+                fontSize: 16,
+                paddingVertical: 9,
+                paddingHorizontal: 8,
+              }}
+            >
+              Xóa bỏ
+            </Text>
+          </View>
         </MenuOption>
         <MenuOption onSelect={() => alert(`Share 306`)}>
-        <View style={{flexDirection:"row",alignItems:"center"}}>
-        <Ionicons style={{padding:10}} name='share-social' size={20} color="#293855">
-          </Ionicons>
-          <Text style={{ color: "black", fontSize: 16, paddingVertical: 9,paddingHorizontal:8 }}>
-            Chia sẻ
-          </Text>
-        </View>
-          
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Ionicons
+              style={{ padding: 10 }}
+              name="share-social"
+              size={20}
+              color="#293855"
+            ></Ionicons>
+            <Text
+              style={{
+                color: "black",
+                fontSize: 16,
+                paddingVertical: 9,
+                paddingHorizontal: 8,
+              }}
+            >
+              Chia sẻ
+            </Text>
+          </View>
         </MenuOption>
       </MenuOptions>
     </Menu>

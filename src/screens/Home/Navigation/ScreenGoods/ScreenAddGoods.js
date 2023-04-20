@@ -1,7 +1,5 @@
 import {
- 
   Image,
- 
   ScrollView,
   StyleSheet,
   Text,
@@ -11,16 +9,21 @@ import {
   TextInput,
   Modal,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 
 import Toolbar from "../../../../components/Toolbar";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import COLORS from "../../../../assets/colors/COLORS";
 
 import HeaderNameStore from "../../../../components/HeaderNameStore";
-
+import insertProducts from "../../../../redux/actions/actionProducts/insertProducts";
 
 export default function ScreenAddGoods({ navigation }) {
+  const [name, setName] = useState("");
+  const [barcode, setBarcode] = useState("");
+  const [description, setDescription] = useState("");
+  const [pricePurcharse, setPricePurcharse] = useState("");
+  const [priceSale, setPriceSale] = useState("");
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
       <Toolbar
@@ -28,11 +31,46 @@ export default function ScreenAddGoods({ navigation }) {
         title="Thêm Hàng Hóa"
         iconThree="check"
         clickGoBack={() => navigation.goBack()}
-        itemThreeClick={() => navigation.goBack()}
+        itemThreeClick={() => {
+          if (
+            name.trim() == "" ||
+            barcode.trim() == "" ||
+            description.trim() == "" ||
+            pricePurcharse.trim() == "" ||
+            priceSale.trim() == ""
+          ) {
+            alert("Vui lòng điền đầy đủ thông tin");
+          } else {
+            insertProducts(
+              name,
+              barcode,
+              description,
+              "nulll",
+              pricePurcharse,
+              priceSale
+            );
+            navigation.goBack();
+          }
+        }}
       />
       <HeaderNameStore />
-      <ScrollView style={{ padding: 15 }}>
-        <ContentAddGoods />
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 25 }}
+        style={{ padding: 15, flexGrow: 1 }}
+      >
+        <ContentAddGoods
+          name={name}
+          setName={setName}
+          barcode={barcode}
+          setBarcode={setBarcode}
+          description={description}
+          setDescription={setDescription}
+          pricePurcharse={pricePurcharse}
+          setPricePurcharse={setPricePurcharse}
+          priceSale={priceSale}
+          setPriceSale={setPriceSale}
+        />
         <ButtonContentGoods navigation={navigation} />
         <QuantityGoods />
       </ScrollView>
@@ -40,17 +78,21 @@ export default function ScreenAddGoods({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  header: {
-    paddingBottom: 10,
-    flexDirection: "row",
-    backgroundColor: COLORS.primary,
-    paddingHorizontal: 20,
-  },
-});
-
 const ContentAddGoods = (props) => {
-  const { naviagtion } = props;
+  const {
+    naviagtion,
+    name,
+    setName,
+    barcode,
+    setBarcode,
+    description,
+    setDescription,
+    pricePurcharse,
+    setPricePurcharse,
+    priceSale,
+    setPriceSale,
+  } = props;
+
   return (
     <View style={{}}>
       <Text
@@ -64,7 +106,10 @@ const ContentAddGoods = (props) => {
       >
         Tên sản phẩm
       </Text>
+
       <TextInput
+        value={name}
+        onChangeText={setName}
         placeholder="Tên sản phẩm"
         cursorColor={COLORS.primary}
         style={{
@@ -91,6 +136,8 @@ const ContentAddGoods = (props) => {
       </Text>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <TextInput
+          value={barcode}
+          onChangeText={setBarcode}
           placeholder="Barcode"
           cursorColor={COLORS.primary}
           style={{
@@ -135,6 +182,8 @@ const ContentAddGoods = (props) => {
         Mô tả
       </Text>
       <TextInput
+        value={description}
+        onChangeText={setDescription}
         cursorColor={COLORS.primary}
         placeholder="Mô tả"
         style={{
@@ -148,6 +197,81 @@ const ContentAddGoods = (props) => {
           borderColor: COLORS.border,
         }}
       ></TextInput>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <View style={{ flex: 1, paddingRight: 10 }}>
+          <Text
+            style={{
+              color: "#90929E",
+              fontSize: 16,
+              fontWeight: "700",
+              marginVertical: 6,
+              paddingTop: 10,
+            }}
+          >
+            Giá mua
+          </Text>
+          <TextInput
+            value={pricePurcharse}
+            onChangeText={(value) => {
+              const newPrice = value.replace(/\D/g, "");
+              const formattedPrice = Number(newPrice).toLocaleString("vi-VN");
+              setPricePurcharse(formattedPrice);
+            }}
+            cursorColor={COLORS.primary}
+            placeholder="Giá mua"
+            style={{
+              height: 40,
+              backgroundColor: "white",
+              borderRadius: 8,
+              paddingLeft: 10,
+              paddingEnd: 10,
+              color: "black",
+              borderWidth: 0.5,
+              borderColor: COLORS.border,
+            }}
+          ></TextInput>
+        </View>
+        <View style={{ flex: 1, paddingLeft: 5 }}>
+          <Text
+            style={{
+              color: "#90929E",
+              fontSize: 16,
+              fontWeight: "700",
+              marginVertical: 6,
+              paddingTop: 10,
+            }}
+          >
+            Giá bán
+          </Text>
+          <TextInput
+            value={priceSale}
+            keyboardType="numeric"
+            onChangeText={(value) => {
+              const newPrice = value.replace(/\D/g, "");
+              const formattedPrice = Number(newPrice).toLocaleString("vi-VN");
+              setPriceSale(formattedPrice);
+            }}
+            cursorColor={COLORS.primary}
+            placeholder="Giá bán"
+            style={{
+              height: 40,
+              backgroundColor: "white",
+              borderRadius: 8,
+              paddingLeft: 10,
+              paddingEnd: 10,
+              color: "black",
+              borderWidth: 0.5,
+              borderColor: COLORS.border,
+            }}
+          ></TextInput>
+        </View>
+      </View>
     </View>
   );
 };
