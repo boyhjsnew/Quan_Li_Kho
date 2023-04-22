@@ -8,6 +8,8 @@ import pickCustomerReducer from "./customerToOutgoing";
 import pickSupplierReducer from "./SupplierToIncoming";
 
 import customerForIncoming from "./customerForIncoming";
+import pickProduct from "./pickProduct";
+import documentsReducer from "./documentsReducer";
 
 let reducers = combineReducers({
   warehouseReducer: warehouseReducer,
@@ -16,6 +18,8 @@ let reducers = combineReducers({
   productsReducer: productsReducer,
   pickCustomerReducer: pickCustomerReducer,
   pickSupplierReducer: pickSupplierReducer,
+  pickProduct: pickProduct,
+  documentsReducer: documentsReducer,
 });
 const rootReducer = (state, action) => {
   return reducers(state, action);

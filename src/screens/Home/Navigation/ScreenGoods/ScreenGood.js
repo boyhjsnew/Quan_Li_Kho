@@ -24,6 +24,7 @@ import { GOODS } from "../../../../data/goods";
 import Search from "../../../../components/Search";
 import HeaderNameStore from "../../../../components/HeaderNameStore";
 import { useSelector } from "react-redux";
+import deleteProducts from "../../../../redux/actions/actionProducts/deleteProducts";
 
 export default function ScreenGood({ navigation, ...props }) {
   const { fullIcon } = props;
@@ -85,7 +86,9 @@ const ItemGoods = (props) => {
         return (
           <TouchableOpacity
             onPress={() => {
-              naviagtion.push("EditGoods");
+              naviagtion.push("EditGoods", {
+                item: item,
+              });
             }}
             style={styles.rowGoods}
           >
@@ -183,8 +186,11 @@ const ItemGoods = (props) => {
                   <Text style={{ color: "#02b5ef" }}>{item.priceSale}đ</Text>
                 </View>
               </View>
-
-              <PopUpMenu />
+              <PopUpMenu
+                deleteProducts={() => {
+                  deleteProducts(item.id);
+                }}
+              />
             </View>
           </TouchableOpacity>
         );
@@ -269,7 +275,7 @@ const BottomTabs = (props) => {
   );
 };
 
-const PopUpMenu = () => {
+const PopUpMenu = (props) => {
   return (
     <Menu>
       <MenuTrigger>
@@ -316,7 +322,7 @@ const PopUpMenu = () => {
             </Text>
           </View>
         </MenuOption>
-        <MenuOption onSelect={() => alert(`296`)}>
+        <MenuOption onSelect={props.deleteProducts}>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Ionicons
               style={{ padding: 10 }}

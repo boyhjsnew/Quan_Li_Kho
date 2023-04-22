@@ -7,41 +7,114 @@ import {
   FlatList,
   ScrollView,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Toolbar from "../../../../../components/Toolbar";
 import COLORS from "../../../../../assets/colors/COLORS";
 import ModalCalendar from "../../../../../components/Calendar";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import insertProductsObject from "../../../../../redux/actions/actionProducts/insertProductObject";
+import transactionInStock from "../../../../../redux/actions/actionProducts/transactionInStock";
 
 export default function ScreenReceiveGoods({ navigation }) {
   const route = useRoute();
+  const [showCalendar, setShowCalendar] = useState(false);
+  const navigationSub = useNavigation();
+  const [showList, setShowList] = useState(false);
+  const [supplier, setSuppliers] = useState([]);
+  const [quantity, setQuantity] = useState();
+  const [notes, setNotes] = useState("");
+  const typeDocument = "instock";
+  // store pick
+  const listStore = useSelector((state) => state.warehouseReducer.items);
+  // item product from redux
+  const itemProduct = useSelector((state) => state.pickProduct.items);
+  const [day, setDay] = useState(new Date().getDate());
+  const [month, setMonth] = useState(new Date().getMonth() + 1);
+  const [year, setYear] = useState(new Date().getFullYear());
+  const [document, setDocument] = useState({
+    item: "",
+  });
 
+  // idStore
+  const idStorePick = listStore.map((item) => {
+    var id = "";
+    if (item.isPicked == false) {
+      id = item.id;
+    }
+    return id;
+  });
+  // CALENDER
+  useEffect(() => {
+    const dataDocuments = {
+      QuaInStock: Number(quantity),
+      createAt: `${day}/${month}/${year}`,
+      id: 2,
+      idCustomer: "null",
+      idStore: idStorePick.join(""),
+      idSupplier: supplier.id,
+      notes: notes,
+      typeDocument: typeDocument,
+    };
+    setDocument({ ...document, item: dataDocuments });
+  }, [quantity, day, month, year, supplier, notes]);
+  useEffect(() => {
+    console.log(document);
+  }, [document]);
   return (
     <View>
       <Toolbar
         iconOne="arrow-back-circle"
         title="Nhập Hàng"
         iconThree="check"
-        itemThreeClick={() => navigation.goBack()}
+        itemThreeClick={() => {
+          transactionInStock(itemProduct, document.item);
+          navigation.goBack();
+        }}
         clickGoBack={() => navigation.goBack()}
       />
-      <ContentReceiveGoods />
+      <ContentReceiveGoods
+        showCalendar={showCalendar}
+        showList={showList}
+        supplier={supplier}
+        quantity={quantity}
+        notes={notes}
+        day={day}
+        month={month}
+        year={year}
+        setShowCalendar={setShowCalendar}
+        setShowList={setShowList}
+        setSuppliers={setSuppliers}
+        setQuantity={setQuantity}
+        setNotes={setNotes}
+        setDay={setDay}
+        setMonth={setMonth}
+        setYear={setYear}
+      />
     </View>
   );
 }
 const ContentReceiveGoods = (props) => {
-  const [showCalendar, setShowCalendar] = useState(false);
+  const {
+    showList,
+    supplier,
+    quantity,
+    notes,
+    day,
+    month,
+    year,
+    showCalendar,
+    setShowCalendar,
+    setShowList,
+    setSuppliers,
+    setQuantity,
+    setNotes,
+    setDay,
+    setMonth,
+    setYear,
+  } = props;
 
-  const navigationSub = useNavigation();
-  const [showList, setShowList] = useState(false);
-  const [supplier, setSuppliers] = useState("");
-  // CALENDER
-
-  const [day, setDay] = useState(new Date().getDate());
-  const [month, setMonth] = useState(new Date().getMonth() + 1);
-  const [year, setYear] = useState(new Date().getFullYear());
   return (
     <View>
       <View style={{ padding: 10 }}>
@@ -57,6 +130,9 @@ const ContentReceiveGoods = (props) => {
           Số Lượng
         </Text>
         <TextInput
+          value={quantity}
+          onChangeText={setQuantity}
+          keyboardType="numeric"
           cursorColor={COLORS.primary}
           style={{
             height: 40,
@@ -80,7 +156,6 @@ const ContentReceiveGoods = (props) => {
         >
           Ngày nhập
         </Text>
-
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <TouchableOpacity
             onPress={() => {
@@ -135,7 +210,7 @@ const ContentReceiveGoods = (props) => {
             justifyContent: "space-between",
           }}
         >
-          <Text style={{ fontSize: 16 }}>{supplier}</Text>
+          <Text style={{ fontSize: 16 }}>{supplier.name}</Text>
           {!showList ? (
             <FontAwesome
               name="angle-down"
@@ -161,8 +236,7 @@ const ContentReceiveGoods = (props) => {
         >
           Bình luận
         </Text>
-        <TextInput
-          cursorColor={COLORS.primary}
+        <View
           style={{
             height: 80,
             backgroundColor: "white",
@@ -173,9 +247,18 @@ const ContentReceiveGoods = (props) => {
             borderWidth: 0.5,
             borderColor: COLORS.border,
           }}
-        ></TextInput>
+        >
+          <TextInput
+            style={{ paddingTop: 5 }}
+            value={notes}
+            onChangeText={setNotes}
+            cursorColor={COLORS.primary}
+          ></TextInput>
+        </View>
+
         {showList && (
           <ListSuppliers
+            supplier={supplier}
             setSuppliers={setSuppliers}
             setShowList={setShowList}
           />
@@ -208,8 +291,7 @@ const ContentReceiveGoods = (props) => {
   );
 };
 const ListSuppliers = (props) => {
-  const { setSuppliers, setShowList } = props;
-
+  const { setSuppliers, setShowList, supplier } = props;
   const listSup = useSelector((state) => state.supplierReducer.items);
 
   return (
@@ -233,7 +315,8 @@ const ListSuppliers = (props) => {
             style={{ borderBottomWidth: 1, borderColor: COLORS.bg }}
             key={index}
             onPress={() => {
-              setSuppliers(item.name), setShowList(false);
+              const newSup = { id: item.id, name: item.name };
+              setSuppliers(newSup), setShowList(false);
             }}
           >
             <Text

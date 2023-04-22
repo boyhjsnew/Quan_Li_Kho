@@ -13,6 +13,7 @@ import { fetchSuppliers } from "../../redux/actions/actionSuppliers/getSuppliers
 import { fetchCustomers } from "../../redux/actions/actionCustomers/getCustomers";
 import { fetchProducts } from "../../redux/actions/actionProducts/getProducts";
 import insertProducts from "../../redux/actions/actionProducts/insertProducts";
+import { fetchDocuments } from "../../redux/actions/actionDocuments.js/getDocuments";
 
 export default function Home() {
   const navigation = useNavigation();
@@ -30,19 +31,9 @@ export default function Home() {
   useEffect(() => {
     fetchProducts(dispatch);
   }, [dispatch]);
-
-  // useEffect(() => {
-  //   insertProducts(
-  //     "Pepsi",
-  //     "12344554",
-  //     "San pham but bi 2",
-  //     [
-  //       "https://fujimart.vn/image/cache/catalog/%C4%90%E1%BB%93%20u%E1%BB%91ng/nuoc%20cocacola%20sleel%20320ml-502x502.png",
-  //     ],
-  //     "0",
-  //     "0"
-  //   );
-  // }, [dispatch]);
+  useEffect(() => {
+    fetchDocuments(dispatch);
+  }, [dispatch]);
 
   return (
     <View>

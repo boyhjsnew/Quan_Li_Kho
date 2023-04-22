@@ -17,6 +17,9 @@ import COLORS from "../../../../assets/colors/COLORS";
 
 import HeaderNameStore from "../../../../components/HeaderNameStore";
 import insertProducts from "../../../../redux/actions/actionProducts/insertProducts";
+import * as ImagePicker from "react-native-image-picker";
+import firebase from "firebase/compat";
+import { useDispatch } from "react-redux";
 
 export default function ScreenAddGoods({ navigation }) {
   const [name, setName] = useState("");
@@ -24,6 +27,7 @@ export default function ScreenAddGoods({ navigation }) {
   const [description, setDescription] = useState("");
   const [pricePurcharse, setPricePurcharse] = useState("");
   const [priceSale, setPriceSale] = useState("");
+  const dispatch = useDispatch();
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
       <Toolbar
@@ -71,7 +75,19 @@ export default function ScreenAddGoods({ navigation }) {
           priceSale={priceSale}
           setPriceSale={setPriceSale}
         />
-        <ButtonContentGoods navigation={navigation} />
+        <ButtonContentGoods
+          navigation={navigation}
+          name={name}
+          setName={setName}
+          barcode={barcode}
+          setBarcode={setBarcode}
+          description={description}
+          setDescription={setDescription}
+          pricePurcharse={pricePurcharse}
+          setPricePurcharse={setPricePurcharse}
+          priceSale={priceSale}
+          setPriceSale={setPriceSale}
+        />
         <QuantityGoods />
       </ScrollView>
     </View>
@@ -277,11 +293,35 @@ const ContentAddGoods = (props) => {
 };
 const ButtonContentGoods = (props) => {
   const { navigation } = props;
+  const {
+    name,
+    setName,
+    barcode,
+    setBarcode,
+    description,
+    setDescription,
+    pricePurcharse,
+    setPricePurcharse,
+    priceSale,
+    setPriceSale,
+  } = props;
+  const dispatch = useDispatch();
   const infoBtn = [
     {
       iconBtn: require("./../../../../assets/images/add.png"),
       nameBtn: "Nhận Hàng",
       clickBtn: () => {
+        dispatch({
+          type: "INSERT_PRODUCT",
+          payload: {
+            name,
+            barcode,
+            description,
+            pricePurcharse,
+            priceSale,
+            image: ["null", "null"],
+          },
+        });
         navigation.navigate("Receive");
       },
     },

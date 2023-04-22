@@ -30,7 +30,7 @@ export default function ScreenDocuments() {
       <HeaderNameStore />
       <QuantityDocuments />
       <ListDocuments />
-      <ListDocuments />
+
       <FloatingButton navigation={navigation} />
     </View>
   );

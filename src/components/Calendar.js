@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Calendar } from "react-native-calendars";
 
 import COLORS from "../assets/colors/COLORS";
-import { Modal } from 'react-native-modal'
+import { Modal } from "react-native-modal";
 export default function ModalCalendar(props) {
   const [timeStamp, setTimeStamp] = useState(new Date().getDay());
   const [day, setDay] = useState(new Date().getDate());
@@ -23,11 +23,11 @@ export default function ModalCalendar(props) {
         style={{
           width: "100%",
           height: 90,
-          backgroundColor: COLORS.primary,
+          backgroundColor: "#3A459C",
           paddingLeft: 30,
           justifyContent: "center",
-          borderTopRightRadius: 30,
-          borderTopLeftRadius: 30,
+          borderTopRightRadius: 20,
+          borderTopLeftRadius: 20,
         }}
       >
         <Text style={{ color: "#ffffff", fontWeight: "700", fontSize: 17 }}>
@@ -51,10 +51,10 @@ export default function ModalCalendar(props) {
           backgroundColor: "#ffffff",
           calendarBackground: "#ffffff",
           textSectionTitleColor: "#b6c1cd",
-          selectedDayBackgroundColor: COLORS.secondary,
+          selectedDayBackgroundColor: "#3A459C",
           selectedDayTextColor: "#ffffff",
-          todayTextColor: COLORS.primary,
-          arrowColor: COLORS.primary,
+          todayTextColor: "#3A459C",
+          arrowColor: "#3A459C",
         }}
         markedDates={{
           [selectedDate]: {
@@ -93,11 +93,7 @@ export default function ModalCalendar(props) {
           }}
         >
           <TouchableOpacity onPress={() => setShowCalendar(false)}>
-            <Text
-              style={{ fontSize: 18, paddingHorizontal: 10,  }}
-            >
-              Hủy
-            </Text>
+            <Text style={{ fontSize: 18, paddingHorizontal: 10 }}>Hủy</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
@@ -107,11 +103,7 @@ export default function ModalCalendar(props) {
                 setShowCalendar(false);
             }}
           >
-            <Text
-              style={{ fontSize: 18, paddingHorizontal: 10, }}
-            >
-              Xong
-            </Text>
+            <Text style={{ fontSize: 18, paddingHorizontal: 10 }}>Xong</Text>
           </TouchableOpacity>
         </View>
       </View>

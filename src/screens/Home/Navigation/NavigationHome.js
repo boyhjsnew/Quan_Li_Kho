@@ -21,8 +21,6 @@ import { useEffect } from "react";
 export default NavigationHome = () => {
   const Stack = createNativeStackNavigator();
   const store = configureStore();
-  
-  
 
   return (
     <ReduxProvider store={store}>

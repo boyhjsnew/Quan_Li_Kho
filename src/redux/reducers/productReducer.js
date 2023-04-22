@@ -8,9 +8,6 @@ let productsReducer = (state = initialState, action) => {
       state.items = action.payload;
     }
 
-    // case "INSERT_SUPPLIERS": {
-    //   state.items = [...state.items, action.payload];
-    // }
     case "DELETE_PRODUCTS": {
       let newState = { ...state };
       newState.items = newState.items.filter(
