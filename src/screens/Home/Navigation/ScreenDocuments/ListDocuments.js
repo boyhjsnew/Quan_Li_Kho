@@ -11,7 +11,6 @@ export default function ListDocuments() {
     const supplier = listSup.find((supplier) => supplier.id === idSupplier);
     return supplier ? supplier.name : "";
   };
-
   return (
     <View>
       {listDocument && (
@@ -35,7 +34,7 @@ export default function ListDocuments() {
                       }}
                     ></View>
                     <Text style={{ fontWeight: "600", paddingHorizontal: 5 }}>
-                      Đơn Xuất No.{item.id}
+                      {`Đơn Xuất No.(${item.id})`}
                     </Text>
                   </View>
                   {/* infoTop 2 */}

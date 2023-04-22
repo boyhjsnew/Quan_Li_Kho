@@ -6,16 +6,66 @@ import {
   TextInput,
   Modal,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Toolbar from "../../../../../components/Toolbar";
 import COLORS from "../../../../../assets/colors/COLORS";
 
 import ModalCalendar from "../../../../../components/Calendar";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useSelector } from "react-redux";
+import formatIDDocuments from "../../../../../utils/formatId";
 
 export default function ScreenIssueGoods({ navigation }) {
+  const route = useRoute();
+  const [showCalendar, setShowCalendar] = useState(false);
+  const navigationSub = useNavigation();
+  const [showList, setShowList] = useState(false);
+  const [customer, setCustomer] = useState([]);
+  const [quantity, setQuantity] = useState();
+  const [notes, setNotes] = useState("");
+  const typeDocument = "instock";
+  // store pick
+  const listStore = useSelector((state) => state.warehouseReducer.items);
+  // item product from redux
+  const itemProduct = useSelector((state) => state.pickProduct.items);
+  const [day, setDay] = useState(new Date().getDate());
+  const [month, setMonth] = useState(new Date().getMonth() + 1);
+  const [year, setYear] = useState(new Date().getFullYear());
+  const [document, setDocument] = useState({
+    item: "",
+  });
+  const listDocument = useSelector((state) => state.documentsReducer.items);
+
+  // idStore
+  const idStorePick = listStore.map((item) => {
+    var id = "";
+    if (item.isPicked == false) {
+      id = item.id;
+    }
+    return id;
+  });
+  const instockItems = listDocument.filter(
+    (item) => item.typeDocument == "outstock"
+  );
+
+  console.log("sdhgsdhsgdsd", instockItems);
+
+  useEffect(() => {
+    const dataDocuments = {
+      QuaOutStock: Number(quantity),
+      createAt: `${day}/${month}/${year}`,
+      idCustomer: "null",
+      idStore: idStorePick.join(""),
+      idCustomer: customer.id,
+      notes: notes,
+      id: formatIDDocuments(instockItems.length + 1),
+      typeDocument: "outstock",
+      paid: 1,
+    };
+    console.log(dataDocuments);
+    setDocument({ ...document, item: dataDocuments });
+  }, [quantity, day, month, year, customer, notes]);
   return (
     <View>
       <Toolbar
@@ -25,20 +75,46 @@ export default function ScreenIssueGoods({ navigation }) {
         itemThreeClick={() => navigation.goBack()}
         clickGoBack={() => navigation.goBack()}
       />
-      <ContentIssueGoods />
+      <ContentIssueGoods
+        showCalendar={showCalendar}
+        showList={showList}
+        customer={customer}
+        quantity={quantity}
+        notes={notes}
+        day={day}
+        month={month}
+        year={year}
+        setShowCalendar={setShowCalendar}
+        setShowList={setShowList}
+        setCustomer={setCustomer}
+        setQuantity={setQuantity}
+        setNotes={setNotes}
+        setDay={setDay}
+        setMonth={setMonth}
+        setYear={setYear}
+      />
     </View>
   );
 }
-const ContentIssueGoods = () => {
-  const [showList, setShowList] = useState(false);
-  const [customer, setCustomer] = useState("");
-  const [showCalendar, setShowCalendar] = useState(false);
-
-  // CALENDER
-
-  const [day, setDay] = useState(new Date().getDate());
-  const [month, setMonth] = useState(new Date().getMonth() + 1);
-  const [year, setYear] = useState(new Date().getFullYear());
+const ContentIssueGoods = (props) => {
+  const {
+    showList,
+    customer,
+    quantity,
+    notes,
+    day,
+    month,
+    year,
+    showCalendar,
+    setShowCalendar,
+    setShowList,
+    setCustomer,
+    setQuantity,
+    setNotes,
+    setDay,
+    setMonth,
+    setYear,
+  } = props;
 
   return (
     <View>
@@ -55,6 +131,8 @@ const ContentIssueGoods = () => {
           Số Lượng
         </Text>
         <TextInput
+          value={quantity}
+          onChangeText={setQuantity}
           cursorColor={COLORS.primary}
           style={{
             height: 40,
@@ -134,7 +212,7 @@ const ContentIssueGoods = () => {
             justifyContent: "space-between",
           }}
         >
-          <Text style={{ fontSize: 16 }}>{customer}</Text>
+          <Text style={{ fontSize: 16 }}>{customer.name}</Text>
           {!showList ? (
             <FontAwesome
               name="angle-down"
@@ -160,8 +238,7 @@ const ContentIssueGoods = () => {
         >
           Bình luận
         </Text>
-        <TextInput
-          cursorColor={COLORS.primary}
+        <View
           style={{
             height: 80,
             backgroundColor: "white",
@@ -172,7 +249,15 @@ const ContentIssueGoods = () => {
             borderWidth: 0.5,
             borderColor: COLORS.border,
           }}
-        ></TextInput>
+        >
+          <TextInput
+            value={notes}
+            onChangeText={setNotes}
+            style={{ paddingTop: 5 }}
+            cursorColor={COLORS.primary}
+          ></TextInput>
+        </View>
+
         {showList && (
           <ListCustomer setCustomer={setCustomer} setShowList={setShowList} />
         )}
@@ -228,7 +313,7 @@ const ListCustomer = (props) => {
             style={{ borderBottomWidth: 1, borderColor: COLORS.bg }}
             key={index}
             onPress={() => {
-              setCustomer(item.name), setShowList(false);
+              setCustomer(item), setShowList(false);
             }}
           >
             <Text

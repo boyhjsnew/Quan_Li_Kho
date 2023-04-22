@@ -6,6 +6,7 @@ import COLORS from "../../../../assets/colors/COLORS";
 import { TextInput } from "react-native-gesture-handler";
 import HeaderNameStore from "../../../../components/HeaderNameStore";
 import updateProducts from "../../../../redux/actions/actionProducts/updateProducts";
+import { useDispatch } from "react-redux";
 export default function ScreenEditGoods({ navigation, route }) {
   const { item } = route.params;
   const id = item.id;
@@ -52,7 +53,15 @@ export default function ScreenEditGoods({ navigation, route }) {
           priceSale={priceSale}
           setPriceSale={setPriceSale}
         />
-        <ButtonContentGoods navigation={navigation} />
+        <ButtonContentGoods
+          navigation={navigation}
+          id={id}
+          name={name}
+          barcode={barcode}
+          description={description}
+          pricePurcharse={pricePurcharse}
+          priceSale={priceSale}
+        />
         <QuantityGoods />
       </ScrollView>
     </View>
@@ -242,13 +251,27 @@ const ContentAddGoods = (props) => {
   );
 };
 const ButtonContentGoods = (props) => {
+  const { name, barcode, description, pricePurcharse, priceSale, id } = props;
+
+  const dispatch = useDispatch();
   const { navigation, navigation2 } = props;
   const infoBtn = [
     {
       iconBtn: require("./../../../../assets/images/add.png"),
       nameBtn: "Nhận Hàng",
       clickBtn: () => {
-        return navigation.push("Receive", { navigation2: navigation2 });
+        dispatch({
+          type: "INSERT_PRODUCT",
+          payload: {
+            name,
+            barcode,
+            description,
+            pricePurcharse,
+            priceSale,
+            image: ["null", "null"],
+          },
+        });
+        navigation.push("Receive", { idProduct: id });
       },
     },
     {

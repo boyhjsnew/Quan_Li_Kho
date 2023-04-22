@@ -1,6 +1,6 @@
 import { firebase } from "../../../firebase/firebase";
 
-const data = firebase.firestore().collection("Documents");
+const data = firebase.firestore().collection("Documents").orderBy("id");
 export const fetchDocuments = (dispatch) => {
   data.onSnapshot((snapshot) => {
     const items = [];

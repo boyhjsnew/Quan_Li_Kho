@@ -16,9 +16,12 @@ import { useSelector } from "react-redux";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import insertProductsObject from "../../../../../redux/actions/actionProducts/insertProductObject";
 import transactionInStock from "../../../../../redux/actions/actionProducts/transactionInStock";
+import formatIDDocuments from "../../../../../utils/formatId";
+import insertDocuments_editPoducts from "../../../../../redux/actions/actionDocuments.js/insertDocuments_editPoducts";
 
 export default function ScreenReceiveGoods({ navigation }) {
   const route = useRoute();
+  const idProduct = route.params && route.params.idProduct;
   const [showCalendar, setShowCalendar] = useState(false);
   const navigationSub = useNavigation();
   const [showList, setShowList] = useState(false);
@@ -30,38 +33,61 @@ export default function ScreenReceiveGoods({ navigation }) {
   const listStore = useSelector((state) => state.warehouseReducer.items);
   // item product from redux
   const itemProduct = useSelector((state) => state.pickProduct.items);
+
   const [day, setDay] = useState(new Date().getDate());
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [year, setYear] = useState(new Date().getFullYear());
   const [document, setDocument] = useState({
     item: "",
   });
+  const listDocument = useSelector((state) => state.documentsReducer.items);
+  const instockItems = listDocument.filter(
+    (item) => item.typeDocument == "instock"
+  );
 
   // idStore
   const idStorePick = listStore.map((item) => {
     var id = "";
-    if (item.isPicked == false) {
+    if (item.isPicked == true) {
       id = item.id;
     }
     return id;
   });
+
   // CALENDER
   useEffect(() => {
-    const dataDocuments = {
-      QuaInStock: Number(quantity),
-      createAt: `${day}/${month}/${year}`,
-      id: 2,
-      idCustomer: "null",
-      idStore: idStorePick.join(""),
-      idSupplier: supplier.id,
-      notes: notes,
-      typeDocument: typeDocument,
-    };
-    setDocument({ ...document, item: dataDocuments });
+    if (typeof idProduct == "undefined") {
+      const dataDocuments = {
+        QuaInStock: Number(quantity),
+        createAt: `${day}/${month}/${year}`,
+        idCustomer: "null",
+        idStore: idStorePick.join(""),
+        idSupplier: supplier.id,
+        notes: notes,
+        id: formatIDDocuments(instockItems.length + 1),
+        typeDocument: typeDocument,
+        paid: 1,
+      };
+      console.log(dataDocuments);
+      setDocument({ ...document, item: dataDocuments });
+    } else {
+      const dataDocumentWithID = {
+        QuaInStock: Number(quantity),
+        createAt: `${day}/${month}/${year}`,
+        idCustomer: "null",
+        idStore: idStorePick.join(""),
+        idSupplier: supplier.id,
+        notes: notes,
+        productId: idProduct,
+        id: formatIDDocuments(instockItems.length + 1),
+        typeDocument: typeDocument,
+        paid: 1,
+      };
+      console.log(dataDocumentWithID);
+      setDocument({ ...document, item: dataDocumentWithID });
+    }
   }, [quantity, day, month, year, supplier, notes]);
-  useEffect(() => {
-    console.log(document);
-  }, [document]);
+
   return (
     <View>
       <Toolbar
@@ -69,8 +95,13 @@ export default function ScreenReceiveGoods({ navigation }) {
         title="Nhập Hàng"
         iconThree="check"
         itemThreeClick={() => {
-          transactionInStock(itemProduct, document.item);
-          navigation.goBack();
+          if (typeof idProduct == "undefined") {
+            transactionInStock(itemProduct, document.item);
+            navigation.goBack();
+          } else {
+            insertDocuments_editPoducts(idProduct, itemProduct, document.item);
+            navigation.goBack();
+          }
         }}
         clickGoBack={() => navigation.goBack()}
       />

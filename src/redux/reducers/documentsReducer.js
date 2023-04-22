@@ -1,7 +1,6 @@
 let initialState = {
   items: [],
 };
-
 let documentsReducer = (state = initialState, action) => {
   switch (action.type) {
     case "GET_DOCUMENTS": {
@@ -13,7 +12,6 @@ let documentsReducer = (state = initialState, action) => {
       console.log(state.items);
       return state;
     }
-
     // case "INSERT_SUPPLIERS": {
     //   state.items = [...state.items, action.payload];
     // }
