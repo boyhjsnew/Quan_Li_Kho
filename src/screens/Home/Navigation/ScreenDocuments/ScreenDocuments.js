@@ -11,6 +11,7 @@ import ListDocuments from "./ListDocuments";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import SearchDocument from "../../../../components/SearchDocument";
 import HeaderNameStore from "../../../../components/HeaderNameStore";
+import { useSelector } from "react-redux";
 
 export default function ScreenDocuments() {
   const navigation = useNavigation();
@@ -37,10 +38,15 @@ export default function ScreenDocuments() {
 }
 
 const QuantityDocuments = () => {
+  const quantityDocuments = useSelector(
+    (state) => state.documentsReducer.items.length
+  );
   return (
     <View style={{ backgroundColor: COLORS.secondary, padding: 10 }}>
       <View>
-        <Text style={styles.txtQuanity}>SL TÀI LIỆU: 11</Text>
+        <Text style={styles.txtQuanity}>
+          Tổng giao dịch: {quantityDocuments}
+        </Text>
       </View>
       <View style={styles.viewAll}>
         <Text style={styles.txtShowAll}>ALL</Text>
