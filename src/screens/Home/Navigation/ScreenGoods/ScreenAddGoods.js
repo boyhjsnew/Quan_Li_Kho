@@ -9,7 +9,7 @@ import {
   TextInput,
   Modal,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Toolbar from "../../../../components/Toolbar";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -322,7 +322,9 @@ const ButtonContentGoods = (props) => {
             image: ["null", "null"],
           },
         });
-        navigation.navigate("Receive");
+        if (name.trim() == "" || pricePurcharse == "" || priceSale == "") {
+          alert("Vui lòng nhập đầy đủ thông tin");
+        }
       },
     },
     {

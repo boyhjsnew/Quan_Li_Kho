@@ -7,6 +7,7 @@ export const fetchDocuments = (dispatch) => {
     snapshot.forEach((doc) => {
       items.push({
         QuaInStock: doc.data().QuaInStock,
+        QuaOutStock: doc.data().QuaOutStock,
         createAt: doc.data().createAt,
         idDoc: doc.id,
         id: doc.data().id,
@@ -16,6 +17,7 @@ export const fetchDocuments = (dispatch) => {
         productId: doc.data().productId,
         idSupplier: doc.data().idSupplier,
         typeDocument: doc.data().typeDocument,
+        paid: doc.data().paid,
       });
     });
     dispatch({ type: "GET_DOCUMENTS", payload: items });

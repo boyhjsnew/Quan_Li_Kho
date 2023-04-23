@@ -54,6 +54,12 @@ export default function ScreenReceiveGoods({ navigation }) {
     return id;
   });
 
+  const [IDINSTOCK, setIDINSTOCK] = useState(
+    instockItems.length > 0
+      ? Number(instockItems[instockItems.length - 1].id)
+      : 0
+  );
+
   // CALENDER
   useEffect(() => {
     if (typeof idProduct == "undefined") {
@@ -64,11 +70,11 @@ export default function ScreenReceiveGoods({ navigation }) {
         idStore: idStorePick.join(""),
         idSupplier: supplier.id,
         notes: notes,
-        id: formatIDDocuments(instockItems.length + 1),
+        id: formatIDDocuments(IDINSTOCK + 1),
         typeDocument: typeDocument,
         paid: 1,
       };
-      console.log(dataDocuments);
+      // console.log(dataDocuments);
       setDocument({ ...document, item: dataDocuments });
     } else {
       const dataDocumentWithID = {
@@ -79,11 +85,11 @@ export default function ScreenReceiveGoods({ navigation }) {
         idSupplier: supplier.id,
         notes: notes,
         productId: idProduct,
-        id: formatIDDocuments(instockItems.length + 1),
+        id: formatIDDocuments(IDINSTOCK + 1),
         typeDocument: typeDocument,
         paid: 1,
       };
-      console.log(dataDocumentWithID);
+      // console.log(dataDocumentWithID);
       setDocument({ ...document, item: dataDocumentWithID });
     }
   }, [quantity, day, month, year, supplier, notes]);

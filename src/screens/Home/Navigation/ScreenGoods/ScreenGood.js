@@ -25,6 +25,7 @@ import Search from "../../../../components/Search";
 import HeaderNameStore from "../../../../components/HeaderNameStore";
 import { useSelector } from "react-redux";
 import deleteProducts from "../../../../redux/actions/actionProducts/deleteProducts";
+import formatCurrency from "../../../../utils/formatCurrency";
 
 export default function ScreenGood({ navigation, ...props }) {
   const { fullIcon } = props;
@@ -46,7 +47,7 @@ export default function ScreenGood({ navigation, ...props }) {
         itemThreeClick={() => setActiveModal(!activeModal)}
       />
       <HeaderNameStore />
-      <QuantityGoods />
+      <QuantityGoods PRODUCTS={PRODUCTS} />
       {showSearch && <Search />}
       <MenuProvider>
         <ItemGoods
@@ -198,21 +199,33 @@ const ItemGoods = (props) => {
     ></FlatList>
   );
 };
-const QuantityGoods = () => (
-  <View style={styles.quantityGood}>
-    <Text style={styles.textQty}>
-      SL:{" "}
-      {GOODS.reduce((total, curr) => {
-        return total + curr.quantity;
-      }, 0)}
-    </Text>
-    <Text style={styles.textQty}>
-      Tổng tiền:
-      {GOODS.reduce((total, curren) => total + curren.purchasePrice, 0)}đ/
-      {GOODS.reduce((total, curren) => total + curren.salePrice, 0)}đ{" "}
-    </Text>
-  </View>
-);
+const QuantityGoods = (props) => {
+  const PRODUCTS = props.PRODUCTS;
+
+  PRODUCTS.map((item) => {
+    console.log(Math.floor(item.priceSale));
+  });
+  // const totalPricePurcharse = PRODUCTS.reduce(
+  //   (total, curren) => total + Number(curren.pricePurcharse),
+  //   0
+  // );
+
+  // const totalPriceSale = PRODUCTS.reduce(
+  //   (total, curren) => total + Number(curren.priceSale),
+  //   0
+  // );
+  return (
+    <View style={styles.quantityGood}>
+      <Text style={styles.textQty}>SL: 246</Text>
+      <Text style={styles.textQty}>
+        Tổng tiền:
+        {}
+        đ/
+        {}đ{" "}
+      </Text>
+    </View>
+  );
+};
 const BottomTabs = (props) => {
   const { fullIcon } = props;
 

@@ -278,7 +278,18 @@ const ButtonContentGoods = (props) => {
       iconBtn: require("../../../../assets/images/minus.png"),
       nameBtn: "Xuất Hàng",
       clickBtn: () => {
-        return navigation.push("Issue");
+        dispatch({
+          type: "INSERT_PRODUCT",
+          payload: {
+            name,
+            barcode,
+            description,
+            pricePurcharse,
+            priceSale,
+            image: ["null", "null"],
+          },
+        });
+        return navigation.push("Issue", { idProduct: id });
       },
     },
     {

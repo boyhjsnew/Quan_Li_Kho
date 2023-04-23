@@ -15,6 +15,8 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useSelector } from "react-redux";
 import formatIDDocuments from "../../../../../utils/formatId";
+import transactionInStock from "../../../../../redux/actions/actionProducts/transactionInStock";
+import insertDocuments_editPoducts from "../../../../../redux/actions/actionDocuments.js/insertDocuments_editPoducts";
 
 export default function ScreenIssueGoods({ navigation }) {
   const route = useRoute();
@@ -24,11 +26,12 @@ export default function ScreenIssueGoods({ navigation }) {
   const [customer, setCustomer] = useState([]);
   const [quantity, setQuantity] = useState();
   const [notes, setNotes] = useState("");
-  const typeDocument = "instock";
+  const typeDocument = "outstock";
   // store pick
   const listStore = useSelector((state) => state.warehouseReducer.items);
   // item product from redux
   const itemProduct = useSelector((state) => state.pickProduct.items);
+  const idProduct = route.params && route.params.idProduct;
   const [day, setDay] = useState(new Date().getDate());
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [year, setYear] = useState(new Date().getFullYear());
@@ -45,26 +48,46 @@ export default function ScreenIssueGoods({ navigation }) {
     }
     return id;
   });
-  const instockItems = listDocument.filter(
+  const outstockItems = listDocument.filter(
     (item) => item.typeDocument == "outstock"
   );
-
-  console.log("sdhgsdhsgdsd", instockItems);
+  const [IDOUTSTOCK, setIDOUTSTOCK] = useState(
+    outstockItems.length > 0
+      ? Number(outstockItems[outstockItems.length - 1].id)
+      : 0
+  );
 
   useEffect(() => {
-    const dataDocuments = {
-      QuaOutStock: Number(quantity),
-      createAt: `${day}/${month}/${year}`,
-      idCustomer: "null",
-      idStore: idStorePick.join(""),
-      idCustomer: customer.id,
-      notes: notes,
-      id: formatIDDocuments(instockItems.length + 1),
-      typeDocument: "outstock",
-      paid: 1,
-    };
-    console.log(dataDocuments);
-    setDocument({ ...document, item: dataDocuments });
+    if (typeof idProduct == "undefined") {
+      const dataDocuments = {
+        QuaOutStock: Number(quantity),
+        createAt: `${day}/${month}/${year}`,
+        idCustomer: customer.id,
+        idStore: idStorePick.join(""),
+        idSupplier: "null",
+        notes: notes,
+        id: formatIDDocuments(IDOUTSTOCK + 1),
+        typeDocument: typeDocument,
+        paid: 1,
+      };
+      console.log(dataDocuments);
+      setDocument({ ...document, item: dataDocuments });
+    } else {
+      const dataDocumentWithID = {
+        QuaOutStock: Number(quantity),
+        createAt: `${day}/${month}/${year}`,
+        idCustomer: customer.id,
+        idStore: idStorePick.join(""),
+        idSupplier: "null",
+        notes: notes,
+        productId: idProduct,
+        id: formatIDDocuments(IDOUTSTOCK + 1),
+        typeDocument: typeDocument,
+        paid: 1,
+      };
+      console.log(dataDocumentWithID);
+      setDocument({ ...document, item: dataDocumentWithID });
+    }
   }, [quantity, day, month, year, customer, notes]);
   return (
     <View>
@@ -72,7 +95,10 @@ export default function ScreenIssueGoods({ navigation }) {
         iconOne="arrow-back-circle"
         title="Xuất hàng"
         iconThree="check"
-        itemThreeClick={() => navigation.goBack()}
+        itemThreeClick={() => {
+          insertDocuments_editPoducts(idProduct, itemProduct, document.item);
+          navigation.goBack();
+        }}
         clickGoBack={() => navigation.goBack()}
       />
       <ContentIssueGoods

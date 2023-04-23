@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 import React from "react";
 import { FlatList } from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
@@ -6,15 +13,21 @@ import { useSelector } from "react-redux";
 export default function ListDocuments() {
   const listDocument = useSelector((state) => state.documentsReducer.items);
   const listSup = useSelector((state) => state.supplierReducer.items);
+  const listCus = useSelector((state) => state.customersReducer.items);
   // Hàm lấy tên nhà cung cấp từ idSupplier
   const getSupplierName = (idSupplier) => {
     const supplier = listSup.find((supplier) => supplier.id === idSupplier);
     return supplier ? supplier.name : "";
   };
+  const getCustomerName = (idCustomer) => {
+    const customer = listCus.find((customer) => customer.id === idCustomer);
+    return customer ? customer.name : "";
+  };
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       {listDocument && (
         <FlatList
+          showsVerticalScrollIndicator={false}
           keyExtractor={(item) => item.idDoc}
           data={listDocument}
           renderItem={({ item }) => {
@@ -27,14 +40,17 @@ export default function ListDocuments() {
                       style={{
                         width: 14,
                         height: 14,
-                        backgroundColor: item.typeDocument
-                          ? "#12A751"
-                          : "#FF67A1",
+                        backgroundColor:
+                          item.typeDocument == "instock"
+                            ? "#12A751"
+                            : "#FF67A1",
                         borderRadius: 100,
                       }}
                     ></View>
                     <Text style={{ fontWeight: "600", paddingHorizontal: 5 }}>
-                      {`Đơn Xuất No.(${item.id})`}
+                      {item.typeDocument == "instock"
+                        ? `Phiếu Nhập No(${item.id})`
+                        : `Phiếu Xuất No(${item.id})`}
                     </Text>
                   </View>
                   {/* infoTop 2 */}
@@ -46,7 +62,11 @@ export default function ListDocuments() {
                     </Text>
                     <Image
                       style={{ width: 15, height: 15 }}
-                      source={require("../../../../assets/images/bill.png")}
+                      source={
+                        item.paid == 1
+                          ? require("../../../../assets/images/bill.png")
+                          : require("../../../../assets/images/unbill.png")
+                      }
                     ></Image>
                   </View>
                 </View>
@@ -57,7 +77,9 @@ export default function ListDocuments() {
                       source={require("../../../../assets/images/hotel-supplier.png")}
                     ></Image>
                     <Text style={{ color: "gray", fontSize: 13 }}>
-                      {getSupplierName(item.idSupplier)}
+                      {item.typeDocument == "instock"
+                        ? getSupplierName(item.idSupplier)
+                        : getCustomerName(item.idCustomer)}
                     </Text>
                   </View>
                   <View
