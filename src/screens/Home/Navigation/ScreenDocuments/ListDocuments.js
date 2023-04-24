@@ -9,6 +9,7 @@ import {
 import React from "react";
 import { FlatList } from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 export default function ListDocuments() {
   const listDocument = useSelector((state) => state.documentsReducer.items);
@@ -35,7 +36,12 @@ export default function ListDocuments() {
               <TouchableOpacity style={styles.rowDocuments} activeOpacity={0.8}>
                 <View style={styles.infoTop}>
                   {/* infoTop 1 */}
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                    }}
+                  >
                     <View
                       style={{
                         width: 14,
@@ -47,14 +53,22 @@ export default function ListDocuments() {
                         borderRadius: 100,
                       }}
                     ></View>
+
                     <Text style={{ fontWeight: "600", paddingHorizontal: 5 }}>
                       {item.typeDocument == "instock"
                         ? `Phiếu Nhập No(${item.id})`
                         : `Phiếu Xuất No(${item.id})`}
                     </Text>
                   </View>
+                  <View></View>
+
                   {/* infoTop 2 */}
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                    }}
+                  >
                     <Text
                       style={{ color: "gray", fontSize: 12, paddingRight: 8 }}
                     >
@@ -71,7 +85,12 @@ export default function ListDocuments() {
                   </View>
                 </View>
                 <View style={styles.infoBottom}>
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                    }}
+                  >
                     <Image
                       style={{ width: 14, height: 14, marginRight: 8 }}
                       source={require("../../../../assets/images/hotel-supplier.png")}
@@ -82,6 +101,7 @@ export default function ListDocuments() {
                         : getCustomerName(item.idCustomer)}
                     </Text>
                   </View>
+
                   <View
                     style={{
                       flexDirection: "row",
@@ -121,6 +141,23 @@ export default function ListDocuments() {
                     </TouchableOpacity>
                   </View>
                 </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginLeft: 5,
+                  }}
+                >
+                  {item.notes && (
+                    <Image
+                      style={{ width: 14, height: 14, marginRight: 8 }}
+                      source={require("../../../../assets/images/writing.png")}
+                    ></Image>
+                  )}
+                  <Text style={{ color: "gray", fontSize: 13 }}>
+                    {item.notes}
+                  </Text>
+                </View>
               </TouchableOpacity>
             );
           }}
@@ -144,7 +181,7 @@ const styles = StyleSheet.create({
   infoBottom: {
     justifyContent: "space-between",
     paddingHorizontal: 5,
-    marginTop: 15,
+    paddingVertical: 5,
     flexDirection: "row",
   },
 });

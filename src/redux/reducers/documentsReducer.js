@@ -5,7 +5,7 @@ let documentsReducer = (state = initialState, action) => {
   switch (action.type) {
     case "GET_DOCUMENTS": {
       state.items = action.payload;
-      console.log(state.items);
+      return state;
     }
     case "INSERT_DOCUMENTS": {
       state.items = action.payload;

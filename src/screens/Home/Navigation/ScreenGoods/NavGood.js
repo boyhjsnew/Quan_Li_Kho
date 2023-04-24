@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 
 import {
   NavigationContainer,
@@ -15,11 +15,21 @@ import ScreenReceiveGoods from "./SubScreenGoods/ScreenReceiveGoods";
 import ScreenSuppliers from "../ScreenSuppliers/ScreenSuppliers";
 import NavSuppliers from "../ScreenSuppliers/NavSuppliers";
 import ScreenCustomers from "../ScreenCustomers/ScreenCustomers";
+import { useDispatch, useSelector } from "react-redux";
+import getTotalQuantity from "../../../../redux/actions/actionProducts/getQuantity";
 
 export default function NavGood({ navigation }) {
   const route = useRoute();
   const { fullIcon } = route.params;
   const Stack = createNativeStackNavigator();
+  const listStore = useSelector((state) => state.warehouseReducer.items);
+  const idStorePick = listStore.map((item) => {
+    var id = "";
+    if (item.isPicked == true) {
+      id = item.id;
+    }
+    return id;
+  });
 
   return (
     <NavigationContainer independent={true}>

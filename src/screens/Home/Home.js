@@ -7,13 +7,14 @@ import { useNavigation } from "@react-navigation/native";
 import Dashboard from "../../components/Dashboard";
 import Reports_Expenses from "../../components/Reports_Expenses";
 import Toolbar from "../../components/Toolbar";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchWarehouse } from "../../redux/actions/getStore";
 import { fetchSuppliers } from "../../redux/actions/actionSuppliers/getSuppliers";
 import { fetchCustomers } from "../../redux/actions/actionCustomers/getCustomers";
 import { fetchProducts } from "../../redux/actions/actionProducts/getProducts";
 import insertProducts from "../../redux/actions/actionProducts/insertProducts";
 import { fetchDocuments } from "../../redux/actions/actionDocuments.js/getDocuments";
+import getTotalQuantity from "../../redux/actions/actionProducts/getQuantity";
 
 export default function Home() {
   const navigation = useNavigation();

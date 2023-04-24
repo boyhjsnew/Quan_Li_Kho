@@ -1,5 +1,5 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MenuProvider } from "react-native-popup-menu";
 import {
   Menu,
@@ -23,9 +23,8 @@ import ModalMenu from "../../../../components/ModalMenu";
 import { GOODS } from "../../../../data/goods";
 import Search from "../../../../components/Search";
 import HeaderNameStore from "../../../../components/HeaderNameStore";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import deleteProducts from "../../../../redux/actions/actionProducts/deleteProducts";
-import formatCurrency from "../../../../utils/formatCurrency";
 
 export default function ScreenGood({ navigation, ...props }) {
   const { fullIcon } = props;
@@ -33,6 +32,16 @@ export default function ScreenGood({ navigation, ...props }) {
   const [showSearch, setShowSearch] = useState(false);
   const PRODUCTS = useSelector((state) => state.productsReducer.items);
   const [dislayBottom, setDislayBottom] = useState(true);
+  const listStore = useSelector((state) => state.warehouseReducer.items);
+  const idStorePick =
+    listStore
+      .filter((item) => item.isPicked === true)
+      .map((item) => item.id)[0] ?? null;
+
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   getTotalQuantity(idStorePick.join(""), dispatch);
+  // }, []);
 
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }} activeOpacity={1}>
@@ -51,6 +60,7 @@ export default function ScreenGood({ navigation, ...props }) {
       {showSearch && <Search />}
       <MenuProvider>
         <ItemGoods
+          idStorePick={idStorePick}
           navigation={navigation}
           PRODUCTS={PRODUCTS}
           setDislayBottom={setDislayBottom}
@@ -72,8 +82,31 @@ export default function ScreenGood({ navigation, ...props }) {
 }
 
 const ItemGoods = (props) => {
+  // const quantityProducts = useSelector((state) => state.quantityReducer.items);
+
+  // const getQuantity = (idProduct) => {
+  //   const product = quantityProducts.find(
+  //     (item) => item.productId === idProduct
+  //   );
+  //   return product ? product.quantity : 0;
+  // };
   const naviagtion = useNavigation();
-  const { PRODUCTS } = props;
+  const { PRODUCTS, idStorePick } = props;
+  const documents = useSelector((state) => state.documentsReducer.items);
+  function getProductQuantity(productId, documents, idStorePick) {
+    const filteredDocuments = documents.filter(
+      (doc) => doc.productId === productId && doc.idStore === idStorePick
+    );
+    const totalInStock = filteredDocuments.reduce(
+      (acc, doc) => acc + (doc.QuaInStock || 0),
+      0
+    );
+    const totalOutStock = filteredDocuments.reduce(
+      (acc, doc) => acc + (doc.QuaOutStock || 0),
+      0
+    );
+    return totalInStock - totalOutStock;
+  }
 
   return (
     <FlatList
@@ -166,7 +199,7 @@ const ItemGoods = (props) => {
                     alignSelf: "flex-end",
                   }}
                 >
-                  {"0.0"}
+                  {getProductQuantity(item.id, documents, idStorePick)}
                 </Text>
                 <View
                   style={{
@@ -202,9 +235,9 @@ const ItemGoods = (props) => {
 const QuantityGoods = (props) => {
   const PRODUCTS = props.PRODUCTS;
 
-  PRODUCTS.map((item) => {
-    console.log(Math.floor(item.priceSale));
-  });
+  // PRODUCTS.map((item) => {
+  //   console.log(Math.floor(item.priceSale));
+  // });
   // const totalPricePurcharse = PRODUCTS.reduce(
   //   (total, curren) => total + Number(curren.pricePurcharse),
   //   0

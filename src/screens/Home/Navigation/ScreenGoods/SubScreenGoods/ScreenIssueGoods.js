@@ -43,7 +43,7 @@ export default function ScreenIssueGoods({ navigation }) {
   // idStore
   const idStorePick = listStore.map((item) => {
     var id = "";
-    if (item.isPicked == false) {
+    if (item.isPicked == true) {
       id = item.id;
     }
     return id;

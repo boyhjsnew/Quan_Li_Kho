@@ -17,6 +17,7 @@ export default Dashboard = (props) => {
   const quantityCustomers = useSelector(
     (state) => state.customersReducer.items.length
   );
+
   const quantityDocuments = useSelector(
     (state) => state.documentsReducer.items.length
   );
