@@ -4,13 +4,15 @@ let initialState = {
 let documentsReducer = (state = initialState, action) => {
   switch (action.type) {
     case "GET_DOCUMENTS": {
-      state.items = action.payload;
+      state = { ...state, items: action.payload };
       return state;
     }
     case "INSERT_DOCUMENTS": {
-      state.items = action.payload;
-      console.log(state.items);
-      return state;
+      let newState = { ...state };
+      newState = {
+        items: [...newState.items, action.payload],
+      };
+      return newState;
     }
     // case "INSERT_SUPPLIERS": {
     //   state.items = [...state.items, action.payload];

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import spacing from "../assets/dimens/SPACING";
 import color from "../assets/colors/COLORS";
@@ -13,6 +13,24 @@ export default ContentHeader = (props) => {
   const store = useSelector((state) => {
     return state.warehouseReducer.items;
   });
+
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   getTotalQuantity(idStorePick.join(""), dispatch);
+  // }, []);
+
+  function getProductQuantity() {
+    const filteredDocuments = props.documents.filter((item) => item);
+    const totalInStock = filteredDocuments.reduce(
+      (acc, doc) => acc + (doc.QuaInStock || 0),
+      0
+    );
+    const totalOutStock = filteredDocuments.reduce(
+      (acc, doc) => acc + (doc.QuaOutStock || 0),
+      0
+    );
+    return totalInStock - totalOutStock;
+  }
 
   return (
     <View style={{ backgroundColor: COLORS.primary }}>
@@ -137,7 +155,7 @@ export default ContentHeader = (props) => {
                   paddingTop: 6,
                 }}
               >
-                627
+                {getProductQuantity()}
               </Text>
             </View>
             <View

@@ -7,6 +7,7 @@ import { TextInput } from "react-native-gesture-handler";
 import HeaderNameStore from "../../../../components/HeaderNameStore";
 import updateProducts from "../../../../redux/actions/actionProducts/updateProducts";
 import { useDispatch } from "react-redux";
+import formatCurrency from "../../../../utils/formatCurrency";
 export default function ScreenEditGoods({ navigation, route }) {
   const { item } = route.params;
   const id = item.id;
@@ -15,6 +16,13 @@ export default function ScreenEditGoods({ navigation, route }) {
   const [description, setDescription] = useState(item.description);
   const [pricePurcharse, setPricePurcharse] = useState(item.pricePurcharse);
   const [priceSale, setPriceSale] = useState(item.priceSale);
+
+  const [priceSaleData, setPriceSaleData] = useState(
+    formatCurrency(item.priceSale)
+  );
+  const [pricePurcharseData, setPricePurcharseData] = useState(
+    formatCurrency(item.pricePurcharse)
+  );
 
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
@@ -28,8 +36,8 @@ export default function ScreenEditGoods({ navigation, route }) {
             name,
             barcode,
             description,
-            pricePurcharse,
-            priceSale
+            parseInt(pricePurcharse),
+            parseInt(priceSale)
           );
           navigation.goBack();
         }}
@@ -52,6 +60,10 @@ export default function ScreenEditGoods({ navigation, route }) {
           setPricePurcharse={setPricePurcharse}
           priceSale={priceSale}
           setPriceSale={setPriceSale}
+          priceSaleData={priceSaleData}
+          pricePurcharseData={pricePurcharseData}
+          setPriceSaleData={setPriceSaleData}
+          setPricePurcharseData={setPricePurcharseData}
         />
         <ButtonContentGoods
           navigation={navigation}
@@ -192,11 +204,12 @@ const ContentAddGoods = (props) => {
             Giá mua
           </Text>
           <TextInput
-            value={props.pricePurcharse}
+            value={props.pricePurcharseData}
             onChangeText={(value) => {
               const newPrice = value.replace(/\D/g, "");
               const formattedPrice = Number(newPrice).toLocaleString("vi-VN");
-              props.setPricePurcharse(formattedPrice);
+              props.setPricePurcharseData(formattedPrice);
+              props.setPricePurcharse(newPrice);
             }}
             cursorColor={COLORS.primary}
             placeholder="Giá mua"
@@ -225,12 +238,13 @@ const ContentAddGoods = (props) => {
             Giá bán
           </Text>
           <TextInput
-            value={props.priceSale}
+            value={props.priceSaleData}
             keyboardType="numeric"
             onChangeText={(value) => {
               const newPrice = value.replace(/\D/g, "");
               const formattedPrice = Number(newPrice).toLocaleString("vi-VN");
-              props.setPriceSale(formattedPrice);
+              props.setPriceSaleData(formattedPrice);
+              props.setPriceSale(newPrice);
             }}
             cursorColor={COLORS.primary}
             placeholder="Giá bán"

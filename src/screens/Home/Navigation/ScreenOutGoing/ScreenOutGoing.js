@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   TextInput,
   Modal,
+  Image,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import ModalCalendar from "../../../../components/Calendar";
@@ -19,16 +20,25 @@ import ButtonAdd from "../../../../components/ButtonAdd";
 import ModalMenu from "../../../../components/ModalMenu";
 import SearchIncoming from "../../../../components/SearchIncoming";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-export default function ScreenOutGoing({route}) {
+export default function ScreenOutGoing({ route }) {
   const [activeModal, setActiveModal] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const navigation = useNavigation();
-  const [showCalendar,setShowCalendar]=useState(false)
-  const item = useSelector(state=> state.pickCustomerReducer.items,shallowEqual )
-  
+  const [showCalendar, setShowCalendar] = useState(false);
+  const ITEM_FROM_DOCS = useSelector((state) => state.pickDocument.items);
+  console.log(ITEM_FROM_DOCS);
+  const item = useSelector((state) => state.pickCustomerReducer.items);
+  listPro = useSelector((state) => state.productsReducer.items);
+
+  const getProducts = () => {
+    const product = listPro.find(
+      (item) => item.id === ITEM_FROM_DOCS.productId
+    );
+    return product ? product : "";
+  };
+  const dispatch = useDispatch();
 
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
@@ -39,12 +49,28 @@ export default function ScreenOutGoing({route}) {
         iconThree="barcode"
         iconFour="ellipsis-v"
         clickSearch={() => setShowSearch(!showSearch)}
-        clickGoBack={() => navigation.goBack()}
+        clickGoBack={() => {
+          navigation.goBack();
+          dispatch({
+            type: "PICK_DOCUMENT",
+            payload: "",
+          });
+        }}
         itemFourClick={() => setActiveModal(!activeModal)}
       />
       {showSearch && <SearchIncoming />}
       <QuantityGoods />
-      <DocumentProperties navigation={navigation} item={item}/>
+      <DocumentProperties
+        navigation={navigation}
+        item={item}
+        ITEM_FROM_DOCS={ITEM_FROM_DOCS}
+      />
+      {ITEM_FROM_DOCS && (
+        <ItemGoodForOut
+          getProducts={getProducts}
+          ITEM_FROM_DOCS={ITEM_FROM_DOCS}
+        />
+      )}
       <ModalMenu
         itemSort="sort"
         itemPrintExcel="print"
@@ -63,7 +89,7 @@ export default function ScreenOutGoing({route}) {
 const QuantityGoods = () => (
   <View style={styles.quantityGood}>
     <View>
-      <Text style={styles.textQty}>Tổng nhập: 0</Text>
+      <Text style={styles.textQty}>Tổng Xuất: 1</Text>
       <Text style={styles.textQty}>SL: 0 </Text>
     </View>
     <Text style={styles.textTotal}>Tổng tiền: 0đ</Text>
@@ -71,27 +97,34 @@ const QuantityGoods = () => (
 );
 
 const DocumentProperties = (props) => {
-  const [inputDiscount, setInputDiscount] = useState("0.0");
+  listCus = useSelector((state) => state.customersReducer.items);
+  const { ITEM_FROM_DOCS } = props;
+  const getCustomer = () => {
+    const customer = listCus.find(
+      (item) => item.id === ITEM_FROM_DOCS && ITEM_FROM_DOCS.idCustomer
+    );
+    return customer ? customer : "";
+  };
+  const [inputDiscount, setInputDiscount] = useState(getCustomer().discount);
   const { navigation } = props;
-  const [paid, setPaid] = useState(true);
+  const [paid, setPaid] = useState(ITEM_FROM_DOCS ? ITEM_FROM_DOCS.paid : true);
+
   const [showContentDoc, setShowContentDoc] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
-  const route = useRoute()
-  
- 
+  const route = useRoute();
 
+  const [nameCus, setNameCus] = useState();
   // CALENDER
   const [timeStamp, setTimeStamp] = useState(new Date().getDay());
   const [day, setDay] = useState(new Date().getDate());
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [year, setYear] = useState(new Date().getFullYear());
-  
+
   const handleInputFocus = () => {
     if (inputDiscount === "0.0") {
       setInputDiscount("");
     }
   };
-
 
   return (
     <View>
@@ -99,7 +132,7 @@ const DocumentProperties = (props) => {
         <View>
           <View>
             <Text style={{ color: "white", fontWeight: "400" }}>
-              Document Properties
+              Thông tin phiếu xuất
             </Text>
           </View>
         </View>
@@ -157,7 +190,7 @@ const DocumentProperties = (props) => {
               borderWidth: 0.3,
               alignSelf: "center",
               borderColor: COLORS.white,
-              marginTop: 7,
+              marginTop: 10,
             }}
           ></View>
           <View
@@ -177,7 +210,7 @@ const DocumentProperties = (props) => {
                   fontSize: 16,
                 }}
               >
-                Document's date
+                Ngày Xuất
               </Text>
               <TouchableWithoutFeedback
                 onPress={() => {
@@ -186,16 +219,17 @@ const DocumentProperties = (props) => {
               >
                 <View
                   style={{
-                    justifyContent:'center',
+                    justifyContent: "center",
                     height: 40,
                     backgroundColor: COLORS.white,
                     borderRadius: 10,
-                    paddingLeft:10,
+                    paddingLeft: 10,
                   }}
                 >
-                   <Text style={{fontSize:17}}>{day}/{month}/{year}</Text>
+                  <Text style={{ fontSize: 17 }}>
+                    {ITEM_FROM_DOCS.createAt}
+                  </Text>
                 </View>
-               
               </TouchableWithoutFeedback>
             </View>
             <View style={{ width: "48%" }}>
@@ -207,10 +241,12 @@ const DocumentProperties = (props) => {
                   fontSize: 16,
                 }}
               >
-                Document's No
+                Số phiếu xuất
               </Text>
               <TextInput
+                value={ITEM_FROM_DOCS.id}
                 style={{
+                  fontSize: 17,
                   height: 40,
                   backgroundColor: COLORS.white,
                   borderRadius: 10,
@@ -228,11 +264,11 @@ const DocumentProperties = (props) => {
                 fontSize: 16,
               }}
             >
-              Customer
+              Khách hàng
             </Text>
             <TouchableWithoutFeedback
               onPress={() => {
-                navigation.push("Customers",{from:'fromOutgoing'});
+                navigation.push("Customers", { from: "fromOutgoing" });
               }}
             >
               <View
@@ -242,10 +278,10 @@ const DocumentProperties = (props) => {
                   borderRadius: 10,
                   backgroundColor: COLORS.white,
                   justifyContent: "center",
-                  paddingHorizontal:10
+                  paddingHorizontal: 10,
                 }}
               >
-              <Text style={{fontSize:16, }}>{props.item.name}</Text>
+                <Text style={{ fontSize: 16 }}>{getCustomer().name}</Text>
                 <Ionicons
                   name="chevron-forward"
                   style={{ right: 3, position: "absolute" }}
@@ -261,19 +297,18 @@ const DocumentProperties = (props) => {
                 fontSize: 16,
               }}
             >
-              Discount
+              Chiết khấu
             </Text>
             <TextInput
               inputMode="numeric"
-              
               value={inputDiscount}
               onChangeText={setInputDiscount}
               onFocus={handleInputFocus}
               style={{
                 width: "100%",
                 height: 40,
-                fontSize:17,
-                fontWeight:"400",
+                fontSize: 17,
+                fontWeight: "400",
                 backgroundColor: COLORS.white,
                 borderRadius: 9,
                 paddingLeft: 10,
@@ -287,9 +322,10 @@ const DocumentProperties = (props) => {
                 fontSize: 16,
               }}
             >
-              Comment
+              Ghi chú
             </Text>
             <TextInput
+              value={ITEM_FROM_DOCS.notes}
               style={{
                 width: "100%",
                 height: 40,
@@ -302,22 +338,91 @@ const DocumentProperties = (props) => {
           </View>
         </View>
       )}
-     
-          <Modal visible={showCalendar} transparent={true}>
-        <View style={{backgroundColor:'rgba(0, 0, 0, 0.5)',flex:1}}>
+
+      <Modal visible={showCalendar} transparent={true}>
+        <View style={{ backgroundColor: "rgba(0, 0, 0, 0.5)", flex: 1 }}>
           <View
             style={{
               position: "absolute",
               width: "80%",
               alignSelf: "center",
               top: 130,
-
-            }}>
-            <ModalCalendar handleClose={()=>{setShowCalendar(false)}} setShowCalendar={setShowCalendar} setDayNew={setDay} setMonthNew={setMonth} setYearNew={setYear} setTimNew/>
+            }}
+          >
+            <ModalCalendar
+              handleClose={() => {
+                setShowCalendar(false);
+              }}
+              setShowCalendar={setShowCalendar}
+              setDayNew={setDay}
+              setMonthNew={setMonth}
+              setYearNew={setYear}
+            />
           </View>
-          </View>
-        </Modal>
+        </View>
+      </Modal>
     </View>
+  );
+};
+const ItemGoodForOut = (props) => {
+  const { getProducts } = props;
+  const { ITEM_FROM_DOCS } = props;
+
+  return (
+    <TouchableOpacity onPress={() => {}} style={styles.rowGoods}>
+      <View style={styles.leftRow}>
+        {
+          <Image
+            source={require(".././../../.././assets/images/image.png")}
+            style={{
+              width: 38,
+              height: 38,
+              borderRadius: 100,
+              backgroundColor: COLORS.secondary,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          ></Image>
+        }
+        {/* info goood */}
+        <View>
+          <Text
+            style={{
+              paddingHorizontal: 10,
+              fontWeight: "500",
+            }}
+          >
+            {/* name good */}
+            {getProducts().nameproduct}
+          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              paddingVertical: 7,
+            }}
+          >
+            <FontAwesome
+              color="#807F80"
+              style={{ paddingLeft: 10, paddingRight: 5, marginTop: 1 }}
+              size={15}
+              name="barcode"
+            ></FontAwesome>
+            <Text style={{ fontSize: 12, opacity: 0.5 }}>
+              {getProducts().barcode}
+            </Text>
+          </View>
+        </View>
+      </View>
+      <View style={styles.rightRow}>
+        <Text
+          style={{
+            fontWeight: "500",
+          }}
+        >
+          {ITEM_FROM_DOCS.QuaOutStock + ""}
+        </Text>
+      </View>
+    </TouchableOpacity>
   );
 };
 
@@ -383,5 +488,22 @@ const styles = StyleSheet.create({
     width: 30,
     borderRadius: 100,
     marginLeft: 10,
+  },
+  rowGoods: {
+    elevation: 1,
+    backgroundColor: "white",
+    marginVertical: 6,
+    flexDirection: "row",
+    paddingHorizontal: 18,
+    paddingVertical: 7,
+    justifyContent: "space-between",
+  },
+  leftRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  rightRow: {
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

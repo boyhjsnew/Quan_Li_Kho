@@ -25,8 +25,10 @@ export default function ScreenAddGoods({ navigation }) {
   const [name, setName] = useState("");
   const [barcode, setBarcode] = useState("");
   const [description, setDescription] = useState("");
-  const [pricePurcharse, setPricePurcharse] = useState("");
-  const [priceSale, setPriceSale] = useState("");
+  const [pricePurcharse, setPricePurcharse] = useState();
+  const [priceSale, setPriceSale] = useState();
+  const [priceSaleData, setPriceSaleData] = useState();
+  const [pricePurcharseData, setPricePurcharseData] = useState();
   const dispatch = useDispatch();
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
@@ -50,8 +52,8 @@ export default function ScreenAddGoods({ navigation }) {
               barcode,
               description,
               "nulll",
-              pricePurcharse,
-              priceSale
+              parseInt(pricePurcharse),
+              parseInt(priceSale)
             );
             navigation.goBack();
           }
@@ -74,6 +76,10 @@ export default function ScreenAddGoods({ navigation }) {
           setPricePurcharse={setPricePurcharse}
           priceSale={priceSale}
           setPriceSale={setPriceSale}
+          priceSaleData={priceSaleData}
+          setPricePurcharseData={setPricePurcharseData}
+          pricePurcharseData={pricePurcharseData}
+          setPriceSaleData={setPriceSaleData}
         />
         <ButtonContentGoods
           navigation={navigation}
@@ -107,6 +113,10 @@ const ContentAddGoods = (props) => {
     setPricePurcharse,
     priceSale,
     setPriceSale,
+    priceSaleData,
+    setPriceSaleData,
+    pricePurcharseData,
+    setPricePurcharseData,
   } = props;
 
   return (
@@ -233,11 +243,16 @@ const ContentAddGoods = (props) => {
             Giá mua
           </Text>
           <TextInput
-            value={pricePurcharse}
+            value={pricePurcharseData}
             onChangeText={(value) => {
               const newPrice = value.replace(/\D/g, "");
-              const formattedPrice = Number(newPrice).toLocaleString("vi-VN");
-              setPricePurcharse(formattedPrice);
+              const formattedPrice = Number(newPrice).toLocaleString("vi-VN", {
+                style: "decimal",
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              });
+              setPricePurcharseData(formattedPrice);
+              setPricePurcharse(newPrice);
             }}
             cursorColor={COLORS.primary}
             placeholder="Giá mua"
@@ -266,12 +281,17 @@ const ContentAddGoods = (props) => {
             Giá bán
           </Text>
           <TextInput
-            value={priceSale}
+            value={priceSaleData}
             keyboardType="numeric"
             onChangeText={(value) => {
               const newPrice = value.replace(/\D/g, "");
-              const formattedPrice = Number(newPrice).toLocaleString("vi-VN");
-              setPriceSale(formattedPrice);
+              const formattedPrice = Number(newPrice).toLocaleString("vi-VN", {
+                style: "decimal",
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              });
+              setPriceSaleData(formattedPrice);
+              setPriceSale(newPrice);
             }}
             cursorColor={COLORS.primary}
             placeholder="Giá bán"

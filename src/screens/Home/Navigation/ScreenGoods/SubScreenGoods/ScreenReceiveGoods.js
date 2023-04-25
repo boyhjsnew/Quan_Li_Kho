@@ -12,7 +12,7 @@ import Toolbar from "../../../../../components/Toolbar";
 import COLORS from "../../../../../assets/colors/COLORS";
 import ModalCalendar from "../../../../../components/Calendar";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import insertProductsObject from "../../../../../redux/actions/actionProducts/insertProductObject";
 import transactionInStock from "../../../../../redux/actions/actionProducts/transactionInStock";
@@ -44,6 +44,7 @@ export default function ScreenReceiveGoods({ navigation }) {
   const instockItems = listDocument.filter(
     (item) => item.typeDocument == "instock"
   );
+  const dispatch = useDispatch();
 
   // idStore
   const idStorePick = listStore.map((item) => {
@@ -105,7 +106,13 @@ export default function ScreenReceiveGoods({ navigation }) {
             transactionInStock(itemProduct, document.item);
             navigation.goBack();
           } else {
-            insertDocuments_editPoducts(idProduct, itemProduct, document.item);
+            insertDocuments_editPoducts(
+              idProduct,
+              itemProduct,
+              document.item,
+              dispatch
+            );
+
             navigation.goBack();
           }
         }}

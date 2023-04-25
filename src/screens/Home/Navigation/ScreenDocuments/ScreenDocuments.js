@@ -30,7 +30,7 @@ export default function ScreenDocuments() {
       {showSearch == true ? <SearchDocument /> : null}
       <HeaderNameStore />
       <QuantityDocuments />
-      <ListDocuments />
+      <ListDocuments navigation={navigation} />
 
       <FloatingButton navigation={navigation} />
     </View>

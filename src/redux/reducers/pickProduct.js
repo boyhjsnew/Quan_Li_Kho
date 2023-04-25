@@ -6,6 +6,7 @@ let pickProduct = (state = initialState, action) => {
   switch (action.type) {
     case "INSERT_PRODUCT": {
       state.items = { ...action.payload };
+      console.log(state.items);
       return state;
     }
     default:

@@ -25,6 +25,7 @@ import Search from "../../../../components/Search";
 import HeaderNameStore from "../../../../components/HeaderNameStore";
 import { useDispatch, useSelector } from "react-redux";
 import deleteProducts from "../../../../redux/actions/actionProducts/deleteProducts";
+import formatCurrency from "../../../../utils/formatCurrency";
 
 export default function ScreenGood({ navigation, ...props }) {
   const { fullIcon } = props;
@@ -42,6 +43,22 @@ export default function ScreenGood({ navigation, ...props }) {
   // useEffect(() => {
   //   getTotalQuantity(idStorePick.join(""), dispatch);
   // }, []);
+  const documents = useSelector((state) => state.documentsReducer.items);
+
+  function getProductQuantity(idStorePick) {
+    const filteredDocuments = documents.filter(
+      (doc) => doc.idStore === idStorePick
+    );
+    const totalInStock = filteredDocuments.reduce(
+      (acc, doc) => acc + (doc.QuaInStock || 0),
+      0
+    );
+    const totalOutStock = filteredDocuments.reduce(
+      (acc, doc) => acc + (doc.QuaOutStock || 0),
+      0
+    );
+    return totalInStock - totalOutStock;
+  }
 
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }} activeOpacity={1}>
@@ -56,10 +73,15 @@ export default function ScreenGood({ navigation, ...props }) {
         itemThreeClick={() => setActiveModal(!activeModal)}
       />
       <HeaderNameStore />
-      <QuantityGoods PRODUCTS={PRODUCTS} />
+      <QuantityGoods
+        getProductQuantity={getProductQuantity}
+        PRODUCTS={PRODUCTS}
+        idStorePick={idStorePick}
+      />
       {showSearch && <Search />}
       <MenuProvider>
         <ItemGoods
+          documents={documents}
           idStorePick={idStorePick}
           navigation={navigation}
           PRODUCTS={PRODUCTS}
@@ -82,17 +104,9 @@ export default function ScreenGood({ navigation, ...props }) {
 }
 
 const ItemGoods = (props) => {
-  // const quantityProducts = useSelector((state) => state.quantityReducer.items);
-
-  // const getQuantity = (idProduct) => {
-  //   const product = quantityProducts.find(
-  //     (item) => item.productId === idProduct
-  //   );
-  //   return product ? product.quantity : 0;
-  // };
   const naviagtion = useNavigation();
-  const { PRODUCTS, idStorePick } = props;
-  const documents = useSelector((state) => state.documentsReducer.items);
+  const { PRODUCTS, idStorePick, documents } = props;
+
   function getProductQuantity(productId, documents, idStorePick) {
     const filteredDocuments = documents.filter(
       (doc) => doc.productId === productId && doc.idStore === idStorePick
@@ -212,12 +226,14 @@ const ItemGoods = (props) => {
                 >
                   {/* gia nhap gia ban */}
                   <Text style={{ color: "#fd89b6" }}>
-                    {item.pricePurcharse}đ
+                    {formatCurrency(item.pricePurcharse)}đ
                   </Text>
                   <View>
                     <Text>/</Text>
                   </View>
-                  <Text style={{ color: "#02b5ef" }}>{item.priceSale}đ</Text>
+                  <Text style={{ color: "#02b5ef" }}>
+                    {formatCurrency(item.priceSale)}đ
+                  </Text>
                 </View>
               </View>
               <PopUpMenu
@@ -234,27 +250,25 @@ const ItemGoods = (props) => {
 };
 const QuantityGoods = (props) => {
   const PRODUCTS = props.PRODUCTS;
+  const getProductQuantity = props.getProductQuantity;
+  const idStorePick = props.idStorePick;
+  const totalPricePurcharse = PRODUCTS.reduce(
+    (total, curren) => total + Number(curren.pricePurcharse),
+    0
+  );
 
-  // PRODUCTS.map((item) => {
-  //   console.log(Math.floor(item.priceSale));
-  // });
-  // const totalPricePurcharse = PRODUCTS.reduce(
-  //   (total, curren) => total + Number(curren.pricePurcharse),
-  //   0
-  // );
-
-  // const totalPriceSale = PRODUCTS.reduce(
-  //   (total, curren) => total + Number(curren.priceSale),
-  //   0
-  // );
+  const totalPriceSale = PRODUCTS.reduce(
+    (total, curren) => total + Number(curren.priceSale),
+    0
+  );
   return (
     <View style={styles.quantityGood}>
-      <Text style={styles.textQty}>SL: 246</Text>
+      <Text style={styles.textQty}>SL: {getProductQuantity(idStorePick)}</Text>
       <Text style={styles.textQty}>
         Tổng tiền:
-        {}
+        {formatCurrency(totalPricePurcharse)}
         đ/
-        {}đ{" "}
+        {formatCurrency(totalPriceSale)}đ{" "}
       </Text>
     </View>
   );

@@ -1,11 +1,11 @@
-import { useSelector } from "react-redux";
 import { firebase } from "../../../firebase/firebase";
 const db = firebase.firestore();
 
 export default insertDocument_editProduct = (
   idProduct,
   dataProducts,
-  dataDocuments
+  dataDocuments,
+  dispatch
 ) => {
   return db
     .collection("Products")
@@ -16,6 +16,10 @@ export default insertDocument_editProduct = (
     })
     .then((docRef) => {
       console.log("Document added with ID: ", docRef.id);
+      dispatch({
+        type: "INSERT_DOCUMENTS",
+        payload: dataDocuments,
+      });
     })
     .catch((error) => {
       console.error("Error updating product and adding document: ", error);
