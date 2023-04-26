@@ -34,7 +34,7 @@ export default function ScreenReports({ navigation }) {
         }}
       >
         <ListReport title="Số lượng theo kho" />
-        <ListReport />
+        <ListReport title="Lịch sử giao dịch" />
         <ListReport />
         <ListReport />
       </View>
@@ -42,27 +42,6 @@ export default function ScreenReports({ navigation }) {
   );
 }
 const ListReport = (props) => {
-  const documents = useSelector((state) => state.documentsReducer.items);
-
-  function getProductQuantity() {
-    // sử dụng reduce để tính tổng số lượng của từng kho
-    const storeQuantities = documents.reduce((acc, curr) => {
-      const idStore = curr.idStore;
-      const quantity = (curr.QuaInStock || 0) - (curr.QuaOutStock || 0); // tính toán số lượng còn lại của từng kho
-
-      if (acc[idStore]) {
-        acc[idStore].quantity += quantity; // nếu đã có kho trong mảng thì cộng thêm số lượng mới vào
-      } else {
-        acc[idStore] = { idStore, quantity }; // nếu chưa có thì tạo mới một kho với số lượng ban đầu
-      }
-
-      return acc;
-    }, {});
-
-    // chuyển đổi kết quả từ object sang array và trả về
-    return Object.values(storeQuantities);
-  }
-  console.log(getProductQuantity());
   const width = Dimensions.get("window").width;
   const navigation = useNavigation();
   return (
@@ -83,7 +62,14 @@ const ListReport = (props) => {
         justifyContent: "space-between",
       }}
     >
-      <Text style={{ fontWeight: "700", paddingBottom: 25 }}>
+      <Text
+        style={{
+          fontWeight: "600",
+          paddingBottom: 20,
+          paddingTop: 5,
+          fontSize: 15,
+        }}
+      >
         {props.title}
       </Text>
       <View
@@ -102,8 +88,8 @@ const ListReport = (props) => {
           justifyContent: "space-between",
         }}
       >
-        <FontAwesome name="file" size={18}></FontAwesome>
-        <FontAwesome name="angle-right" size={25} />
+        <FontAwesome color={"#4F5868"} name="file" size={18}></FontAwesome>
+        <FontAwesome color={"#4F5868"} name="angle-right" size={25} />
       </View>
     </TouchableOpacity>
   );

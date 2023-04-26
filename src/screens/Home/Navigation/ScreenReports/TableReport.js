@@ -1,4 +1,12 @@
-import { View, Text, Image, StyleSheet, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  FlatList,
+  ScrollView,
+  Dimensions,
+} from "react-native";
 import React from "react";
 import Toolbar from "../../../../components/Toolbar";
 import HeaderNameStore from "../../../../components/HeaderNameStore";
@@ -41,13 +49,16 @@ export default function TableReport({ navigation, route }) {
       />
       <HeaderNameStore />
       <PeriodTime />
-      <Table getProductQuantity={getProductQuantity} />
+      {namereport === "Số lượng theo kho" && (
+        <TableStore getProductQuantity={getProductQuantity} />
+      )}
+      <TableHistory />
     </View>
   );
 }
 const PeriodTime = () => {
   let newYear = new Date(2023, 0, 1); // Ngày 1 tháng 1 năm 2023
-  let lastDay = new Date(2024, 11, 31); // Ngày 31 tháng 12 năm 2024
+  let lastDay = new Date(2023, 11, 31); // Ngày 31 tháng 12 năm 2024
   return (
     <View style={styles.header}>
       <Image
@@ -72,7 +83,7 @@ const PeriodTime = () => {
   );
 };
 
-const Table = (props) => {
+const TableStore = (props) => {
   const { getProductQuantity } = props;
   const listStore = getProductQuantity();
   const getStore = useSelector((state) => state.warehouseReducer.items);
@@ -88,7 +99,6 @@ const Table = (props) => {
       </View>
     );
   };
-
   return (
     <View style={styles.table}>
       <View style={styles.row}>
@@ -101,8 +111,8 @@ const Table = (props) => {
         keyExtractor={(item, index) => index.toString()}
       />
       <View style={styles.row}>
-        <Text style={styles.headerCell}>Tổng cộng</Text>
-        <Text style={styles.cell}>
+        <Text style={styles.headerCell}>Tổng cộng :</Text>
+        <Text style={styles.headerCell}>
           {getProductQuantity().reduce((acc, curr) => {
             return (acc += curr.quantity);
           }, 0)}
@@ -112,11 +122,110 @@ const Table = (props) => {
   );
 };
 
+const TableHistory = () => {
+  const listDoc = useSelector((state) => state.documentsReducer.items);
+  const listCus = useSelector((state) => state.customersReducer.items);
+  const listSup = useSelector((state) => state.supplierReducer.items);
+
+  const getNameCus = (idCus) => {
+    const Cus = listCus.find((item) => item.id === idCus);
+    return Cus.name;
+  };
+  const getNameSup = (idSup) => {
+    const Sup = listSup.find((item) => item.id === idSup);
+    return Sup.name;
+  };
+
+  const getQuantity = () => {
+    const Doc = listDoc.filter((item) => item);
+
+    const totalQuaInStock = Doc.reduce(
+      (acc, curr) => acc + (curr.QuaInStock || 0),
+      0
+    );
+    const totalQuaOutStock = Doc.reduce(
+      (acc, curr) => acc + (curr.QuaOutStock || 0),
+      0
+    );
+
+    return totalQuaInStock + totalQuaOutStock;
+  };
+  console.log(getQuantity());
+  return (
+    <ScrollView horizontal style={{ margin: 10 }}>
+      <View style={styles.scrollViewContainer}>
+        <View style={styles.row}>
+          <Text style={[styles.headerCell, styles.fixedWidth]}>Ngày</Text>
+          <Text style={[styles.headerCell, styles.fixedWidth]}>Số phiếu</Text>
+          <Text style={[styles.headerCell, styles.fixedWidth]}>Ghi chú</Text>
+          <Text style={[styles.headerCell, styles.fixedWidth]}>Loại phiếu</Text>
+          <Text style={[styles.headerCell, styles.fixedWidth]}>
+            Khách hàng/Nhà cung cấp
+          </Text>
+          <Text style={[styles.headerCell, styles.fixedWidth]}>Số lượng</Text>
+        </View>
+        {listDoc.map((item) => {
+          return (
+            <View style={styles.row}>
+              <Text style={[styles.cell, styles.fixedWidth]}>
+                {item.createAt}
+              </Text>
+              <Text style={[styles.cell, styles.fixedWidth]}>{item.id}</Text>
+              <Text style={[styles.cell, styles.fixedWidth]}>{item.notes}</Text>
+              <Text style={[styles.cell, styles.fixedWidth]}>
+                {item.typeDocument == "instock" ? "Phiếu xuất" : "Phiếu nhập"}
+              </Text>
+              <Text style={[styles.cell, styles.fixedWidth]}>
+                {item.idCustomer == "null"
+                  ? getNameSup(item.idSupplier)
+                  : getNameCus(item.idCustomer)}
+              </Text>
+              <Text style={[styles.cell, styles.fixedWidth]}>
+                {item.typeDocument == "instock"
+                  ? item.QuaInStock
+                  : item.QuaOutStock}
+              </Text>
+            </View>
+          );
+        })}
+        <View style={styles.row}>
+          <Text style={[styles.headerCell, styles.fixedWidth]}></Text>
+          <Text style={[styles.headerCell, styles.fixedWidth]}></Text>
+          <Text style={[styles.headerCell, styles.fixedWidth]}></Text>
+          <Text style={[styles.headerCell, styles.fixedWidth]}></Text>
+          <Text style={[styles.headerCell, styles.fixedWidth]}>
+            {" "}
+            Tổng cộng :
+          </Text>
+          <Text style={[styles.headerCell, styles.fixedWidth]}>
+            {getQuantity()}
+          </Text>
+        </View>
+      </View>
+    </ScrollView>
+  );
+};
+
 const styles = StyleSheet.create({
+  scrollViewContainer: {
+    flexDirection: "column",
+  },
   table: {
     margin: 10,
-    borderWidth: 0.2,
-    width: "60%",
+  },
+  row: {
+    flexDirection: "row",
+  },
+
+  headerCell: {
+    backgroundColor: COLORS.primary,
+    padding: 5,
+    fontWeight: "bold",
+    flex: 1,
+    borderWidth: 0.3,
+    color: "white",
+    textAlign: "center",
+    textAlignVertical: "center",
   },
   header: {
     paddingBottom: 10,
@@ -125,22 +234,13 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
     paddingHorizontal: 20,
   },
-
-  row: {
-    flexDirection: "row",
-    borderBottomColor: "#ccc",
-  },
-  headerCell: {
-    backgroundColor: COLORS.primary,
-    padding: 5,
-    fontWeight: "bold",
-    flex: 1,
-    borderWidth: 0.3,
-    color: "white",
-  },
   cell: {
+    textAlign: "center",
     padding: 5,
     flex: 1,
     borderWidth: 0.5,
+  },
+  fixedWidth: {
+    width: 100,
   },
 });
