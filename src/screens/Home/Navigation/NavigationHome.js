@@ -17,6 +17,7 @@ import NavCustomers from "./ScreenCustomers/NavCustomers";
 import configureStore from "../../../redux/store";
 import { Provider as ReduxProvider, useDispatch } from "react-redux";
 import { useEffect } from "react";
+import NavReport from "./ScreenReports/NavReport";
 
 export default NavigationHome = () => {
   const Stack = createNativeStackNavigator();
@@ -53,7 +54,7 @@ export default NavigationHome = () => {
             name="Document"
             component={ScreenDocuments}
           ></Stack.Screen>
-          <Stack.Screen name="Report" component={ScreenReports}></Stack.Screen>
+          <Stack.Screen name="Report" component={NavReport}></Stack.Screen>
           <Stack.Screen name="Expense" component={ScreenExpense}></Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>

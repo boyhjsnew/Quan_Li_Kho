@@ -14,10 +14,9 @@ import HeaderNameStore from "../../../../components/HeaderNameStore";
 import COLORS from "../../../../assets/colors/COLORS";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useSelector } from "react-redux";
 
-export default function ScreenReports() {
-  const navigation = useNavigation();
-
+export default function ScreenReports({ navigation }) {
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
       <Toolbar
@@ -34,7 +33,7 @@ export default function ScreenReports() {
           justifyContent: "center",
         }}
       >
-        <ListReport />
+        <ListReport title="Số lượng theo kho" />
         <ListReport />
         <ListReport />
         <ListReport />
@@ -42,10 +41,37 @@ export default function ScreenReports() {
     </View>
   );
 }
-const ListReport = () => {
+const ListReport = (props) => {
+  const documents = useSelector((state) => state.documentsReducer.items);
+
+  function getProductQuantity() {
+    // sử dụng reduce để tính tổng số lượng của từng kho
+    const storeQuantities = documents.reduce((acc, curr) => {
+      const idStore = curr.idStore;
+      const quantity = (curr.QuaInStock || 0) - (curr.QuaOutStock || 0); // tính toán số lượng còn lại của từng kho
+
+      if (acc[idStore]) {
+        acc[idStore].quantity += quantity; // nếu đã có kho trong mảng thì cộng thêm số lượng mới vào
+      } else {
+        acc[idStore] = { idStore, quantity }; // nếu chưa có thì tạo mới một kho với số lượng ban đầu
+      }
+
+      return acc;
+    }, {});
+
+    // chuyển đổi kết quả từ object sang array và trả về
+    return Object.values(storeQuantities);
+  }
+  console.log(getProductQuantity());
   const width = Dimensions.get("window").width;
+  const navigation = useNavigation();
   return (
-    <View
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate("table", {
+          namereport: props.title,
+        })
+      }
       style={{
         width: width / 2 - 27,
         backgroundColor: "white",
@@ -58,13 +84,14 @@ const ListReport = () => {
       }}
     >
       <Text style={{ fontWeight: "700", paddingBottom: 25 }}>
-        Báo cáo bán hàng theo ngày
+        {props.title}
       </Text>
       <View
         style={{
           height: 1,
           backgroundColor: "gray",
           opacity: 0.4,
+          marginTop: 10,
         }}
       ></View>
       <View
@@ -78,6 +105,6 @@ const ListReport = () => {
         <FontAwesome name="file" size={18}></FontAwesome>
         <FontAwesome name="angle-right" size={25} />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };

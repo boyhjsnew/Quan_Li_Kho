@@ -14,16 +14,16 @@ let documentsReducer = (state = initialState, action) => {
       };
       return newState;
     }
-    // case "INSERT_SUPPLIERS": {
-    //   state.items = [...state.items, action.payload];
-    // }
-    // case "DELETE_CUSTOMERS": {
-    //   let newState = { ...state };
-    //   newState.items = newState.items.filter(
-    //     (item) => item.id !== action.payload.id
-    //   );
-    //   return newState;
-    // }
+    case "UPDATE_DOCUMENTS": {
+      const { id, createAt, idCustomer, discount, paid } = action.payload;
+      const updatedItems = state.items.map((item) => {
+        if (item.id === id) {
+          return { ...item, createAt, idCustomer, discount, paid };
+        }
+        return item;
+      });
+      return { ...state, items: updatedItems };
+    }
     default:
       return state;
   }

@@ -64,7 +64,11 @@ export default function ScreenAddCustomer() {
           }}
         />
       </View>
-      <ScrollView style={{ padding: 10 }} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        style={{ padding: 10 }}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 20 }}
+      >
         <ContentAddCustomer
           address={address}
           setAdderss={setAdderss}

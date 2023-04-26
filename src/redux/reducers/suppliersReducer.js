@@ -5,7 +5,8 @@ let initialState = {
 let supplierReducer = (state = initialState, action) => {
   switch (action.type) {
     case "GET_SUPPLIERS": {
-      state.items = action.payload;
+      state = { ...state, items: action.payload };
+      return state;
     }
 
     // case "INSERT_SUPPLIERS": {

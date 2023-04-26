@@ -5,7 +5,7 @@ let initialState = {
 let customersReducer = (state = initialState, action) => {
   switch (action.type) {
     case "GET_CUSTOMERS": {
-      state.items = action.payload;
+      state = { ...state, items: action.payload };
       return state;
     }
 

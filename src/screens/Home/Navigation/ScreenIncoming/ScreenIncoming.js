@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   TextInput,
   Modal,
+  Image,
 } from "react-native";
 
 import COLORS from "../../../../assets/colors/COLORS";
@@ -22,15 +23,28 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { Button } from "react-native-elements";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import ModalCalendar from "../../../../components/Calendar";
+import updateDocuments from "../../../../redux/actions/actionDocuments.js/updateDocuments";
+import formatCurrency from "../../../../utils/formatCurrency";
 
-export default function ScreenIncoming({route}) {
- 
+export default function ScreenIncoming({ route }) {
   const [activeModal, setActiveModal] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const navigation = useNavigation();
-  
 
+  const ITEM_FROM_DOCS = useSelector((state) => state.pickDocument.items);
+  const itemPickCus = useSelector((state) => state.pickCustomerReducer.items);
+  listPro = useSelector((state) => state.productsReducer.items);
 
+  const getProducts = () => {
+    const product = listPro.find(
+      (item) => item.id === ITEM_FROM_DOCS.productId
+    );
+    return product ? product : "";
+  };
+  const dispatch = useDispatch();
+
+  const amount =
+    getProducts() && getProducts().pricePurcharse * ITEM_FROM_DOCS.QuaInStock;
   return (
     <TouchableWithoutFeedback onPress={() => setActiveModal(false)}>
       <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
@@ -40,56 +54,97 @@ export default function ScreenIncoming({route}) {
           iconTwo="search"
           iconThree="barcode"
           iconFour="ellipsis-v"
-          clickGoBack={() => navigation.goBack()}
+          clickGoBack={() => {
+            navigation.goBack();
+            dispatch({
+              type: "PICK_DOCUMENT",
+              payload: "",
+            });
+          }}
           itemFourClick={() => setActiveModal(!activeModal)}
-          clickSearch={() => setShowSearch(!showSearch)}/>
-        {showSearch?<SearchIncoming/>:null}
-        <QuantityGoods />
-        <DocumentProperties />
+          clickSearch={() => setShowSearch(!showSearch)}
+        />
+        {showSearch ? <SearchIncoming /> : null}
+        <QuantityGoods ITEM_FROM_DOCS={ITEM_FROM_DOCS} amount={amount} />
+        <DocumentProperties ITEM_FROM_DOCS={ITEM_FROM_DOCS} />
+        {ITEM_FROM_DOCS && (
+          <ItemGoodForOut
+            getProducts={getProducts}
+            ITEM_FROM_DOCS={ITEM_FROM_DOCS}
+          />
+        )}
         <ModalMenu
           itemSort="sort"
           itemPrintExcel="print"
           itemListSetting="list-ul"
           itemHelp="info-circle"
           activeModal={activeModal}
-          setActiveModal={setActiveModal}/>
-        <ButtonAdd clickAdd={() => navigation.push('NavGood',{fullIcon:false}) } />
+          setActiveModal={setActiveModal}
+        />
+        <ButtonAdd
+          clickAdd={() => navigation.push("NavGood", { fullIcon: false })}
+        />
       </View>
     </TouchableWithoutFeedback>
   );
 }
-const QuantityGoods = () => (
+const QuantityGoods = (props) => (
   <View style={styles.quantityGood}>
     <View>
-      <Text style={styles.textQty}>Tổng nhập: 0</Text>
-      <Text style={styles.textQty}>SL: 0 </Text>
+      <Text style={styles.textQty}>Tổng nhập: 1</Text>
+      <Text style={styles.textQty}>SL: {props.ITEM_FROM_DOCS.QuaInStock} </Text>
     </View>
-    <Text style={styles.textTotal}>Tổng tiền: 0đ</Text>
+    <Text style={styles.textTotal}>
+      Tổng tiền: {props.amount ? formatCurrency(props.amount) : 0}đ
+    </Text>
   </View>
 );
 
 const DocumentProperties = (props) => {
-  const item = useSelector(state=> state.pickSupplierReducer.items,shallowEqual )
-  const navigation = useNavigation() ;
-  const [paid, setPaid] = useState(true);
+  const item = useSelector(
+    (state) => state.pickSupplierReducer.items,
+    shallowEqual
+  );
+  const { ITEM_FROM_DOCS } = props;
+  const listSup = useSelector((state) => state.supplierReducer.items);
+  const navigation = useNavigation();
+  const [paid, setPaid] = useState(ITEM_FROM_DOCS ? ITEM_FROM_DOCS.paid : true);
   const [showContentDoc, setShowContentDoc] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
-
+  const [notes, setNotes] = useState(
+    ITEM_FROM_DOCS ? ITEM_FROM_DOCS.notes : ""
+  );
+  const getSupplier = () => {
+    const supplier = listSup.find(
+      (item) => item.id === ITEM_FROM_DOCS.idSupplier
+    );
+    return supplier ? supplier : "";
+  };
+  const [nameSup, setNameSup] = useState(
+    getSupplier() ? getSupplier().name : ""
+  );
+  const [createAt, setCreateAt] = useState(
+    ITEM_FROM_DOCS ? ITEM_FROM_DOCS.createAt : ""
+  );
+  const [noDoc, setNodoc] = useState(ITEM_FROM_DOCS ? ITEM_FROM_DOCS.id : "");
   // CALENDER
   const [timeStamp, setTimeStamp] = useState(new Date().getDay());
   const [day, setDay] = useState(new Date().getDate());
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [year, setYear] = useState(new Date().getFullYear());
-  
-  
 
+  useEffect(() => {
+    if (ITEM_FROM_DOCS) {
+      updateDocuments(ITEM_FROM_DOCS.idDoc, paid, notes);
+    }
+  }, [paid, notes]);
   return (
     <View>
       <View style={styles.documentProperties}>
         <View>
           <View>
             <Text style={{ color: "white", fontWeight: "400" }}>
-              Document Properties
+              Thông tin phiếu nhập
             </Text>
           </View>
         </View>
@@ -167,7 +222,7 @@ const DocumentProperties = (props) => {
                   fontSize: 16,
                 }}
               >
-                Document's date
+                Ngày nhập
               </Text>
               <TouchableWithoutFeedback
                 onPress={() => {
@@ -176,16 +231,15 @@ const DocumentProperties = (props) => {
               >
                 <View
                   style={{
-                    justifyContent:'center',
+                    justifyContent: "center",
                     height: 40,
                     backgroundColor: COLORS.white,
                     borderRadius: 10,
-                    paddingLeft:10,
+                    paddingLeft: 10,
                   }}
                 >
-                   <Text style={{fontSize:17}}>{day}/{month}/{year}</Text>
+                  <Text style={{ fontSize: 17 }}>{createAt}</Text>
                 </View>
-               
               </TouchableWithoutFeedback>
             </View>
             <View style={{ width: "48%" }}>
@@ -197,10 +251,12 @@ const DocumentProperties = (props) => {
                   fontSize: 16,
                 }}
               >
-                Document's No
+                Số phiếu nhập
               </Text>
               <TextInput
+                value={noDoc}
                 style={{
+                  fontSize: 17,
                   height: 40,
                   backgroundColor: COLORS.white,
                   borderRadius: 10,
@@ -218,11 +274,11 @@ const DocumentProperties = (props) => {
                 fontSize: 16,
               }}
             >
-              Supplier
+              Nhà cung cấp
             </Text>
             <TouchableWithoutFeedback
               onPress={() => {
-                navigation.push("Suppliers",{from:'fromIncoming'});
+                navigation.push("Suppliers", { from: "fromIncoming" });
               }}
             >
               <View
@@ -232,12 +288,10 @@ const DocumentProperties = (props) => {
                   borderRadius: 10,
                   backgroundColor: COLORS.white,
                   justifyContent: "center",
-                  paddingLeft:10
-
+                  paddingLeft: 10,
                 }}
-                
               >
-              <Text style={{fontSize:16}}>{item.name}</Text>
+                <Text style={{ fontSize: 16 }}>{nameSup}</Text>
                 <Ionicons
                   name="chevron-forward"
                   style={{ right: 3, position: "absolute" }}
@@ -245,7 +299,7 @@ const DocumentProperties = (props) => {
                 ></Ionicons>
               </View>
             </TouchableWithoutFeedback>
-            
+
             <Text
               style={{
                 paddingVertical: 7,
@@ -254,9 +308,11 @@ const DocumentProperties = (props) => {
                 fontSize: 16,
               }}
             >
-              Comment
+              Ghi chú
             </Text>
             <TextInput
+              value={notes}
+              onChangeText={setNotes}
               style={{
                 width: "100%",
                 height: 40,
@@ -264,30 +320,98 @@ const DocumentProperties = (props) => {
                 borderRadius: 9,
                 marginBottom: 15,
                 paddingLeft: 5,
+                fontSize: 16,
               }}
             ></TextInput>
           </View>
         </View>
       )}
-     
-          <Modal visible={showCalendar} transparent={true}>
-        <View style={{backgroundColor:'rgba(0, 0, 0, 0.5)',flex:1}}>
+
+      <Modal visible={showCalendar} transparent={true}>
+        <View style={{ backgroundColor: "rgba(0, 0, 0, 0.5)", flex: 1 }}>
           <View
             style={{
               position: "absolute",
               width: "80%",
               alignSelf: "center",
               top: 130,
-
-            }}>
-            <ModalCalendar handleClose={()=>{setShowCalendar(false)}} setShowCalendar={setShowCalendar} setDayNew={setDay} setMonthNew={setMonth} setYearNew={setYear} setTimNew/>
+            }}
+          >
+            <ModalCalendar
+              handleClose={() => {
+                setShowCalendar(false);
+              }}
+              setShowCalendar={setShowCalendar}
+              setDayNew={setDay}
+              setMonthNew={setMonth}
+              setYearNew={setYear}
+              setTimNew
+            />
           </View>
-          </View>
-        </Modal>
-        
-      
-      
+        </View>
+      </Modal>
     </View>
+  );
+};
+const ItemGoodForOut = (props) => {
+  const { getProducts } = props;
+  const { ITEM_FROM_DOCS } = props;
+
+  return (
+    <TouchableOpacity onPress={() => {}} style={styles.rowGoods}>
+      <View style={styles.leftRow}>
+        {
+          <Image
+            source={require(".././../../.././assets/images/image.png")}
+            style={{
+              width: 38,
+              height: 38,
+              borderRadius: 100,
+              backgroundColor: COLORS.secondary,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          ></Image>
+        }
+        {/* info goood */}
+        <View>
+          <Text
+            style={{
+              paddingHorizontal: 10,
+              fontWeight: "500",
+            }}
+          >
+            {/* name good */}
+            {getProducts().nameproduct}
+          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              paddingVertical: 7,
+            }}
+          >
+            <FontAwesome
+              color="#807F80"
+              style={{ paddingLeft: 10, paddingRight: 5, marginTop: 1 }}
+              size={15}
+              name="barcode"
+            ></FontAwesome>
+            <Text style={{ fontSize: 12, opacity: 0.5 }}>
+              {getProducts().barcode}
+            </Text>
+          </View>
+        </View>
+      </View>
+      <View style={styles.rightRow}>
+        <Text
+          style={{
+            fontWeight: "500",
+          }}
+        >
+          {ITEM_FROM_DOCS.QuaInStock}
+        </Text>
+      </View>
+    </TouchableOpacity>
   );
 };
 
@@ -353,5 +477,22 @@ const styles = StyleSheet.create({
     width: 30,
     borderRadius: 100,
     marginLeft: 10,
+  },
+  rowGoods: {
+    elevation: 1,
+    backgroundColor: "white",
+    marginVertical: 6,
+    flexDirection: "row",
+    paddingHorizontal: 18,
+    paddingVertical: 7,
+    justifyContent: "space-between",
+  },
+  leftRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  rightRow: {
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

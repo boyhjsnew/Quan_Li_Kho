@@ -36,6 +36,7 @@ export default function Home() {
     fetchDocuments(dispatch);
   }, [dispatch]);
   const documents = useSelector((state) => state.documentsReducer.items);
+  const products = useSelector((state) => state.productsReducer.items);
 
   return (
     <View>
@@ -47,7 +48,11 @@ export default function Home() {
           iconTwo="file-text"
           iconThree="info-circle"
         />
-        <ContentHeader navigation={navigation} documents={documents} />
+        <ContentHeader
+          navigation={navigation}
+          documents={documents}
+          products={products}
+        />
       </View>
       <View style={{ paddingHorizontal: 14 }}>
         <Dashboard navigation={navigation} />

@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -21,6 +21,8 @@ import ModalMenu from "../../../../components/ModalMenu";
 import SearchIncoming from "../../../../components/SearchIncoming";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useDispatch, useSelector } from "react-redux";
+import updateDocuments from "../../../../redux/actions/actionDocuments.js/updateDocuments";
+import formatCurrency from "../../../../utils/formatCurrency";
 
 export default function ScreenOutGoing({ route }) {
   const [activeModal, setActiveModal] = useState(false);
@@ -28,8 +30,8 @@ export default function ScreenOutGoing({ route }) {
   const navigation = useNavigation();
   const [showCalendar, setShowCalendar] = useState(false);
   const ITEM_FROM_DOCS = useSelector((state) => state.pickDocument.items);
-  console.log(ITEM_FROM_DOCS);
-  const item = useSelector((state) => state.pickCustomerReducer.items);
+
+  const itemPickCus = useSelector((state) => state.pickCustomerReducer.items);
   listPro = useSelector((state) => state.productsReducer.items);
 
   const getProducts = () => {
@@ -39,6 +41,9 @@ export default function ScreenOutGoing({ route }) {
     return product ? product : "";
   };
   const dispatch = useDispatch();
+
+  const amount =
+    getProducts && getProducts().priceSale * ITEM_FROM_DOCS.QuaOutStock;
 
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
@@ -59,10 +64,10 @@ export default function ScreenOutGoing({ route }) {
         itemFourClick={() => setActiveModal(!activeModal)}
       />
       {showSearch && <SearchIncoming />}
-      <QuantityGoods />
+      <QuantityGoods ITEM_FROM_DOCS={ITEM_FROM_DOCS} amount={amount} />
       <DocumentProperties
         navigation={navigation}
-        item={item}
+        itemPickCus={itemPickCus}
         ITEM_FROM_DOCS={ITEM_FROM_DOCS}
       />
       {ITEM_FROM_DOCS && (
@@ -86,34 +91,45 @@ export default function ScreenOutGoing({ route }) {
     </View>
   );
 }
-const QuantityGoods = () => (
+
+const QuantityGoods = (props) => (
   <View style={styles.quantityGood}>
     <View>
       <Text style={styles.textQty}>Tổng Xuất: 1</Text>
-      <Text style={styles.textQty}>SL: 0 </Text>
+      <Text style={styles.textQty}>
+        SL: {props.ITEM_FROM_DOCS.QuaOutStock}{" "}
+      </Text>
     </View>
-    <Text style={styles.textTotal}>Tổng tiền: 0đ</Text>
+    <Text style={styles.textTotal}>
+      Tổng tiền: {formatCurrency(props.amount ? props.amount : 0)}đ
+    </Text>
   </View>
 );
 
 const DocumentProperties = (props) => {
   listCus = useSelector((state) => state.customersReducer.items);
-  const { ITEM_FROM_DOCS } = props;
+  const { ITEM_FROM_DOCS, itemPickCus } = props;
   const getCustomer = () => {
     const customer = listCus.find(
-      (item) => item.id === ITEM_FROM_DOCS && ITEM_FROM_DOCS.idCustomer
+      (item) => item.id === ITEM_FROM_DOCS.idCustomer
     );
     return customer ? customer : "";
   };
+
   const [inputDiscount, setInputDiscount] = useState(getCustomer().discount);
   const { navigation } = props;
   const [paid, setPaid] = useState(ITEM_FROM_DOCS ? ITEM_FROM_DOCS.paid : true);
-
+  const [notes, setNotes] = useState(
+    ITEM_FROM_DOCS ? ITEM_FROM_DOCS.notes : ""
+  );
   const [showContentDoc, setShowContentDoc] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
   const route = useRoute();
 
-  const [nameCus, setNameCus] = useState();
+  const [nameCus, setNameCus] = useState(
+    getCustomer() ? getCustomer().name : ""
+  );
+
   // CALENDER
   const [timeStamp, setTimeStamp] = useState(new Date().getDay());
   const [day, setDay] = useState(new Date().getDate());
@@ -121,10 +137,13 @@ const DocumentProperties = (props) => {
   const [year, setYear] = useState(new Date().getFullYear());
 
   const handleInputFocus = () => {
-    if (inputDiscount === "0.0") {
-      setInputDiscount("");
-    }
+    setInputDiscount("");
   };
+  useEffect(() => {
+    if (ITEM_FROM_DOCS) {
+      updateDocuments(ITEM_FROM_DOCS.idDoc, paid, notes);
+    }
+  }, [paid, notes]);
 
   return (
     <View>
@@ -281,7 +300,7 @@ const DocumentProperties = (props) => {
                   paddingHorizontal: 10,
                 }}
               >
-                <Text style={{ fontSize: 16 }}>{getCustomer().name}</Text>
+                <Text style={{ fontSize: 16 }}>{nameCus}</Text>
                 <Ionicons
                   name="chevron-forward"
                   style={{ right: 3, position: "absolute" }}
@@ -325,8 +344,11 @@ const DocumentProperties = (props) => {
               Ghi chú
             </Text>
             <TextInput
-              value={ITEM_FROM_DOCS.notes}
+              onChangeText={setNotes}
+              numberOfLines={1}
+              value={notes}
               style={{
+                fontSize: 17,
                 width: "100%",
                 height: 40,
                 backgroundColor: COLORS.white,

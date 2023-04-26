@@ -7,6 +7,7 @@ import imgStore from "../assets/images/store.png";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import COLORS from "../assets/colors/COLORS";
 import { useSelector } from "react-redux";
+import formatCurrency from "../utils/formatCurrency";
 
 export default ContentHeader = (props) => {
   const { navigation } = props;
@@ -14,12 +15,7 @@ export default ContentHeader = (props) => {
     return state.warehouseReducer.items;
   });
 
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   getTotalQuantity(idStorePick.join(""), dispatch);
-  // }, []);
-
-  function getProductQuantity() {
+  const getProductQuantity = () => {
     const filteredDocuments = props.documents.filter((item) => item);
     const totalInStock = filteredDocuments.reduce(
       (acc, doc) => acc + (doc.QuaInStock || 0),
@@ -29,8 +25,41 @@ export default ContentHeader = (props) => {
       (acc, doc) => acc + (doc.QuaOutStock || 0),
       0
     );
-    return totalInStock - totalOutStock;
-  }
+    return filteredDocuments ? totalInStock - totalOutStock : 0;
+  };
+
+  const listDocuments = props.documents.filter((itemDoc) => itemDoc);
+  const listProducts = props.products.filter((itemProduct) => itemProduct);
+
+  const totalInventoryValue = listProducts.reduce((acc, itemProduct) => {
+    const instock = listDocuments.filter(
+      (itemDoc) =>
+        itemDoc.typeDocument === "instock" &&
+        itemDoc.productId === itemProduct.id
+    );
+
+    const outstock = listDocuments.filter(
+      (itemDoc) =>
+        itemDoc.typeDocument === "outstock" &&
+        itemDoc.productId === itemProduct.id
+    );
+
+    const instockQuantity = instock.reduce(
+      (acc, curr) => acc + curr.QuaInStock,
+      0
+    );
+    const outstockQuantity = outstock.reduce(
+      (acc, curr) => acc + curr.QuaOutStock,
+      0
+    );
+
+    const totalQuantity = instockQuantity - outstockQuantity;
+
+    const inventoryValue =
+      totalQuantity * (itemProduct.priceSale - itemProduct.pricePurcharse);
+
+    return acc + inventoryValue;
+  }, 0);
 
   return (
     <View style={{ backgroundColor: COLORS.primary }}>
@@ -177,7 +206,7 @@ export default ContentHeader = (props) => {
                   paddingTop: 6,
                 }}
               >
-                0.00 đ
+                {totalInventoryValue && formatCurrency(totalInventoryValue)} đ
               </Text>
             </View>
           </View>

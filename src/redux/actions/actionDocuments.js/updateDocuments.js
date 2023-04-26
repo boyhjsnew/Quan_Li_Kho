@@ -1,14 +1,12 @@
 import { firebase } from "../../../firebase/firebase";
 const data = firebase.firestore().collection("Documents");
 
-const updateDocuments = (id, createAt, idCustomer, discount, paid) => {
+const updateDocuments = (id, paid, notes) => {
   data
     .doc(id)
     .update({
-      createAt,
-      idCustomer,
-      discount,
       paid,
+      notes,
     })
     .then(() => {
       console.log("Updated DOCUMENR");
