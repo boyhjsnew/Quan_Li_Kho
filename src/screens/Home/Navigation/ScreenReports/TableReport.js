@@ -52,7 +52,7 @@ export default function TableReport({ navigation, route }) {
       {namereport === "Số lượng theo kho" && (
         <TableStore getProductQuantity={getProductQuantity} />
       )}
-      <TableHistory />
+      {namereport === "Lịch sử giao dịch" && <TableHistory />}
     </View>
   );
 }
@@ -150,59 +150,65 @@ const TableHistory = () => {
 
     return totalQuaInStock + totalQuaOutStock;
   };
-  console.log(getQuantity());
+
   return (
-    <ScrollView horizontal style={{ margin: 10 }}>
-      <View style={styles.scrollViewContainer}>
-        <View style={styles.row}>
-          <Text style={[styles.headerCell, styles.fixedWidth]}>Ngày</Text>
-          <Text style={[styles.headerCell, styles.fixedWidth]}>Số phiếu</Text>
-          <Text style={[styles.headerCell, styles.fixedWidth]}>Ghi chú</Text>
-          <Text style={[styles.headerCell, styles.fixedWidth]}>Loại phiếu</Text>
-          <Text style={[styles.headerCell, styles.fixedWidth]}>
-            Khách hàng/Nhà cung cấp
-          </Text>
-          <Text style={[styles.headerCell, styles.fixedWidth]}>Số lượng</Text>
+    <View style={{ margin: 10, borderWidth: 0.5 }}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <View style={styles.scrollViewContainer}>
+          <View style={styles.row}>
+            <Text style={[styles.headerCell, styles.fixedWidth]}>Ngày</Text>
+            <Text style={[styles.headerCell, styles.fixedWidth]}>Số phiếu</Text>
+            <Text style={[styles.headerCell, styles.fixedWidth]}>Ghi chú</Text>
+            <Text style={[styles.headerCell, styles.fixedWidth]}>
+              Loại phiếu
+            </Text>
+            <Text style={[styles.headerCell, styles.fixedWidth]}>
+              Khách hàng/Nhà cung cấp
+            </Text>
+            <Text style={[styles.headerCell, styles.fixedWidth]}>Số lượng</Text>
+          </View>
+          {listDoc.map((item) => {
+            return (
+              <View style={styles.row}>
+                <Text style={[styles.cell, styles.fixedWidth]}>
+                  {item.createAt}
+                </Text>
+                <Text style={[styles.cell, styles.fixedWidth]}>{item.id}</Text>
+                <Text style={[styles.cell, styles.fixedWidth]}>
+                  {item.notes}
+                </Text>
+                <Text style={[styles.cell, styles.fixedWidth]}>
+                  {item.typeDocument == "instock" ? "Phiếu xuất" : "Phiếu nhập"}
+                </Text>
+                <Text style={[styles.cell, styles.fixedWidth]}>
+                  {item.idCustomer == "null"
+                    ? getNameSup(item.idSupplier)
+                    : getNameCus(item.idCustomer)}
+                </Text>
+                <Text style={[styles.cell, styles.fixedWidth]}>
+                  {item.typeDocument == "instock"
+                    ? item.QuaInStock
+                    : item.QuaOutStock}
+                </Text>
+              </View>
+            );
+          })}
+          <View style={styles.row}>
+            <Text style={[styles.headerCell, styles.fixedWidth]}></Text>
+            <Text style={[styles.headerCell, styles.fixedWidth]}></Text>
+            <Text style={[styles.headerCell, styles.fixedWidth]}></Text>
+            <Text style={[styles.headerCell, styles.fixedWidth]}></Text>
+            <Text style={[styles.headerCell, styles.fixedWidth]}>
+              {" "}
+              Tổng cộng :
+            </Text>
+            <Text style={[styles.headerCell, styles.fixedWidth]}>
+              {getQuantity()}
+            </Text>
+          </View>
         </View>
-        {listDoc.map((item) => {
-          return (
-            <View style={styles.row}>
-              <Text style={[styles.cell, styles.fixedWidth]}>
-                {item.createAt}
-              </Text>
-              <Text style={[styles.cell, styles.fixedWidth]}>{item.id}</Text>
-              <Text style={[styles.cell, styles.fixedWidth]}>{item.notes}</Text>
-              <Text style={[styles.cell, styles.fixedWidth]}>
-                {item.typeDocument == "instock" ? "Phiếu xuất" : "Phiếu nhập"}
-              </Text>
-              <Text style={[styles.cell, styles.fixedWidth]}>
-                {item.idCustomer == "null"
-                  ? getNameSup(item.idSupplier)
-                  : getNameCus(item.idCustomer)}
-              </Text>
-              <Text style={[styles.cell, styles.fixedWidth]}>
-                {item.typeDocument == "instock"
-                  ? item.QuaInStock
-                  : item.QuaOutStock}
-              </Text>
-            </View>
-          );
-        })}
-        <View style={styles.row}>
-          <Text style={[styles.headerCell, styles.fixedWidth]}></Text>
-          <Text style={[styles.headerCell, styles.fixedWidth]}></Text>
-          <Text style={[styles.headerCell, styles.fixedWidth]}></Text>
-          <Text style={[styles.headerCell, styles.fixedWidth]}></Text>
-          <Text style={[styles.headerCell, styles.fixedWidth]}>
-            {" "}
-            Tổng cộng :
-          </Text>
-          <Text style={[styles.headerCell, styles.fixedWidth]}>
-            {getQuantity()}
-          </Text>
-        </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 };
 
