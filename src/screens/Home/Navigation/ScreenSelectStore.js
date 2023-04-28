@@ -26,6 +26,7 @@ export default function ScreenSelectStore() {
         clickGoBack={() => navigation.goBack()}
       />
       <FlatList
+        style={{ margin: 10 }}
         data={listStore}
         renderItem={({ item }) => <ItemSelectStock item={item} />}
       ></FlatList>
@@ -93,11 +94,13 @@ const ItemSelectStock = (props) => {
 const styles = StyleSheet.create({
   rowStock: {
     flexDirection: "row",
-    padding: 15,
+    padding: 13,
     backgroundColor: "white",
     justifyContent: "space-between",
-    borderBottomWidth: 0.6,
     borderColor: "#E3E3E3",
+    marginBottom: 13,
+    borderRadius: 10,
+    elevation: 1.5,
   },
   leftRow: { flexDirection: "row", alignItems: "center" },
   rightRow: { flexDirection: "row", alignItems: "center" },

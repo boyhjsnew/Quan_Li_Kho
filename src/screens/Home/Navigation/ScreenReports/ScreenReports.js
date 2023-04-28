@@ -34,8 +34,8 @@ export default function ScreenReports({ navigation }) {
         }}
       >
         <ListReport title="Số lượng theo kho" />
+        <ListReport title="Danh sách nhập/xuất" />
         <ListReport title="Lịch sử giao dịch" />
-        <ListReport />
         <ListReport />
       </View>
     </View>
