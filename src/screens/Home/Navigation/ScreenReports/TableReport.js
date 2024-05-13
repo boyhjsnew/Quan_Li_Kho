@@ -135,7 +135,10 @@ const TableListDoc = () => {
   };
   const getNameSup = (idSup) => {
     const Sup = listSup.find((item) => item.id === idSup);
-    return Sup.name;
+    if (Sup != undefined) {
+      return Sup.name;
+    }
+    return "";
   };
 
   const getQuantity = () => {

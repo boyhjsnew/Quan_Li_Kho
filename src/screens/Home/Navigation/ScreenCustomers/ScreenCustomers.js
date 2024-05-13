@@ -1,13 +1,7 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  TextInput,
-} from "react-native";
+import { Text, View } from "react-native";
 import Toolbar from "../../../../components/Toolbar";
 import COLORS from "../../../../assets/colors/COLORS";
 import ButtonAdd from "../../../../components/ButtonAdd";
@@ -19,11 +13,9 @@ import { useSelector } from "react-redux";
 export default function ScreenCustomers(props) {
   const [activeModal, setActiveModal] = useState(false);
   const SubNavigation = useNavigation();
-  const { navigation,from } = props;
+  const { navigation, from } = props;
   const [showSearch, setShowSearch] = useState(false);
   const [activeModalExcel, setActiveModalExcel] = useState(false);
-  
-  
 
   return (
     <View style={{ backgroundColor: COLORS.bg, flex: 1 }}>
@@ -45,6 +37,7 @@ export default function ScreenCustomers(props) {
         navigation={SubNavigation}
         activeModalExcel={activeModalExcel}
         setActiveModalExcel={setActiveModalExcel}
+        se
       />
       <ModalMenu
         handleExcel={() => {

@@ -1,6 +1,6 @@
 //gom lai truong thong tin
 import { combineReducers } from "redux";
-import warehouseReducer from "./warehouseReducer";
+import warehouseReducer from "./WarehouseReducer";
 import supplierReducer from "./suppliersReducer";
 import customersReducer from "./customersReducer";
 import productsReducer from "./productReducer";
