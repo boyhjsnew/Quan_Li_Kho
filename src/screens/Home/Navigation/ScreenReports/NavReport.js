@@ -1,11 +1,7 @@
 import { View, Text } from "react-native";
 import React from "react";
 import ScreenReports from "./ScreenReports";
-import {
-  NavigationContainer,
-  useNavigation,
-  useRoute,
-} from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import TableReport from "./TableReport";
 

@@ -13,8 +13,6 @@ import Toolbar from "../../../../components/Toolbar";
 import HeaderNameStore from "../../../../components/HeaderNameStore";
 import COLORS from "../../../../assets/colors/COLORS";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { useSelector } from "react-redux";
 
 export default function ScreenReports({ navigation }) {
   return (
