@@ -5,7 +5,6 @@ import {
   StyleSheet,
   FlatList,
   ScrollView,
-  Dimensions,
 } from "react-native";
 import React from "react";
 import Toolbar from "../../../../components/Toolbar";

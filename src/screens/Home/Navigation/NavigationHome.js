@@ -16,7 +16,7 @@ import NavSuppliers from "./ScreenSuppliers/NavSuppliers";
 import NavCustomers from "./ScreenCustomers/NavCustomers";
 import configureStore from "../../../redux/store";
 import { Provider as ReduxProvider, useDispatch } from "react-redux";
-import { useEffect } from "react";
+
 import NavReport from "./ScreenReports/NavReport";
 
 export default NavigationHome = () => {
